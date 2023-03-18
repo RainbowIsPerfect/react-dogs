@@ -1,0 +1,28 @@
+@use 'sass:math';
+@use './variables.scss' as *;
+
+@function rem($px) {
+  @return math.div($px, 16) + rem;
+}
+
+@function col($key) {
+  @if map-has-key($colors, $key) {
+    @return map-get($colors, $key);
+  }
+}
+
+@mixin flex($justify: false, $align: false, $direction: false, $gap: false) {
+  display: flex;
+  @if ($justify) {
+    justify-content: $justify;
+  }
+  @if ($align) {
+    align-items: $align;
+  }
+  @if ($direction) {
+    flex-direction: $direction;
+  }
+  @if ($gap) {
+    gap: $gap;
+  }
+}
