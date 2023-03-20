@@ -1,0 +1,33 @@
+@use '../../styles/' as *;
+
+.card {
+  @include flex(false, false, column);
+  border: 1px solid col(elements);
+  border-radius: 5px;
+  overflow: hidden;
+  &__image {
+    display: block;
+    width: 100%;
+    height: rem(220);
+  }
+  &__body {
+    flex: 1 1 auto;
+    @include flex(false, center, column);
+    padding: rem(5) rem(10) rem(10);
+    color: col(text);
+    background-color: col(elements-bg);
+  }
+  &__price {
+    margin-bottom: rem(4);
+    font-size: rem(25);
+    font-weight: 700;
+    color: col(text);
+  }
+  &__description {
+    flex: 1 1 auto;
+    margin-bottom: rem(10);
+    font-weight: 400;
+    font-size: rem(18);
+    text-align: center;
+  }
+}

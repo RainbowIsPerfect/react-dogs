@@ -1,0 +1,71 @@
+@use '../../styles/' as *;
+
+.header {
+  background-color: col(main-bg);
+  padding: rem(10) 0;
+  &__link {
+    display: block;
+    @include flex(center, center);
+    height: rem(45);
+    // padding: rem(5);
+    outline: 1px solid transparent;
+    border-radius: 5px;
+    text-decoration: none;
+    color: col(text);
+    &:focus {
+      outline: 1px solid col(text-hover);
+    }
+  }
+  &__title {
+    margin-left: rem(10);
+    font-size: rem(25);
+    white-space: nowrap;
+  }
+  &__nav {
+    @include flex(space-between, center);
+  }
+  &__list {
+    @include flex();
+    list-style-type: none;
+  }
+  &__item {
+    margin-right: rem(30);
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  &__button {
+    height: rem(40);
+    width: rem(40);
+    padding: rem(8);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    &:hover {
+      background-color: col(text-hover);
+    }
+    &:focus {
+      background-color: col(text-hover);
+    }
+  }
+  &__icon {
+    fill: col(text);
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+  }
+  &__logo {
+    fill: col(accent);
+    min-width: rem(50);
+  }
+}
+
+@media (max-width: 887px) {
+  .header {
+    &__title {
+      display: none;
+    }
+  }
+}

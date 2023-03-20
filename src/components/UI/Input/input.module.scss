@@ -1,0 +1,54 @@
+@use '../../../styles/' as *;
+
+.container {
+  @include flex(false, stretch);
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: border-color 0.1s ease-in-out;
+}
+
+.input {
+  width: rem(120);
+  padding: rem(5) rem(35) rem(5) rem(15);
+  font-size: rem(20);
+  font-family: inherit;
+  color: col(text);
+  border: 2px solid transparent;
+  background-color: col(secondary-bg);
+  border-radius: 20px;
+  outline: none;
+  &:focus {
+    border-color: col(accent-hover);
+    width: rem(300);
+  }
+}
+
+.button {
+  @include flex(center, center);
+  position: absolute;
+  right: rem(8);
+  width: rem(20);
+  min-height: 100%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  &:hover {
+    .icon {
+      fill: col(elements-hover);
+    }
+  }
+  &:focus {
+    .icon {
+      fill: col(elements-hover);
+    }
+  }
+}
+
+.icon {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  fill: col(elements);
+}

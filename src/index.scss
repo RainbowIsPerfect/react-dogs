@@ -1,0 +1,32 @@
+@use './styles/' as *;
+
+html[data-theme='light'] {
+  @each $name, $color in $colors-light {
+    --color-#{$name}: #{$color};
+  }
+}
+
+html[data-theme='dark'] {
+  @each $name, $color in $colors {
+    --color-#{$name}: #{$color};
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: Heebo;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background-color: #fff;
+}

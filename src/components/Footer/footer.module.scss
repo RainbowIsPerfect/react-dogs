@@ -1,0 +1,7 @@
+@use '../../styles/' as *;
+
+.footer {
+  padding: rem(10);
+  text-align: center;
+  background-color: col(main-bg);
+}
