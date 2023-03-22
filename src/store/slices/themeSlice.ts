@@ -1,34 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
-
-type Theme = 'dark' | 'light';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { type Theme, getThemeFromStorage } from '../../utils/theme';
 
 interface ThemeState {
   theme: Theme;
 }
 
-const getCurrentTheme = (): Theme => {
-  if (sessionStorage.getItem('color-theme') !== null) {
-    return <Theme>sessionStorage.getItem('color-theme');
-  }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-};
-
 const initialState: ThemeState = {
-  theme: getCurrentTheme(),
+  theme: getThemeFromStorage(),
 };
 
 export const counterSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
-    toggleTheme: (state) => {
-      state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    switchTheme: (state, action: PayloadAction<Theme>) => {
+      state.theme = action.payload;
     },
   },
 });
 
-export const { toggleTheme } = counterSlice.actions;
+export const { switchTheme } = counterSlice.actions;
 
 export default counterSlice.reducer;

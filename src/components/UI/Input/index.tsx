@@ -6,7 +6,7 @@ export const Input = () => {
   const input = useRef<HTMLInputElement | null>(null);
 
   const clearInput = () => {
-    if (input.current !== null) {
+    if (input.current) {
       input.current.focus();
       input.current.value = '';
     }

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Container } from '../Container';
 import { Input } from '../UI/Input';
 import { MainLogo } from '../UI/Icons/MainLogo';
@@ -9,7 +10,8 @@ import { useTheme } from '../../hooks/useTheme';
 import s from './header.module.scss';
 
 export const Header = () => {
-  const [, setScheme] = useTheme();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [, setTheme] = useTheme();
 
   return (
     <header className={s.header}>
@@ -38,12 +40,35 @@ export const Header = () => {
             </li>
             <li className={s.header__item}>
               <button
-                onClick={() => setScheme()}
+                onClick={() => setIsOpen(!isOpen)}
+                onBlur={() => setIsOpen(false)}
                 className={s.header__button}
                 type="button"
               >
                 <ThemeIcon className={s.header__icon} />
               </button>
+              {isOpen && (
+                <ul className={s.header__modal}>
+                  <li>
+                    <button
+                      onMouseDown={() => setTheme('os-default')}
+                      type="button"
+                    >
+                      OS Default
+                    </button>
+                  </li>
+                  <li>
+                    <button onMouseDown={() => setTheme('dark')} type="button">
+                      Dark
+                    </button>
+                  </li>
+                  <li>
+                    <button onMouseDown={() => setTheme('light')} type="button">
+                      Light
+                    </button>
+                  </li>
+                </ul>
+              )}
             </li>
           </ul>
         </nav>

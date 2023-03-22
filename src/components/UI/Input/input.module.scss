@@ -9,7 +9,7 @@
 }
 
 .input {
-  width: rem(120);
+  width: rem(200);
   padding: rem(5) rem(35) rem(5) rem(15);
   font-size: rem(20);
   font-family: inherit;
@@ -20,7 +20,6 @@
   outline: none;
   &:focus {
     border-color: col(accent-hover);
-    width: rem(300);
   }
 }
 

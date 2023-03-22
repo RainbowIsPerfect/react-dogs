@@ -32,6 +32,7 @@
     margin-right: rem(30);
     &:last-child {
       margin-right: 0;
+      position: relative;
     }
   }
   &__button {
@@ -59,6 +60,35 @@
   &__logo {
     fill: col(accent);
     min-width: rem(50);
+  }
+  &__modal {
+    position: absolute;
+    top: rem(55);
+    right: rem(5);
+    padding: rem(10);
+    border-radius: rem(5);
+    list-style-type: none;
+    background-color: col(main-bg);
+    & li {
+      margin-bottom: rem(5);
+      &:last-child {
+        margin: 0;
+      }
+    }
+    & button {
+      padding: rem(8) rem(15);
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      border-radius: rem(5);
+      color: col(text);
+      white-space: nowrap;
+      font-size: rem(18);
+      cursor: pointer;
+      &:hover {
+        background-color: col(text-hover);
+      }
+    }
   }
 }
 

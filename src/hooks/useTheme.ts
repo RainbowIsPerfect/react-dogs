@@ -1,21 +1,20 @@
 import { useLayoutEffect } from 'react';
-import { toggleTheme } from '../store/slices/themeSlice';
+import { switchTheme } from '../store/slices/themeSlice';
 import { useAppSelector, useAppDispatch } from './reduxHooks';
+import type { Theme } from '../utils/theme';
 
-type Scheme = 'dark' | 'light';
-
-export const useTheme = (): [Scheme, () => void] => {
+export const useTheme = (): [Theme, (themeType: Theme) => void] => {
   const { theme } = useAppSelector((state) => state.theme);
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    sessionStorage.setItem('color-theme', theme);
+    localStorage.setItem('color-theme', theme);
   }, [theme]);
 
-  const toggleScheme = (): void => {
-    dispatch(toggleTheme());
+  const setTheme = (themeType: Theme): void => {
+    dispatch(switchTheme(themeType));
   };
 
-  return [theme, toggleScheme];
+  return [theme, setTheme];
 };

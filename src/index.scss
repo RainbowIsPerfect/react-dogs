@@ -1,16 +1,17 @@
 @use './styles/' as *;
 
-html[data-theme='light'] {
+:root[data-theme='light'] {
   @each $name, $color in $colors-light {
     --color-#{$name}: #{$color};
   }
 }
 
-html[data-theme='dark'] {
+:root[data-theme='dark'] {
   @each $name, $color in $colors {
     --color-#{$name}: #{$color};
   }
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -29,4 +30,20 @@ body {
   flex-direction: column;
   min-height: 100%;
   background-color: #fff;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='light']):not([data-theme='dark']) {
+    @each $name, $color in $colors-light {
+      --color-#{$name}: #{$color};
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']):not([data-theme='dark']) {
+    @each $name, $color in $colors {
+      --color-#{$name}: #{$color};
+    }
+  }
 }
