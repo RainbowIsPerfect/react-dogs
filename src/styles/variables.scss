@@ -1,26 +1,30 @@
 $colors: (
-  main-bg: #060914,
+  accent: rgb(28, 100, 242),
+  accent-hover: rgb(26, 88, 212),
+  accent-secondary: rgb(197, 45, 45),
+);
+
+$colors-dark: (
+  main-bg: #060a16,
   secondary-bg: rgb(17, 24, 39),
   elements-bg: rgb(31, 41, 55),
   text: #9ca3af,
   text-hover: #19243a,
-  text-secondary: #fff,
+  text-secondary: #6a6e75,
+  text-elements: #fff,
   elements: rgb(55, 65, 81),
   elements-hover: #9ca3af,
-  accent: rgb(28, 100, 242),
-  accent-hover: rgb(26, 88, 212),
 );
 
 
 $colors-light: (
-  main-bg: #e2e0e0,
-  secondary-bg: #f1efef,
-  elements-bg: #e4e3e3,
+  main-bg: #f1ebeb,
+  secondary-bg: #fcf7f7,
+  elements-bg: #f1ebeb,
   text: #292929,
   text-hover: #9e9e9e,
-  text-secondary: #fff,
+  text-secondary: #757575,
+  text-elements: #fff,
   elements: #aaaaaa,
   elements-hover: rgb(0, 0, 0),
-  accent: rgb(20, 119, 231),
-  accent-hover: rgb(21, 107, 204),
 );

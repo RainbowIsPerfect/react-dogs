@@ -1,6 +1,9 @@
 @use './styles/' as *;
 
 :root {
+  @each $name, $color in $colors {
+    --color-#{$name}: #{$color};
+  }
   font-family: Roboto;
 }
 
@@ -11,7 +14,7 @@
 }
 
 :root[data-theme='dark'] {
-  @each $name, $color in $colors {
+  @each $name, $color in $colors-dark {
     --color-#{$name}: #{$color};
   }
 }
@@ -46,7 +49,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']):not([data-theme='dark']) {
-    @each $name, $color in $colors {
+    @each $name, $color in $colors-dark {
       --color-#{$name}: #{$color};
     }
   }

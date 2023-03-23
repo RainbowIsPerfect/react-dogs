@@ -2,37 +2,59 @@
 
 .card {
   @include flex(false, false, column);
+  position: relative;
   border: 1px solid col(elements);
   border-radius: 5px;
   overflow: hidden;
   &__image {
     display: block;
     width: 100%;
-    height: rem(220);
+    height: rem(250);
   }
   &__body {
     flex: 1 1 auto;
-    @include flex(center, center, column);
-    padding: rem(5) rem(10) rem(10);
+    @include flex(false, false, column);
+    padding: rem(15) rem(10);
     background-color: col(elements-bg);
     color: col(text);
-    font-size: rem(20);
   }
   &__description {
     flex: 1 1 auto;
-    // @include flex(center, center);
     width: 100%;
-    margin-bottom: rem(2);
+    margin-bottom: rem(5);
     padding: rem(2);
-    font-size: rem(22);
-    text-align: center;
+    font-size: rem(16);
+    font-weight: 400;
   }
   &__price {
-
-    margin-bottom: rem(5);
-    color: col(text);
+    margin-bottom: rem(2);
+    font-weight: 700;
+    font-size: rem(25);
+    &_special {
+      color: col(accent-secondary);
+      position: relative;
+    }
+    &_full {
+      position: absolute;
+      top: rem(-11);
+      left: rem(1);
+      text-decoration: line-through;
+      font-weight: 400;
+      font-size: rem(13);
+      color: col(text-secondary);
+    }
   }
   &__weight {
-    margin-bottom: rem(5);
+    margin-bottom: rem(2);
+    color: col(text-secondary);
+  }
+  &__discount {
+    position: absolute;
+    top: rem(5);
+    left: rem(5);
+    padding: rem(5);
+    color: col(text-elements);
+    background-color: col(accent-secondary);
+    border-radius: 5px;
   }
 }

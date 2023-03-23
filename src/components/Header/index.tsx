@@ -11,7 +11,7 @@ import s from './header.module.scss';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [, setTheme] = useTheme();
+  const [theme, setTheme] = useTheme();
 
   return (
     <header className={s.header}>
@@ -48,22 +48,37 @@ export const Header = () => {
                 <ThemeIcon className={s.header__icon} />
               </button>
               {isOpen && (
-                <ul className={s.header__modal}>
-                  <li>
+                <ul className={s.modal}>
+                  <li className={s.modal__item}>
                     <button
+                      className={`${
+                        theme === 'os-default' ? s.modal__button_active : ''
+                      } ${s.modal__button}`}
                       onMouseDown={() => setTheme('os-default')}
                       type="button"
                     >
                       OS Default
                     </button>
                   </li>
-                  <li>
-                    <button onMouseDown={() => setTheme('dark')} type="button">
+                  <li className={s.modal__item}>
+                    <button
+                      className={`${
+                        theme === 'dark' ? s.modal__button_active : ''
+                      } ${s.modal__button}`}
+                      onMouseDown={() => setTheme('dark')}
+                      type="button"
+                    >
                       Dark
                     </button>
                   </li>
-                  <li>
-                    <button onMouseDown={() => setTheme('light')} type="button">
+                  <li className={s.modal__item}>
+                    <button
+                      className={`${
+                        theme === 'light' ? s.modal__button_active : ''
+                      } ${s.modal__button}`}
+                      onMouseDown={() => setTheme('light')}
+                      type="button"
+                    >
                       Light
                     </button>
                   </li>
