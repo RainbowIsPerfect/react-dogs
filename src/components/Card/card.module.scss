@@ -5,6 +5,7 @@
   position: relative;
   border: 1px solid col(elements);
   border-radius: 5px;
+  background-color: col(elements-bg);
   overflow: hidden;
   &__image {
     display: block;
@@ -15,7 +16,7 @@
     flex: 1 1 auto;
     @include flex(false, false, column);
     padding: rem(15) rem(10);
-    background-color: col(elements-bg);
+    border-top: 1px solid col(elements-border);
     color: col(text);
   }
   &__description {

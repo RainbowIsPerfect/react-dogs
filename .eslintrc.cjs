@@ -31,6 +31,7 @@ module.exports = {
     'jsx-a11y/control-has-associated-label': 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-underscore-dangle': 0,
+    'react/no-array-index-key': 0,
     // 'prettier/prettier': [
     //   'error',
     //   {

@@ -7,13 +7,9 @@ export const store = configureStore({
   reducer: {
     theme: themeSlice,
     [productsApi.reducerPath]: productsApi.reducer,
-    // products: productsSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(productsApi.middleware),
-  // getDefaultMiddleware({
-  //   serializableCheck: false,
-  // }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

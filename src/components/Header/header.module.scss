@@ -1,12 +1,13 @@
 @use '../../styles/' as *;
 
 .header {
-  background-color: col(main-bg);
   padding: rem(10) 0;
+  background-color: col(main-bg);
+  border-bottom: 1px solid col(elements-border);
   &__link {
     display: block;
     @include flex(center, center);
-    height: rem(45);
+    height: rem(35);
     outline: 1px solid transparent;
     border-radius: 5px;
     text-decoration: none;
@@ -57,8 +58,8 @@
     height: 100%;
   }
   &__logo {
-    fill: col(accent);
-    min-width: rem(50);
+    fill: col(accent-logo);
+    min-width: rem(30);
   }
 }
 
@@ -91,7 +92,8 @@
       background-color: col(text-hover);
     }
     &:hover {
-      background-color: col(text-hover);
+      background-color: col(accent);
+      color: col(text-elements)
     }
   }
 }
