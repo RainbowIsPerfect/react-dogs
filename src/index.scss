@@ -1,5 +1,9 @@
 @use './styles/' as *;
 
+:root {
+  font-family: Roboto;
+}
+
 :root[data-theme='light'] {
   @each $name, $color in $colors-light {
     --color-#{$name}: #{$color};
@@ -16,13 +20,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: inherit;
 }
 
 html,
 body {
   width: 100%;
   height: 100%;
-  font-family: Heebo;
 }
 
 #root {

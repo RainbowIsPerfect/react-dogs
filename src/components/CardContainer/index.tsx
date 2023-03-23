@@ -1,20 +1,21 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { fetchProducts } from '../../store/slices/productsSlice';
+import { useGetAllProductsQuery } from '../../store/slices/productsSlice';
 import { Card } from '../Card';
 import s from './card-container.module.scss';
 
 export const CardContainer = () => {
-  const { products } = useAppSelector((state) => state.products);
-  const dispath = useAppDispatch();
+  const { data, isError, isLoading } = useGetAllProductsQuery();
 
-  useEffect(() => {
-    dispath(fetchProducts());
-  }, [dispath]);
+  if (isLoading) {
+    return <div style={{ color: 'white' }}>loading...</div>;
+  }
+
+  if (isError) {
+    return <div style={{ color: 'white' }}>ERROR</div>;
+  }
 
   return (
     <div className={s['card-container']}>
-      {products.map((product) => {
+      {data?.products.map((product) => {
         return <Card key={product._id} productData={product} />;
       })}
     </div>

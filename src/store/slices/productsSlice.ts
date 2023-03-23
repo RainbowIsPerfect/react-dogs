@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 interface Author {
   about: string;
@@ -46,58 +45,23 @@ interface ApiResponse {
   total: number;
 }
 
-interface InitialState {
-  products: Product[];
-  total: number;
-  status: 'loading' | 'fullfield' | 'rejected';
-}
+const TOKEN =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDEwN2UwOWFhMzk3MTIxODM4ZjI5MGMiLCJncm91cCI6Imdyb3VwLTExIiwiaWF0IjoxNjc4ODAyNDQ5LCJleHAiOjE3MTAzMzg0NDl9.jvxFYnjWqNIeSQpNyOTbUziWoOipBVHFN3ooAlYOUV4';
 
-export const fetchProducts = createAsyncThunk<
-  ApiResponse,
-  undefined,
-  { rejectValue: string }
->('products/fetchProducts', async (_, { rejectWithValue }) => {
-  const { data, status } = await axios.get<ApiResponse>(
-    'https://api.react-learning.ru/products',
-    {
-      headers: {
-        Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDEwN2UwOWFhMzk3MTIxODM4ZjI5MGMiLCJncm91cCI6Imdyb3VwLTExIiwiaWF0IjoxNjc4ODAyNDQ5LCJleHAiOjE3MTAzMzg0NDl9.jvxFYnjWqNIeSQpNyOTbUziWoOipBVHFN3ooAlYOUV4',
-      },
-    }
-  );
-
-  if (status !== 200) {
-    return rejectWithValue('Error');
-  }
-
-  return data;
+export const productsApi = createApi({
+  reducerPath: 'productsApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://api.react-learning.ru/',
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  }),
+  endpoints: (builder) => ({
+    getAllProducts: builder.query<ApiResponse, void>({
+      query: () => `products`,
+    }),
+  }),
 });
 
-const initialState: InitialState = {
-  products: [],
-  total: 0,
-  status: 'loading',
-};
-
-const productsSlice = createSlice({
-  name: 'products',
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchProducts.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = 'fullfield';
-        state.products = action.payload.products;
-        state.total = action.payload.total;
-      })
-      .addCase(fetchProducts.rejected, (state) => {
-        state.status = 'rejected';
-      });
-  },
-});
-
-export default productsSlice.reducer;
+export const { useGetAllProductsQuery } = productsApi;

@@ -12,22 +12,27 @@
   }
   &__body {
     flex: 1 1 auto;
-    @include flex(false, center, column);
+    @include flex(center, center, column);
     padding: rem(5) rem(10) rem(10);
-    color: col(text);
     background-color: col(elements-bg);
-  }
-  &__price {
-    margin-bottom: rem(4);
-    font-size: rem(25);
-    font-weight: 700;
     color: col(text);
+    font-size: rem(20);
   }
   &__description {
     flex: 1 1 auto;
-    margin-bottom: rem(10);
-    font-weight: 400;
-    font-size: rem(18);
+    // @include flex(center, center);
+    width: 100%;
+    margin-bottom: rem(2);
+    padding: rem(2);
+    font-size: rem(22);
     text-align: center;
+  }
+  &__price {
+
+    margin-bottom: rem(5);
+    color: col(text);
+  }
+  &__weight {
+    margin-bottom: rem(5);
   }
 }
