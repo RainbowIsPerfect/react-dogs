@@ -1,0 +1,6 @@
+@use '../../styles/' as *;
+
+.main {
+  background-color: col(secondary-bg);
+  flex: 1 1 auto;
+}

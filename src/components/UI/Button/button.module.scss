@@ -1,0 +1,35 @@
+@use '../../../styles/' as *;
+
+.button {
+  display: inline-block;
+  padding: rem(8);
+  font-size: rem(18);
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.button-primary {
+  color: col(text-elements);
+  background-color: col(accent);
+  &:hover {
+    background-color: col(accent-hover);
+  }
+  &:focus-visible {
+    background-color: col(accent-hover);
+  }
+}
+
+.button-secondary {
+  color: col(text);
+  border: 1px solid col(text);
+  background-color: transparent;
+  &:hover {
+    background-color: col(main-bg);
+  }
+  &:focus-visible {
+    background-color: col(main-bg);
+  }
+}

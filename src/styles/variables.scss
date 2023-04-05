@@ -1,18 +1,32 @@
 $colors: (
-  card-bg: #181818,
-  card-text: #d5dae2,
-  form-text: #e4e5e7,
-  form-bg: #0f1318,
-  modal-bg: #222938ef,
-  border: #b6b6b6,
-  main-bg: #171b25ec,
-  nav-bg: #0f1825,
-  header-text: #d1d5db,
-  header-text-hover: #fff,
-  button-border: #707793,
-  button: #550dfd,
-  button-like: #ca3232,
-  button-background-hover: #0b101a,
-  button-hover: #4c0fdb,
-  button-action-bg: #ebebeb,
+  accent: rgb(28 100 242),
+  accent-hover: rgb(26, 88, 212),
+  accent-logo: #38bdf8,
+  accent-secondary: rgb(192, 57, 97),
+);
+
+$colors-dark: (
+  main-bg: rgb(30, 41, 59),
+  secondary-bg: rgb(19, 26, 37),
+  elements-bg: #1e293b,
+  text: rgb(203 213 225),
+  text-hover: rgb(37, 55, 80),
+  text-secondary: #6a6e75,
+  text-elements: #fff,
+  elements: #3b434e,
+  elements-hover: #4f5a68,
+  elements-border: #545e6d,
+);
+
+$colors-light: (
+  main-bg: #f1ebeb,
+  secondary-bg: #fcf7f7,
+  elements-bg: #f1ebeb,
+  text: #292929,
+  text-hover: #9e9e9e,
+  text-secondary: #757575,
+  text-elements: #fff,
+  elements: #dfdfdf,
+  elements-hover: #f1efef,
+  elements-border: #bdbdbd,
 );

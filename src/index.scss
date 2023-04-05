@@ -1,0 +1,56 @@
+@use './styles/' as *;
+
+:root {
+  @each $name, $color in $colors {
+    --color-#{$name}: #{$color};
+  }
+  font-family: Roboto;
+}
+
+:root[data-theme='light'] {
+  @each $name, $color in $colors-light {
+    --color-#{$name}: #{$color};
+  }
+}
+
+:root[data-theme='dark'] {
+  @each $name, $color in $colors-dark {
+    --color-#{$name}: #{$color};
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background-color: #fff;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='light']):not([data-theme='dark']) {
+    @each $name, $color in $colors-light {
+      --color-#{$name}: #{$color};
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']):not([data-theme='dark']) {
+    @each $name, $color in $colors-dark {
+      --color-#{$name}: #{$color};
+    }
+  }
+}

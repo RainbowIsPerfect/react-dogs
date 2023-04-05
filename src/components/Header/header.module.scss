@@ -1,0 +1,107 @@
+@use '../../styles/' as *;
+
+.header {
+  padding: rem(10) 0;
+  background-color: col(main-bg);
+  border-bottom: 1px solid col(elements-border);
+  &__link {
+    display: block;
+    @include flex(center, center);
+    height: rem(35);
+    outline: 1px solid transparent;
+    border-radius: 5px;
+    text-decoration: none;
+    color: col(text);
+    &:focus {
+      outline: 1px solid col(text-hover);
+    }
+  }
+  &__title {
+    margin-left: rem(10);
+    font-size: rem(25);
+    white-space: nowrap;
+  }
+  &__nav {
+    @include flex(space-between, center);
+  }
+  &__list {
+    @include flex();
+    list-style-type: none;
+  }
+  &__item {
+    margin-right: rem(30);
+    &:last-child {
+      margin-right: 0;
+      position: relative;
+    }
+  }
+  &__button {
+    height: rem(40);
+    width: rem(40);
+    padding: rem(8);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    &:hover {
+      background-color: col(text-hover);
+    }
+    &:focus {
+      background-color: col(text-hover);
+    }
+  }
+  &__icon {
+    fill: col(text);
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+  }
+  &__logo {
+    fill: col(accent-logo);
+    min-width: rem(30);
+  }
+}
+
+.modal {
+  position: absolute;
+  z-index: 1;
+  top: rem(55);
+  right: rem(5);
+  padding: rem(10);
+  border-radius: rem(5);
+  list-style-type: none;
+  background-color: col(main-bg);
+  &__item {
+    margin-bottom: rem(5);
+    &:last-child {
+      margin: 0;
+    }
+  }
+  &__button {
+    padding: rem(8) rem(15);
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-radius: rem(5);
+    color: col(text);
+    white-space: nowrap;
+    font-size: rem(18);
+    cursor: pointer;
+    &_active {
+      background-color: col(text-hover);
+    }
+    &:hover {
+      background-color: col(accent);
+      color: col(text-elements)
+    }
+  }
+}
+
+@media (max-width: 887px) {
+  .header {
+    &__title {
+      display: none;
+    }
+  }
+}
