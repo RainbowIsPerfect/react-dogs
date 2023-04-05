@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container } from '../Container';
 import { Input } from '../UI/Input';
 import { MainLogo } from '../UI/Icons/MainLogo';
@@ -7,83 +8,83 @@ import { LikeIcon } from '../UI/Icons/LikeIcon';
 import { CartIcon } from '../UI/Icons/CartIcon';
 import { ThemeIcon } from '../UI/Icons/ThemeIcon';
 import { useTheme } from '../../hooks/useTheme';
+import { LogOutIcon } from '../UI/Icons/LogOutIcon';
+import { useAuth } from '../../hooks/useAuth';
+import { useAppSelector } from '../../hooks/reduxHooks';
+import { LogInIcon } from '../UI/Icons/LogInIcon';
+import { SearchIcon } from '../UI/Icons/SearchIcon';
 import s from './header.module.scss';
+import { Button } from '../UI/Button';
+import { SubMenu } from '../UI/SubMenu';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [theme, setTheme] = useTheme();
+  const [logInUser, result, logOutUser] = useAuth();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const themeButtons = [
+    {
+      title: 'OS Default',
+      value: 'os-default',
+      action: () => setTheme('os-default'),
+    },
+    { title: 'Dark', value: 'dark', action: () => setTheme('dark') },
+    { title: 'Light', value: 'light', action: () => setTheme('light') },
+  ];
 
   return (
     <header className={s.header}>
       <Container>
         <nav className={s.header__nav}>
-          <a className={s.header__link} href="/">
+          <Link className={s.header__link} to={isLoggedIn ? 'products' : '/'}>
             <MainLogo className={`${s.header__icon} ${s.header__logo}`} />
             <span className={s.header__title}>React Dogs</span>
-          </a>
-          <Input />
+          </Link>
           <ul className={s.header__list}>
             <li className={s.header__item}>
-              <button className={s.header__button} type="button">
+              <Button
+                className={s.header__button}
+                variant="icon"
+                onClick={() => navigate('/me')}
+              >
                 <ProfileIcon className={s.header__icon} />
-              </button>
+              </Button>
             </li>
             <li className={s.header__item}>
-              <button className={s.header__button} type="button">
+              <Button className={s.header__button} variant="icon">
                 <LikeIcon className={s.header__icon} />
-              </button>
+              </Button>
             </li>
             <li className={s.header__item}>
-              <button className={s.header__button} type="button">
+              <Button className={s.header__button} variant="icon">
                 <CartIcon className={s.header__icon} />
-              </button>
+              </Button>
             </li>
             <li className={s.header__item}>
-              <button
+              <Button
+                className={s.header__button}
+                variant="icon"
                 onClick={() => setIsOpen(!isOpen)}
                 onBlur={() => setIsOpen(false)}
-                className={s.header__button}
-                type="button"
               >
                 <ThemeIcon className={s.header__icon} />
-              </button>
-              {isOpen && (
-                <ul className={s.modal}>
-                  <li className={s.modal__item}>
-                    <button
-                      className={`${
-                        theme === 'os-default' ? s.modal__button_active : ''
-                      } ${s.modal__button}`}
-                      onMouseDown={() => setTheme('os-default')}
-                      type="button"
-                    >
-                      OS Default
-                    </button>
-                  </li>
-                  <li className={s.modal__item}>
-                    <button
-                      className={`${
-                        theme === 'dark' ? s.modal__button_active : ''
-                      } ${s.modal__button}`}
-                      onMouseDown={() => setTheme('dark')}
-                      type="button"
-                    >
-                      Dark
-                    </button>
-                  </li>
-                  <li className={s.modal__item}>
-                    <button
-                      className={`${
-                        theme === 'light' ? s.modal__button_active : ''
-                      } ${s.modal__button}`}
-                      onMouseDown={() => setTheme('light')}
-                      type="button"
-                    >
-                      Light
-                    </button>
-                  </li>
-                </ul>
-              )}
+              </Button>
+              {isOpen && <SubMenu buttonContent={themeButtons} />}
+            </li>
+            <li className={s.header__item}>
+              <Button
+                className={s.header__button}
+                variant="icon"
+                onClick={() => (isLoggedIn ? logOutUser() : navigate('/'))}
+              >
+                {isLoggedIn ? (
+                  <LogOutIcon className={s.header__icon} />
+                ) : (
+                  <LogInIcon className={s.header__icon} />
+                )}
+              </Button>
             </li>
           </ul>
         </nav>

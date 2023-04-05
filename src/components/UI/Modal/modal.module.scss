@@ -1,0 +1,20 @@
+@use '../../../styles/' as *;
+
+.modal {
+  @include flex(center, center);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+  &__container {
+    margin: auto;
+    padding: space(s);
+  }
+  &__content {
+    background-color: col(elements-bg);
+  }
+}

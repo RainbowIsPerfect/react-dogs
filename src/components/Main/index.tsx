@@ -1,14 +1,15 @@
-import { Card } from '../Card';
-import { CardContainer } from '../CardContainer';
+import { ReactNode } from 'react';
 import { Container } from '../Container';
 import s from './main.module.scss';
 
-export const Main = () => {
+interface MainProps {
+  children: ReactNode;
+}
+
+export const Main = ({ children }: MainProps) => {
   return (
     <main className={s.main}>
-      <Container>
-        <CardContainer />
-      </Container>
+      <Container>{children}</Container>
     </main>
   );
 };

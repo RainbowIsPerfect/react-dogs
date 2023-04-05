@@ -10,19 +10,21 @@ export const CardContainer = () => {
     return <div style={{ color: 'white' }}>ERROR</div>;
   }
 
+  if (isLoading) {
+    return (
+      <div className={s['card-container']}>
+        {[...new Array(4)].map((skeleton, i) => {
+          return <CardSkeleton key={i} />;
+        })}
+      </div>
+    );
+  }
+
   return (
     <div className={s['card-container']}>
-      {isLoading ? (
-        <>
-          {[...new Array(4)].map((skeleton, i) => {
-            return <CardSkeleton key={i} />;
-          })}
-        </>
-      ) : (
-        data?.products.map((product) => {
-          return <Card key={product._id} productData={product} />;
-        })
-      )}
+      {data?.products.map((product) => {
+        return <Card key={product._id} productData={product} />;
+      })}
     </div>
   );
 };

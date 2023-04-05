@@ -5,14 +5,12 @@
   @return math.div($px, 16) + rem;
 }
 
-// @function col($key) {
-//   @if map-has-key($colors, $key) {
-//     @return map-get($colors, $key);
-//   }
-// }
+@function space($margin-key) {
+  @return var(--space-#{$margin-key});
+}
 
 @function col($color-name) {
-  @return var(--color-#{$color-name})
+  @return var(--color-#{$color-name});
 }
 
 @mixin flex($justify: false, $align: false, $direction: false, $gap: false) {

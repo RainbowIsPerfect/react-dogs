@@ -1,0 +1,36 @@
+@use '../../../styles/' as *;
+
+.submenu {
+  position: absolute;
+  z-index: 1;
+  top: rem(55);
+  right: rem(5);
+  padding: space(s);
+  border-radius: 5px;
+  list-style-type: none;
+  background-color: col(main-bg);
+  &__item {
+    margin-bottom: space(xs);
+    &:last-child {
+      margin: 0;
+    }
+  }
+  &__button {
+    padding: space(s) space(m);
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    color: col(text);
+    white-space: nowrap;
+    font-size: rem(18);
+    cursor: pointer;
+    &_active {
+      background-color: col(text-hover);
+    }
+    &:hover {
+      background-color: col(accent);
+      color: col(text-elements)
+    }
+  }
+}

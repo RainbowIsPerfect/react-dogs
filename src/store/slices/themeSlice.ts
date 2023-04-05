@@ -1,18 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  type Theme,
-  getThemeFromStorage,
-} from '../../utils/getThemeFromStorage';
+import { localStorageHandler } from '../../utils/localStorageHanlder';
 
+type Theme = 'dark' | 'light' | 'os-default';
 interface ThemeState {
   theme: Theme;
 }
 
 const initialState: ThemeState = {
-  theme: getThemeFromStorage(),
+  theme: (localStorageHandler('get', 'color-theme') as Theme) || 'os-default',
 };
 
-export const counterSlice = createSlice({
+export const themeSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
@@ -22,6 +20,6 @@ export const counterSlice = createSlice({
   },
 });
 
-export const { switchTheme } = counterSlice.actions;
+export const { switchTheme } = themeSlice.actions;
 
-export default counterSlice.reducer;
+export default themeSlice.reducer;

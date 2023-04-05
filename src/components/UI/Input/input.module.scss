@@ -1,56 +1,73 @@
 @use '../../../styles/' as *;
 
 .container {
-  @include flex(false, stretch);
+  @include flex;
   position: relative;
   border-radius: 10px;
-  overflow: hidden;
   transition: border-color 0.1s ease-in-out;
+  & button {
+    @include flex(center, center);
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    &:hover {
+      .icon {
+        fill: col(text);
+      }
+    }
+    &:focus-visible {
+      .icon {
+        fill: col(text);
+      }
+    }
+  }
+  & svg {
+    width: 80%;
+    pointer-events: none;
+    fill: col(text-secondary);
+  }
 }
 
 .input {
-  width: rem(200);
-  padding: rem(5) rem(35) rem(5) rem(15);
+  width: inherit;
+  padding: space(xs);
   font-size: rem(20);
   color: col(text);
   background-color: col(elements);
   border: 1px solid col(elements-border);
   border-radius: 10px;
-  outline: none;
+  outline: transparent;
+  outline-offset: -2px;
+  &_start {
+    padding-left: space(xxl);
+  }
+  &_end {
+    padding-right: space(xxl);
+  }
   &:focus {
-    background-color: col(elements-hover);
     border-color: col(accent-hover);
+    outline: 2px solid col(accent-hover);
   }
   &::placeholder {
-    color: col(text);
+    color: col(text-secondary);
   }
 }
 
-.button {
+.start {
   @include flex(center, center);
-  position: absolute;
-  right: rem(8);
   width: rem(20);
-  min-height: 100%;
-  background-color: transparent;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  &:hover {
-    .icon {
-      fill: col(text-hover);
-    }
-  }
-  &:focus {
-    .icon {
-      fill: col(text-hover);
-    }
-  }
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: rem(6);
 }
 
-.icon {
-  pointer-events: none;
-  width: 100%;
+.end {
+  @include flex(center, center);
+  width: rem(20);
   height: 100%;
-  fill: col(text);
+  position: absolute;
+  top: 0;
+  right: rem(6);
 }
