@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Button } from '../Button';
 import s from './submenu.module.scss';
 
@@ -10,11 +9,10 @@ interface Mock {
 
 interface SubMenuProps {
   buttonContent: Mock[];
+  activeButton: string;
 }
 
-export const SubMenu = ({ buttonContent }: SubMenuProps) => {
-  // const [active, setActive] = useState<T>(init);
-
+export const SubMenu = ({ buttonContent, activeButton }: SubMenuProps) => {
   return (
     <ul className={s.submenu}>
       {buttonContent.map((content, i) => {
@@ -23,7 +21,7 @@ export const SubMenu = ({ buttonContent }: SubMenuProps) => {
             <Button
               variant="primary"
               className={`${
-                content.value === 'os-default' ? s.submenu__button_active : ''
+                content.value === activeButton ? s.submenu__button_active : ''
               } ${s.submenu__button}`}
               onMouseDown={content.action}
             >

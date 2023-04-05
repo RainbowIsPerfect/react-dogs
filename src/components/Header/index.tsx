@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container } from '../Container';
-import { Input } from '../UI/Input';
 import { MainLogo } from '../UI/Icons/MainLogo';
 import { ProfileIcon } from '../UI/Icons/ProfileIcon';
 import { LikeIcon } from '../UI/Icons/LikeIcon';
@@ -12,7 +11,6 @@ import { LogOutIcon } from '../UI/Icons/LogOutIcon';
 import { useAuth } from '../../hooks/useAuth';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import { LogInIcon } from '../UI/Icons/LogInIcon';
-import { SearchIcon } from '../UI/Icons/SearchIcon';
 import s from './header.module.scss';
 import { Button } from '../UI/Button';
 import { SubMenu } from '../UI/SubMenu';
@@ -71,7 +69,9 @@ export const Header = () => {
               >
                 <ThemeIcon className={s.header__icon} />
               </Button>
-              {isOpen && <SubMenu buttonContent={themeButtons} />}
+              {isOpen && (
+                <SubMenu buttonContent={themeButtons} activeButton={theme} />
+              )}
             </li>
             <li className={s.header__item}>
               <Button
