@@ -1,23 +1,27 @@
-export function localStorageHandler(action: 'remove', key: string): void;
-export function localStorageHandler(action: 'get', key: string): string | null;
-export function localStorageHandler(
-  action: 'set',
-  key: string,
-  value: string
-): void;
-export function localStorageHandler(
-  action: 'remove' | 'get' | 'set',
-  key: string,
-  value?: string
-): string | null | void {
-  switch (action) {
-    case 'remove':
-      return localStorage.removeItem(key);
-    case 'get':
-      return localStorage.getItem(key);
-    case 'set':
-      return localStorage.setItem(key, value || '');
-    default:
-      return null;
+class LocalStorageHandler {
+  private storage: Storage;
+
+  constructor() {
+    this.storage = window.localStorage;
+  }
+
+  get<T = string>(key: string): T | null {
+    const storedData = this.storage.getItem(key);
+
+    if (storedData !== null) {
+      return JSON.parse(storedData) as T;
+    }
+
+    return null;
+  }
+
+  set(key: string, value: unknown): void {
+    this.storage.setItem(key, JSON.stringify(value));
+  }
+
+  remove(key: string): void {
+    this.storage.removeItem(key);
   }
 }
+
+export const localStorageHandler = new LocalStorageHandler();

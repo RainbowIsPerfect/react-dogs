@@ -17,12 +17,12 @@ export const useAuth = (): [
   const logInUser = async (values: UserSignInData): Promise<void> => {
     const { token } = await setSignIn(values).unwrap();
     dispatch(logIn({ token }));
-    localStorageHandler('set', 'user-token', token);
+    localStorageHandler.set('user-token', token);
   };
 
   const logOutUser = (): void => {
     dispatch(logOut());
-    localStorageHandler('remove', 'user-token');
+    localStorageHandler.remove('user-token');
   };
 
   return [logInUser, result, logOutUser];

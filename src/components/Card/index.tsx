@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../UI/Button';
 import type { Product } from '../../store/slices/productsSlice';
 import { countDiscountedPrice } from '../../utils/countDiscountedPrice';

@@ -1,15 +1,15 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ProductDescription } from '../../components/ProductDescription';
 import { ProductInfoTable } from '../../components/ProductInfoTable';
 import { ReviewsList } from '../../components/ReviewsList';
 import { Button } from '../../components/UI/Button';
-import { Input } from '../../components/UI/Input';
 import { Modal } from '../../components/UI/Modal';
 import { Tabs } from '../../components/UI/Tabs';
 import { useGetProductByIdQuery } from '../../store/slices/productsSlice';
 import { countDiscountedPrice } from '../../utils/countDiscountedPrice';
+import { NotFound } from '../NotFound';
 import s from './product.module.scss';
 
 export const CurrentProduct = () => {
@@ -19,6 +19,10 @@ export const CurrentProduct = () => {
   const { data, isError, isLoading, isSuccess } = useGetProductByIdQuery(
     productId ?? skipToken
   );
+
+  if (isError) {
+    return <NotFound />;
+  }
 
   return (
     <>

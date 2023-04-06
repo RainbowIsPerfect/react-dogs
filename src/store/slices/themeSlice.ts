@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { localStorageHandler } from '../../utils/localStorageHanlder';
 
-type Theme = 'dark' | 'light' | 'os-default';
+export type Theme = 'dark' | 'light' | 'os-default';
 interface ThemeState {
   theme: Theme;
 }
 
 const initialState: ThemeState = {
-  theme: (localStorageHandler('get', 'color-theme') as Theme) || 'os-default',
+  theme: localStorageHandler.get<Theme>('color-theme') || 'os-default',
 };
 
 export const themeSlice = createSlice({

@@ -1,3 +1,4 @@
+import { NotFound } from '../../pages/NotFound';
 import { useGetAllProductsQuery } from '../../store/slices/productsSlice';
 import { Card } from '../Card';
 import { CardSkeleton } from '../CardSkeleton';
@@ -7,7 +8,7 @@ export const CardContainer = () => {
   const { data, isError, isLoading } = useGetAllProductsQuery();
 
   if (isError) {
-    return <div style={{ color: 'white' }}>ERROR</div>;
+    return <NotFound />;
   }
 
   if (isLoading) {
