@@ -1,0 +1,20 @@
+@use '../../../styles/' as *;
+
+.price {
+  margin-bottom: space(s);
+  font-weight: 700;
+  font-size: rem(22);
+  &_special {
+    color: col(accent-secondary);
+    position: relative;
+  }
+  &_full {
+    position: absolute;
+    top: rem(-12);
+    left: rem(1);
+    text-decoration: line-through;
+    font-weight: 400;
+    font-size: rem(12);
+    color: col(text-secondary);
+  }
+}

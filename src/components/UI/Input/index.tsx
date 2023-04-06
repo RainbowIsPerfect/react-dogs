@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode, useRef } from 'react';
+import { InputHTMLAttributes, ReactNode } from 'react';
 import s from './input.module.scss';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

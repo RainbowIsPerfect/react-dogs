@@ -1,4 +1,4 @@
-import { Formik, FormikBag } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -6,6 +6,7 @@ import {
   UserSignUpData,
 } from '../../store/slices/productsSlice';
 import { FormikForm } from '../UI/FormikForm';
+import { Routes } from '../../types';
 import s from './form.module.scss';
 
 const SignupSchema = Yup.object().shape({
@@ -70,7 +71,7 @@ export const SignUpForm = () => {
   const login = async (values: FieldsData) => {
     const { confirmPassword, ...rest } = values;
     await registUser(rest).unwrap();
-    navigate('/');
+    navigate(Routes.Index);
   };
 
   return (
@@ -84,7 +85,7 @@ export const SignUpForm = () => {
           heading="Sign Up"
           inputs={signUpIputsMock}
           linkText="Already have an account?"
-          linkPath="/"
+          linkPath={Routes.Index}
         />
       </Formik>
     </div>

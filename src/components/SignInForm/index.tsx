@@ -5,6 +5,7 @@ import { UserSignInData } from '../../store/slices/productsSlice';
 import { useAuth } from '../../hooks/useAuth';
 import { FormikForm } from '../UI/FormikForm';
 import s from './form.module.scss';
+import { Routes } from '../../types';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -36,7 +37,7 @@ export const SignInForm = () => {
 
   const login = async (values: UserSignInData) => {
     await logInUser(values);
-    navigate('/products');
+    navigate(Routes.Product);
   };
 
   return (
@@ -50,7 +51,7 @@ export const SignInForm = () => {
           heading="Sign In"
           inputs={signInInputsMock}
           linkText="Need an account?"
-          linkPath="signup"
+          linkPath={Routes.Signup}
         />
       </Formik>
     </div>

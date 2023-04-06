@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Container } from '../Container';
 import { MainLogo } from '../UI/Icons/MainLogo';
 import { ProfileIcon } from '../UI/Icons/ProfileIcon';
@@ -14,6 +14,7 @@ import { LogInIcon } from '../UI/Icons/LogInIcon';
 import s from './header.module.scss';
 import { Button } from '../UI/Button';
 import { SubMenu } from '../UI/SubMenu';
+import { Routes } from '../../types';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -45,14 +46,9 @@ export const Header = () => {
               <Button
                 className={s.header__button}
                 variant="icon"
-                onClick={() => navigate('/me')}
+                onClick={() => navigate(Routes.UserProfile)}
               >
                 <ProfileIcon className={s.header__icon} />
-              </Button>
-            </li>
-            <li className={s.header__item}>
-              <Button className={s.header__button} variant="icon">
-                <LikeIcon className={s.header__icon} />
               </Button>
             </li>
             <li className={s.header__item}>
@@ -77,7 +73,9 @@ export const Header = () => {
               <Button
                 className={s.header__button}
                 variant="icon"
-                onClick={() => (isLoggedIn ? logOutUser() : navigate('/'))}
+                onClick={() =>
+                  isLoggedIn ? logOutUser() : navigate(Routes.Index)
+                }
               >
                 {isLoggedIn ? (
                   <LogOutIcon className={s.header__icon} />

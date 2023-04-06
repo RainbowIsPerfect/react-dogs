@@ -4,7 +4,6 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { MainLayout } from './layouts/MainLayout';
-import './index.scss';
 import { Products } from './pages/Products';
 import { SignIn } from './pages/SignIn';
 import { PrivateRoute } from './components/PrivateRoute';
@@ -12,10 +11,12 @@ import { NotFound } from './pages/NotFound';
 import { CurrentProduct } from './pages/CurrentProduct';
 import { Profile } from './pages/Profile';
 import { SignUp } from './pages/SignUp';
+import { Routes } from './types';
+import './index.scss';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: Routes.Index,
     element: <MainLayout />,
     children: [
       {
@@ -23,11 +24,11 @@ const router = createBrowserRouter([
         element: <SignIn />,
       },
       {
-        path: 'signup',
+        path: Routes.Signup,
         element: <SignUp />,
       },
       {
-        path: 'products',
+        path: Routes.Product,
         element: (
           <PrivateRoute>
             <Products />
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/products/:productId',
+        path: Routes.ProductWithId,
         element: (
           <PrivateRoute>
             <CurrentProduct />
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'me',
+        path: Routes.UserProfile,
         element: (
           <PrivateRoute>
             <Profile />

@@ -2,6 +2,8 @@ import { NotFound } from '../../pages/NotFound';
 import { useGetAllProductsQuery } from '../../store/slices/productsSlice';
 import { Card } from '../Card';
 import { CardSkeleton } from '../CardSkeleton';
+import { SearchIcon } from '../UI/Icons/SearchIcon';
+import { Input } from '../UI/Input';
 import s from './card-container.module.scss';
 
 export const CardContainer = () => {
@@ -22,10 +24,17 @@ export const CardContainer = () => {
   }
 
   return (
-    <div className={s['card-container']}>
-      {data?.products.map((product) => {
-        return <Card key={product._id} productData={product} />;
-      })}
-    </div>
+    <>
+      <Input
+        className={s.input}
+        placeholder="Search"
+        startIcon={<SearchIcon />}
+      />
+      <div className={s['card-container']}>
+        {data?.products.map((product) => {
+          return <Card key={product._id} productData={product} />;
+        })}
+      </div>
+    </>
   );
 };
