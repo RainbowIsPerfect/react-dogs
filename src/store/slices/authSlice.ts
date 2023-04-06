@@ -7,8 +7,8 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  token: localStorageHandler.get('token'),
-  isLoggedIn: Boolean(localStorageHandler.get('token')),
+  token: localStorageHandler.get('user-token'),
+  isLoggedIn: Boolean(localStorageHandler.get('user-token')) || false,
 };
 
 export const authSlice = createSlice({

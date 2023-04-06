@@ -1,0 +1,33 @@
+@use '../../styles/' as *;
+
+.profile {
+  @include flex(false, false, false, space(x));
+  color: col(text);
+  &__image-wrapper {
+    flex: 1 0 15%;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  &__info {
+    @include flex(false, flex-start, column);
+    flex: 1 1 60%;
+    padding: space(s);
+    overflow: auto;
+  }
+  &__name {
+    margin-bottom: space(m);
+    font-size: rem(35);
+  }
+  &__list {
+    list-style-type: none;
+  }
+  &__item {
+    margin-bottom: space(s);
+    font-size: rem(20);
+  }
+}
