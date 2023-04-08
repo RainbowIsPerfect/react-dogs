@@ -10,7 +10,7 @@ interface Author {
   _id: string;
 }
 
-interface User extends Author {
+export interface User extends Author {
   group: string;
 }
 
@@ -50,7 +50,7 @@ interface ApiResponse {
   total: number;
 }
 
-interface UserData {
+export interface UserData {
   data: User;
   token: string;
 }

@@ -7,20 +7,17 @@ class LocalStorageHandler {
 
   get<T = string>(key: string): T | null {
     const storedData = this.storage.getItem(key);
-
-    if (storedData !== null) {
-      return JSON.parse(storedData) as T;
-    }
-
-    return null;
+    return storedData !== null ? (JSON.parse(storedData) as T) : null;
   }
 
-  set(key: string, value: unknown): void {
+  set(key: string, value: unknown): this {
     this.storage.setItem(key, JSON.stringify(value));
+    return this;
   }
 
-  remove(key: string): void {
+  remove(key: string): this {
     this.storage.removeItem(key);
+    return this;
   }
 }
 

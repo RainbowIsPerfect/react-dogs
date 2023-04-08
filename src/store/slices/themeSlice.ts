@@ -10,7 +10,7 @@ const initialState: ThemeState = {
   theme: localStorageHandler.get<Theme>('color-theme') || 'os-default',
 };
 
-export const themeSlice = createSlice({
+const themeSlice = createSlice({
   name: 'theme',
   initialState,
   reducers: {
@@ -22,4 +22,4 @@ export const themeSlice = createSlice({
 
 export const { switchTheme } = themeSlice.actions;
 
-export default themeSlice.reducer;
+export const themeSliceReducer = themeSlice.reducer;
