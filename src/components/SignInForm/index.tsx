@@ -3,9 +3,10 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { UserSignInData } from '../../store/slices/productsSlice';
 import { useAuth } from '../../hooks/useAuth';
-import { FormikForm } from '../UI/FormikForm';
-import s from './form.module.scss';
+import { FormikForm } from '../FormikForm';
 import { Routes } from '../../types';
+import { getErrorMessage } from '../../utils/getErrorMessage';
+import s from './form.module.scss';
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -28,7 +29,7 @@ const signInInputsMock = [
 ];
 
 export const SignInForm = () => {
-  const [logInUser, { isError }] = useAuth();
+  const [logInUser, { error }] = useAuth();
   const navigate = useNavigate();
   const initialValues: UserSignInData = {
     email: '',
@@ -52,6 +53,7 @@ export const SignInForm = () => {
           inputs={signInInputsMock}
           linkText="Need an account?"
           linkPath={Routes.Signup}
+          errorMessage={getErrorMessage(error)}
         />
       </Formik>
     </div>

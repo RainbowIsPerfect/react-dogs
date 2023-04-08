@@ -1,4 +1,4 @@
-@use '../../../styles/' as *;
+@use '../../styles/' as *;
 
 .form {
   @include flex(center, flex-start, column);
@@ -53,5 +53,8 @@
     &:hover {
       color: col(accent);
     }
+  }
+  &__res-error {
+    margin-bottom: space(m);
   }
 }

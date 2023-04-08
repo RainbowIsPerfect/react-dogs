@@ -5,8 +5,9 @@ import {
   useRegistUserMutation,
   UserSignUpData,
 } from '../../store/slices/productsSlice';
-import { FormikForm } from '../UI/FormikForm';
+import { FormikForm } from '../FormikForm';
 import { Routes } from '../../types';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 import s from './form.module.scss';
 
 const SignupSchema = Yup.object().shape({
@@ -57,7 +58,7 @@ const signUpIputsMock = [
 type FieldsData = UserSignUpData & { confirmPassword: string };
 
 export const SignUpForm = () => {
-  const [registUser, result] = useRegistUserMutation();
+  const [registUser, { error }] = useRegistUserMutation();
   const navigate = useNavigate();
 
   const initialValues: FieldsData = {
@@ -86,6 +87,7 @@ export const SignUpForm = () => {
           inputs={signUpIputsMock}
           linkText="Already have an account?"
           linkPath={Routes.Index}
+          errorMessage={getErrorMessage(error)}
         />
       </Formik>
     </div>
