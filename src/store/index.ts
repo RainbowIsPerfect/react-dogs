@@ -15,10 +15,11 @@ export const store = configureStore({
 });
 
 store.subscribe(() => {
+  const state = store.getState();
   localStorageHandler
-    .set('color-theme', store.getState().theme.theme)
-    .set('user-token', store.getState().auth.token)
-    .set('user-data', store.getState().auth.userData);
+    .set('color-theme', state.theme.theme)
+    .set('user-token', state.auth.token)
+    .set('user-data', state.auth.userData);
 });
 
 export type RootState = ReturnType<typeof store.getState>;

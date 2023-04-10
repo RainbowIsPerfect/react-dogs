@@ -90,9 +90,18 @@ export const productsApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getAllProducts: builder.query<ApiResponse, void>({
-      query: () => `products/`,
+    getAllProducts: builder.query<ApiResponse, string | null>({
+      query: (value) => `products/search?query=${value}`,
       providesTags: ['Products'],
+      transformResponse(returnValue: ApiResponse | Product[]) {
+        if ('total' in returnValue) {
+          return returnValue;
+        }
+        return {
+          products: returnValue,
+          total: returnValue.length,
+        };
+      },
     }),
     getProductById: builder.query<Product, string>({
       query: (id) => `products/${id}`,
