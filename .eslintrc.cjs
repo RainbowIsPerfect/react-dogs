@@ -24,14 +24,18 @@ module.exports = {
     'import/prefer-default-export': 0,
     'react/function-component-definition': 0,
     'jsx-a11y/no-static-element-interactions': 0,
+    'jsx-a11y/label-has-associated-control': 0,
     'react/jsx-props-no-spreading': 0,
     'react/require-default-props': 0,
     'no-param-reassign': 0,
     'import/no-named-as-default': 0,
     'jsx-a11y/control-has-associated-label': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-underscore-dangle': 0,
     'react/no-array-index-key': 0,
+    'import/no-cycle': 0,
+    'react/button-has-type': 0,
     // 'prettier/prettier': [
     //   'error',
     //   {

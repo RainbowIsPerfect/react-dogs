@@ -4,6 +4,9 @@
   @each $name, $color in $colors {
     --color-#{$name}: #{$color};
   }
+  @each $name, $space in $spacing {
+    --space-#{$name}: #{rem($space)};
+  }
   font-family: Roboto;
 }
 
@@ -24,6 +27,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: inherit;
+  line-height: 1;
 }
 
 html,
@@ -36,7 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  background-color: #fff;
+  background-color: col(secondary-bg);
 }
 
 @media (prefers-color-scheme: light) {

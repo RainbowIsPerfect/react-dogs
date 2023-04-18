@@ -4,6 +4,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(rem(250), 1fr));
   grid-auto-rows: 1fr;
-  gap: rem(15);
-  margin: rem(25) 0;
+  gap: space(m);
+}
+
+.input {
+  width: 100%;
+  margin-bottom: space(x);
+}
+
+.total {
+  margin-bottom: space(x);
+  color: col(text);
 }

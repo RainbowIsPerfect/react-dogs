@@ -1,0 +1,32 @@
+@use '../../../styles/' as *;
+
+.tabs {
+  &__buttons {
+    @include flex;
+    border-bottom: 1px solid col(elements);
+    margin-bottom: space(s);
+  }
+  &__button {
+    padding: space(s);
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: col(text);
+    font-size: rem(18);
+    overflow: hidden;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    &_active {
+      background-color: col(accent);
+    }
+    &:first-child {
+      border-top-left-radius: 5px;
+    }
+    &:last-child {
+      border-top-right-radius: 5px;
+    }
+    &:hover {
+      background-color: col(accent-hover);
+    }
+  }
+}

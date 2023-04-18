@@ -1,0 +1,13 @@
+@use '../../../styles/' as *;
+
+.tags-container {
+  @include flex;
+}
+
+.tag {
+  padding: space(xs);
+  color: col(text-elements);
+  background-color: col(accent-secondary);
+  border-radius: 5px;
+  margin-right: space(xs);
+}

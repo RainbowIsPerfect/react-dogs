@@ -1,23 +1,31 @@
-import { useRef } from 'react';
-import { ClearIcon } from '../Icons/ClearIcon';
+import { InputHTMLAttributes, ReactNode } from 'react';
 import s from './input.module.scss';
 
-export const Input = () => {
-  const input = useRef<HTMLInputElement | null>(null);
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  startIcon?: ReactNode;
+  endIcon?: ReactNode;
+  placeholder?: string;
+  className?: string;
+}
 
-  const clearInput = () => {
-    if (input.current) {
-      input.current.focus();
-      input.current.value = '';
-    }
-  };
-
+export const Input = ({
+  placeholder,
+  startIcon,
+  endIcon,
+  className,
+  ...props
+}: InputProps) => {
   return (
-    <div className={s.container}>
-      <input ref={input} className={s.input} placeholder="Search" />
-      <button onClick={clearInput} className={s.button} type="button">
-        <ClearIcon className={s.icon} />
-      </button>
+    <div className={`${s.container} ${className}`}>
+      {!!startIcon && <div className={s.start}>{startIcon}</div>}
+      <input
+        className={`${s.input} ${startIcon ? s.input_start : ''} ${
+          endIcon ? s.input_end : ''
+        }`}
+        placeholder={placeholder}
+        {...props}
+      />
+      {!!endIcon && <div className={s.end}>{endIcon}</div>}
     </div>
   );
 };

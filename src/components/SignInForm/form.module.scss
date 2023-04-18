@@ -1,0 +1,38 @@
+@use '../../styles/' as *;
+
+.form-container {
+  @include flex(center, center);
+}
+
+.form {
+  @include flex(center, flex-start, column);
+  max-width: rem(600);
+  padding: space(x);
+  border-radius: 5px;
+  background-color: col(elements-bg);
+  &__heading {
+    margin-bottom: space(s);
+    color: col(text);
+  }
+  &__label {
+    margin-bottom: space(s);
+    color: col(text);
+  }
+  &__input {
+    margin-bottom: space(s);
+    padding: space(xs);
+    background-color: col(elements);
+    border: 1px solid col(elements-border);
+    border-radius: 5px;
+    font-size: rem(18);
+    color: col(text);
+    outline: none;
+    &:focus {
+      background-color: col(elements-hover);
+      border-color: col(accent-hover);
+    }
+    &::placeholder {
+      color: col(text);
+    }
+  }
+}
