@@ -1,4 +1,4 @@
-import { Review } from '../../store/slices/productsSlice';
+import { Review } from '../../types';
 import s from './review.module.scss';
 
 interface ReviewPostProps {
@@ -8,7 +8,10 @@ interface ReviewPostProps {
 export const ReviewPost = ({ review }: ReviewPostProps) => {
   return (
     <div className={s.review}>
-      <p>{review.author}</p>
+      <div className={s.review__author}>
+        <img className={s.review__img} src={review.author.avatar} alt="" />
+        <p className={s.review__name}>{review.author.name}</p>
+      </div>
       <p>{review.text}</p>
     </div>
   );

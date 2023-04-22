@@ -13,6 +13,26 @@
   @return var(--color-#{$color-name});
 }
 
+@function fz($font-size) {
+  @return var(--font-size-#{$font-size});
+}
+
+@mixin pos($pos, $top: false, $right: false, $bot: false, $left: false) {
+  position: $pos;
+  @if ($top) {
+    top: rem($top);
+  }
+  @if ($right) {
+    right: rem($right);
+  }
+  @if ($bot) {
+    bottom: rem($bot);
+  }
+  @if ($left) {
+    left: rem($left);
+  }
+}
+
 @mixin flex($justify: false, $align: false, $direction: false, $gap: false) {
   display: flex;
   @if ($justify) {

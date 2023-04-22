@@ -26,7 +26,8 @@
     font-size: rem(18);
     cursor: pointer;
     &_active {
-      background-color: col(text-hover);
+      background-color: col(accent);
+      color: col(text-elements)
     }
     &:hover {
       background-color: col(accent);

@@ -1,4 +1,4 @@
-import { type Review } from '../../store/slices/productsSlice';
+import { Review } from '../../types';
 import { ReviewPost } from '../ReviewPost';
 import s from './reviews-list.module.scss';
 

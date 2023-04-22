@@ -1,13 +1,10 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import {
-  useRegistUserMutation,
-  UserSignUpData,
-} from '../../store/slices/productsSlice';
+import { Navigate } from 'react-router-dom';
 import { FormikForm } from '../FormikForm';
-import { Routes } from '../../types';
+import { ExtendedUserSignUpData } from '../../types';
 import { getErrorMessage } from '../../utils/getErrorMessage';
+import { useRegistUserMutation } from '../../store/slices/userApiSlice';
 import s from './form.module.scss';
 
 const SignupSchema = Yup.object().shape({
@@ -27,66 +24,55 @@ const signUpIputsMock = [
     name: 'name',
     type: 'text',
     labelText: 'Name',
-    placeholder: 'Name',
   },
   {
     name: 'group',
     type: 'text',
     labelText: 'Group',
-    placeholder: 'Group',
   },
   {
     name: 'email',
     type: 'email',
     labelText: 'Email',
-    placeholder: 'Email',
   },
   {
     name: 'password',
     type: 'password',
     labelText: 'Password',
-    placeholder: 'Password',
   },
   {
     name: 'confirmPassword',
     type: 'password',
     labelText: 'Confirm password',
-    placeholder: 'Confirm password',
   },
 ];
 
-type FieldsData = UserSignUpData & { confirmPassword: string };
-
 export const SignUpForm = () => {
-  const [registUser, { error }] = useRegistUserMutation();
-  const navigate = useNavigate();
-
-  const initialValues: FieldsData = {
+  const [registUser, { error, isSuccess }] = useRegistUserMutation();
+  const initialValues: ExtendedUserSignUpData = {
+    name: '',
+    group: '',
     email: '',
     password: '',
     confirmPassword: '',
-    group: '',
-    name: '',
   };
 
-  const login = async (values: FieldsData) => {
-    const { confirmPassword, ...rest } = values;
-    await registUser(rest).unwrap();
-    navigate(Routes.Index);
-  };
+  if (isSuccess) {
+    return <Navigate to="/signin" />;
+  }
 
   return (
     <div className={s['form-container']}>
       <Formik
         initialValues={initialValues}
         validationSchema={SignupSchema}
-        onSubmit={(values) => login(values)}
+        onSubmit={(values) => registUser(values)}
       >
         <FormikForm
           heading="Sign Up"
           inputs={signUpIputsMock}
           linkText="Already have an account?"
-          linkPath={Routes.Index}
+          linkPath="/signin"
           errorMessage={getErrorMessage(error)}
         />
       </Formik>

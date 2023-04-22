@@ -1,4 +1,5 @@
-import { useGetCurrentUserQuery } from '../../store/slices/productsSlice';
+import { TypedLink } from '../../components/TypedLink';
+import { useGetCurrentUserQuery } from '../../store/slices/userApiSlice';
 import { NotFound } from '../NotFound';
 import s from './profile.module.scss';
 
@@ -27,6 +28,7 @@ export const Profile = () => {
               <li className={s.profile__item}>About: {data.about}</li>
               <li className={s.profile__item}>Group: {data.group}</li>
             </ul>
+            <TypedLink to="/edit">Edit profile</TypedLink>
           </div>
         </div>
       )}

@@ -17,7 +17,7 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <button
-      className={`${s[`button-${variant}`]} ${s.button} ${className}`}
+      className={`${className} ${s[`button-${variant}`]} ${s.button}`}
       type={type}
       {...props}
     >

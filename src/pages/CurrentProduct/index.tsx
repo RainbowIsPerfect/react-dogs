@@ -1,28 +1,32 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ProductDescription } from '../../components/ProductDescription';
 import { ProductInfoTable } from '../../components/ProductInfoTable';
 import { ReviewsList } from '../../components/ReviewsList';
 import { Button } from '../../components/UI/Button';
+import { CartInput } from '../../components/CartInput';
 import { Modal } from '../../components/UI/Modal';
 import { Tabs } from '../../components/UI/Tabs';
-import { useGetProductByIdQuery } from '../../store/slices/productsSlice';
-import { countDiscountedPrice } from '../../utils/countDiscountedPrice';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 import { NotFound } from '../NotFound';
+import { useAppNavigate } from '../../hooks/useAppNavigate';
+import { useGetProductByIdQuery } from '../../store/slices/productsApiSlice';
 import s from './product.module.scss';
 
 export const CurrentProduct = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { productId } = useParams<string>();
-  const navigate = useNavigate();
-  const { data, isError, isLoading, isSuccess } = useGetProductByIdQuery(
+  const navigate = useAppNavigate();
+  const { data, isError, isLoading, isSuccess, error } = useGetProductByIdQuery(
     productId ?? skipToken
   );
 
   if (isError) {
-    return <NotFound />;
+    return <NotFound message={getErrorMessage(error)} />;
   }
+
+  console.log(data?.reviews);
 
   return (
     <>
@@ -32,7 +36,7 @@ export const CurrentProduct = () => {
           <Button
             className={s.product__button}
             variant="secondary"
-            onClick={() => navigate('..', { relative: 'path' })}
+            onClick={() => navigate('/')}
           >
             Go back
           </Button>
@@ -61,7 +65,7 @@ export const CurrentProduct = () => {
                 {data.discount ? (
                   <>
                     <span className={s.product__price_special}>
-                      {countDiscountedPrice(data.price, data.discount)} &#8381;
+                      {data.discountedPrice} &#8381;
                     </span>
                     <span className={s.product__price_full}>
                       {data.price} &#8381;
@@ -71,7 +75,14 @@ export const CurrentProduct = () => {
                   <>{data.price} &#8381;</>
                 )}
               </div>
-              <Button variant="primary">Add to cart</Button>
+              <CartInput
+                product={{
+                  stock: data.stock,
+                  id: data._id,
+                  image: data.pictures,
+                  name: data.name,
+                }}
+              />
             </div>
           </div>
           <Tabs

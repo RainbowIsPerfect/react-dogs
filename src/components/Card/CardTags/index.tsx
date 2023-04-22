@@ -6,15 +6,9 @@ interface CardTagsProps {
 }
 
 export const CardTags = ({ tags, className = '' }: CardTagsProps) => {
-  const cardTags = tags.filter(Boolean);
-
-  if (cardTags.length === 0) {
-    return null;
-  }
-
-  return (
+  return tags.length ? (
     <div className={`${s['tags-container']} ${className}`}>
-      {tags.filter(Boolean).map((tag, i) => {
+      {tags.map((tag, i) => {
         return (
           <p key={i} className={s.tag}>
             {tag}
@@ -22,5 +16,5 @@ export const CardTags = ({ tags, className = '' }: CardTagsProps) => {
         );
       })}
     </div>
-  );
+  ) : null;
 };

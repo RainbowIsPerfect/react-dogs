@@ -1,26 +1,31 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { productsApi } from './slices/productsSlice';
-import { authSliceReducer } from './slices/authSlice';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { apiSlice } from './slices/apiSlice';
+import { userSliceReducer } from './slices/userSlice';
 import { themeSliceReducer } from './slices/themeSlice';
 import { localStorageHandler } from '../utils/localStorageHanlder';
 
+const extendedReducer = combineReducers({
+  theme: themeSliceReducer,
+  user: userSliceReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
+});
+
 export const store = configureStore({
-  reducer: {
-    theme: themeSliceReducer,
-    auth: authSliceReducer,
-    [productsApi.reducerPath]: productsApi.reducer,
-  },
+  reducer: extendedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productsApi.middleware),
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 store.subscribe(() => {
   const state = store.getState();
-  localStorageHandler
-    .set('color-theme', state.theme.theme)
-    .set('user-token', state.auth.token)
-    .set('user-data', state.auth.userData);
+  localStorageHandler.setAll([
+    ['color-theme', state.theme.theme],
+    ['user-token', state.user.token],
+    ['user-data', state.user.userData],
+    ['cart', state.user.cart],
+  ]);
 });
 
 export type RootState = ReturnType<typeof store.getState>;
+
 export type AppDispatch = typeof store.dispatch;

@@ -1,0 +1,31 @@
+@use '../../styles/' as *;
+
+.input {
+  width: 100%;
+  margin-right: space(s);
+}
+
+.total {
+  margin-bottom: space(x);
+  color: col(text);
+}
+
+.heading {
+  color: col(text);
+  margin-bottom: space(m);
+}
+
+.search-container {
+  @include flex(space-between);
+  margin-bottom: space(x);
+}
+
+.select {
+  padding: space(xs);
+  min-height: 100%;
+  border: 1px solid col(elements-border);
+  border-radius: 10px;
+  font-size: fz(s);
+  color: col(text);
+  background-color: col(elements);
+}

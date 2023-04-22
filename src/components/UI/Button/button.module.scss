@@ -35,7 +35,7 @@
 }
 
 .button-icon {
-  padding: space(s);
+  padding: space(xs);
   border: none;
   border-radius: 5px;
   outline: none;
@@ -48,9 +48,9 @@
     height: 100%;
   }
   &:hover {
-    background-color: col(text-hover);
+    background-color: col(elements-hover-bg);
   }
-  &:focus {
-    background-color: col(text-hover);
+  &:focus-visible {
+    background-color: col(elements-hover-bg);
   }
 }

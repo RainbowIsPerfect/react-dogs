@@ -7,7 +7,14 @@ class LocalStorageHandler {
 
   get<T = string>(key: string): T | null {
     const storedData = this.storage.getItem(key);
-    return storedData !== null ? (JSON.parse(storedData) as T) : null;
+    return storedData ? (JSON.parse(storedData) as T) : null;
+  }
+
+  setAll(values: [string, unknown][]): this {
+    values.forEach((value) => {
+      this.set(value[0], value[1]);
+    });
+    return this;
   }
 
   set(key: string, value: unknown): this {

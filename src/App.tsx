@@ -11,24 +11,25 @@ import { NotFound } from './pages/NotFound';
 import { CurrentProduct } from './pages/CurrentProduct';
 import { Profile } from './pages/Profile';
 import { SignUp } from './pages/SignUp';
-import { Routes } from './types';
+import { Cart } from './pages/Cart';
+import { EditProfile } from './pages/EditProfile';
 import './index.scss';
 
 const router = createBrowserRouter([
   {
-    path: Routes.Index,
+    path: '/',
     element: <MainLayout />,
     children: [
       {
-        index: true,
+        path: 'signin',
         element: <SignIn />,
       },
       {
-        path: Routes.Signup,
+        path: 'signup',
         element: <SignUp />,
       },
       {
-        path: Routes.Product,
+        index: true,
         element: (
           <PrivateRoute>
             <Products />
@@ -36,7 +37,15 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: Routes.ProductWithId,
+        path: 'cart',
+        element: (
+          <PrivateRoute>
+            <Cart />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'products/:productId',
         element: (
           <PrivateRoute>
             <CurrentProduct />
@@ -44,10 +53,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: Routes.UserProfile,
+        path: 'me',
         element: (
           <PrivateRoute>
             <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'edit',
+        element: (
+          <PrivateRoute>
+            <EditProfile />
           </PrivateRoute>
         ),
       },

@@ -1,9 +1,16 @@
 import s from './notfound.module.scss';
 
-export const NotFound = () => {
+interface NotFoundProps {
+  message?: string;
+}
+
+export const NotFound = ({ message }: NotFoundProps) => {
   return (
-    <div className={s.text}>
-      This page is not available. Maybe look for something else?
+    <div>
+      <p className={s.text}>
+        {message ??
+          'This page is not available. Maybe look for something else?'}
+      </p>
     </div>
   );
 };

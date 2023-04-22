@@ -1,11 +1,10 @@
+import { Navigate } from 'react-router-dom';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { UserSignInData } from '../../store/slices/productsSlice';
-import { useAuth } from '../../hooks/useAuth';
 import { FormikForm } from '../FormikForm';
-import { Routes } from '../../types';
+import { UserSignInData } from '../../types';
 import { getErrorMessage } from '../../utils/getErrorMessage';
+import { useSetSignInMutation } from '../../store/slices/userApiSlice';
 import s from './form.module.scss';
 
 const SignupSchema = Yup.object().shape({
@@ -29,30 +28,28 @@ const signInInputsMock = [
 ];
 
 export const SignInForm = () => {
-  const [logInUser, { error }] = useAuth();
-  const navigate = useNavigate();
+  const [signIn, { error, isSuccess }] = useSetSignInMutation();
   const initialValues: UserSignInData = {
     email: '',
     password: '',
   };
 
-  const login = async (values: UserSignInData) => {
-    await logInUser(values);
-    navigate(Routes.Product);
-  };
+  if (isSuccess) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className={s['form-container']}>
       <Formik
         initialValues={initialValues}
         validationSchema={SignupSchema}
-        onSubmit={(values) => login(values)}
+        onSubmit={(values) => signIn(values)}
       >
         <FormikForm
           heading="Sign In"
           inputs={signInInputsMock}
           linkText="Need an account?"
-          linkPath={Routes.Signup}
+          linkPath="/signup"
           errorMessage={getErrorMessage(error)}
         />
       </Formik>

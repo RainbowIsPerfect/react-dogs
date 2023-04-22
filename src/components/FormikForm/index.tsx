@@ -1,6 +1,7 @@
 import { Form, ErrorMessage, Field } from 'formik';
 import { HTMLInputTypeAttribute } from 'react';
 import { Link } from 'react-router-dom';
+import { Routes } from '../../types';
 import { Button } from '../UI/Button';
 import s from './form.module.scss';
 
@@ -15,7 +16,7 @@ interface FormikFormProps {
   heading: string;
   inputs: InputData[];
   linkText: string;
-  linkPath: string;
+  linkPath: Routes;
   errorMessage?: string;
 }
 
@@ -45,7 +46,9 @@ export const FormikForm = ({
               className={s.form__input}
               name={input.name}
               type={input.type}
-              placeholder={input.placeholder}
+              placeholder={
+                input.placeholder ? input.placeholder : input.labelText
+              }
             />
             <ErrorMessage
               name={input.name}

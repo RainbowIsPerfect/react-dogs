@@ -5,23 +5,25 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   placeholder?: string;
-  className?: string;
+  containerClassName?: string;
+  inputClassName?: string;
 }
 
 export const Input = ({
   placeholder,
   startIcon,
   endIcon,
-  className,
+  containerClassName = '',
+  inputClassName = '',
   ...props
 }: InputProps) => {
   return (
-    <div className={`${s.container} ${className}`}>
+    <div className={`${s.container} ${containerClassName}`}>
       {!!startIcon && <div className={s.start}>{startIcon}</div>}
       <input
-        className={`${s.input} ${startIcon ? s.input_start : ''} ${
-          endIcon ? s.input_end : ''
-        }`}
+        className={`${s.input} ${inputClassName} ${
+          startIcon ? s.input_start : ''
+        } ${endIcon ? s.input_end : ''}`}
         placeholder={placeholder}
         {...props}
       />

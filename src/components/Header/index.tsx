@@ -1,27 +1,28 @@
 import { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Container } from '../Container';
 import { MainLogo } from '../UI/Icons/MainLogo';
 import { ProfileIcon } from '../UI/Icons/ProfileIcon';
-import { LikeIcon } from '../UI/Icons/LikeIcon';
 import { CartIcon } from '../UI/Icons/CartIcon';
 import { ThemeIcon } from '../UI/Icons/ThemeIcon';
 import { useTheme } from '../../hooks/useTheme';
 import { LogOutIcon } from '../UI/Icons/LogOutIcon';
-import { useAuth } from '../../hooks/useAuth';
-import { useAppSelector } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { LogInIcon } from '../UI/Icons/LogInIcon';
-import s from './header.module.scss';
 import { Button } from '../UI/Button';
 import { SubMenu } from '../UI/SubMenu';
-import { Routes } from '../../types';
+import { logOut } from '../../store/slices/userSlice';
+import { useAppNavigate } from '../../hooks/useAppNavigate';
+import s from './header.module.scss';
+import { getPath } from '../../utils/getPath';
+import { TypedLink } from '../TypedLink';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [theme, setTheme] = useTheme();
-  const [logInUser, result, logOutUser] = useAuth();
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isLoggedIn, userData } = useAppSelector((state) => state.user);
+  const navigate = useAppNavigate();
 
   const themeButtons = [
     {
@@ -37,22 +38,31 @@ export const Header = () => {
     <header className={s.header}>
       <Container>
         <nav className={s.header__nav}>
-          <Link className={s.header__link} to={isLoggedIn ? 'products' : '/'}>
+          <TypedLink
+            className={s.header__link}
+            to={isLoggedIn ? '/' : 'signin'}
+          >
             <MainLogo className={`${s.header__icon} ${s.header__logo}`} />
             <span className={s.header__title}>React Dogs</span>
-          </Link>
+          </TypedLink>
           <ul className={s.header__list}>
             <li className={s.header__item}>
+              {/* <NavLink to={Routes.UserProfile}>Profile</NavLink> */}
               <Button
                 className={s.header__button}
                 variant="icon"
-                onClick={() => navigate(Routes.UserProfile)}
+                onClick={() => navigate('me')}
               >
                 <ProfileIcon className={s.header__icon} />
               </Button>
             </li>
             <li className={s.header__item}>
-              <Button className={s.header__button} variant="icon">
+              {/* <NavLink to={Routes.Cart}>Cart</NavLink> */}
+              <Button
+                className={s.header__button}
+                variant="icon"
+                onClick={() => navigate('/cart')}
+              >
                 <CartIcon className={s.header__icon} />
               </Button>
             </li>
@@ -73,9 +83,7 @@ export const Header = () => {
               <Button
                 className={s.header__button}
                 variant="icon"
-                onClick={() =>
-                  isLoggedIn ? logOutUser() : navigate(Routes.Index)
-                }
+                onClick={() => dispatch(logOut())}
               >
                 {isLoggedIn ? (
                   <LogOutIcon className={s.header__icon} />

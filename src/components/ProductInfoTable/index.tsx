@@ -1,12 +1,9 @@
 import * as dayjs from 'dayjs';
-import { Product } from '../../store/slices/productsSlice';
+import { AdditionalProductInfo } from '../../types';
 import { Table } from '../UI/Table';
 
 interface ProductInfoTableProps {
-  productInfo: Pick<
-    Product,
-    'stock' | 'wight' | 'created_at' | 'updated_at' | '_id'
-  >;
+  productInfo: AdditionalProductInfo;
 }
 
 export const ProductInfoTable = ({ productInfo }: ProductInfoTableProps) => {

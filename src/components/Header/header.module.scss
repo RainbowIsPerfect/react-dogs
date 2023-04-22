@@ -12,9 +12,6 @@
     border-radius: 5px;
     text-decoration: none;
     color: col(text);
-    &:focus {
-      outline: 1px solid col(text-hover);
-    }
   }
   &__title {
     margin-left: space(s);
@@ -36,12 +33,16 @@
     }
   }
   &__button {
-    height: rem(40);
-    width: rem(40);
+    height: rem(35);
+    width: rem(35);
   }
   &__logo {
     fill: col(accent-logo);
     min-width: rem(30);
+  }
+  &__image {
+    width: 100%;
+    height: 100%;
   }
 }
 
