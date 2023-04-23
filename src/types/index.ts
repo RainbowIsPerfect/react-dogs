@@ -6,21 +6,14 @@ export type RelativeRoutes =
   | 'cart'
   | 'products/:productId'
   | 'products/:productId/:edit'
-  | 'edit';
+  | 'edit'
+  | 'create_product';
 export type AbsoluteRoutes = `/${Exclude<RelativeRoutes, '/'>}`;
 export type DynamicRoutes = Extract<
   RelativeRoutes | AbsoluteRoutes,
   `${string}:${string}`
 >;
 export type Routes = AbsoluteRoutes | RelativeRoutes;
-
-// type ExtractParams<T> = string extends T
-//   ? Record<string, string>
-//   : T extends `${infer _Start}:${infer Param}/${infer Rest}`
-//   ? { [k in Param | keyof ExtractParams<Rest>]: string }
-//   : T extends `${infer _Start}:${infer Param}`
-//   ? { [k in Param]: string }
-//   : {};
 
 export type ExtractParams<T> =
   T extends `${string}:${infer Param}/${infer Rest}`
@@ -125,6 +118,18 @@ export type UserInfo = Pick<User, 'about' | 'name' | 'avatar'>;
 export type AdditionalProductInfo = Pick<
   Product,
   'stock' | 'wight' | 'created_at' | 'updated_at' | '_id'
+>;
+
+export type NewProduct = Pick<
+  Product,
+  | 'name'
+  | 'price'
+  | 'description'
+  | 'stock'
+  | 'pictures'
+  | 'tags'
+  | 'discount'
+  | 'wight'
 >;
 
 export type DataResponse = {

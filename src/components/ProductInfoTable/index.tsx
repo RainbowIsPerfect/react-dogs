@@ -1,4 +1,3 @@
-import * as dayjs from 'dayjs';
 import { AdditionalProductInfo } from '../../types';
 import { Table } from '../UI/Table';
 
@@ -12,12 +11,12 @@ export const ProductInfoTable = ({ productInfo }: ProductInfoTableProps) => {
     { header: 'Stock', data: productInfo.stock, id: productInfo._id },
     {
       header: 'Created at',
-      data: dayjs(productInfo.created_at).format('DD/MM/YYYY HH:mm:ss'),
+      data: productInfo.created_at,
       id: productInfo._id,
     },
     {
       header: 'Updated at',
-      data: dayjs(productInfo.updated_at).format('DD/MM/YYYY HH:mm:ss'),
+      data: productInfo.created_at,
       id: productInfo._id,
     },
   ];

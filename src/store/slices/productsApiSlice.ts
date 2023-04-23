@@ -6,8 +6,12 @@ import {
   Product,
   ProductWithCustomProps,
   SearchQuery,
+  NewProduct,
 } from '../../types';
-import { getCustomProduct } from '../../utils/extendProductWithCustomProps';
+import {
+  getCustomProduct,
+  sortProducts,
+} from '../../utils/extendProductWithCustomProps';
 import { apiSlice } from './apiSlice';
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -31,25 +35,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
           userId
         );
 
-        switch (searchQuery.sorting) {
-          case 'price_low':
-            products.data.products.sort((a, b) => a.price - b.price);
-            return products;
-          case 'price_high':
-            products.data.products.sort((a, b) => b.price - a.price);
-            return products;
-          case 'name':
-            products.data.products.sort((a, b) => a.name.localeCompare(b.name));
-            return products;
-          case 'sale':
-            products.data.products.sort((a, b) => b.discount - a.discount);
-            return products;
-          case 'popularity':
-            products.data.products.sort((a, b) => b.rating - a.rating);
-            return products;
-          default:
-            return products;
-        }
+        return sortProducts(products, searchQuery.sorting);
       },
       providesTags: (result) =>
         result
@@ -95,6 +81,15 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         return [{ type: 'Products', id: arg._id }];
       },
     }),
+    createNewProduct: builder.mutation<ProductWithCustomProps, NewProduct>({
+      query: (newProduct) => {
+        return {
+          url: 'https://api.react-learning.ru/products',
+          method: 'POST',
+          body: newProduct,
+        };
+      },
+    }),
   }),
 });
 
@@ -102,4 +97,5 @@ export const {
   useGetAllProductsQuery,
   useGetProductByIdQuery,
   useToggleLikeMutation,
+  useCreateNewProductMutation,
 } = productsApiSlice;

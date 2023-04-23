@@ -1,4 +1,5 @@
 import { useAppDispatch } from '../../hooks/reduxHooks';
+import { deleteFromCart } from '../../store/slices/userSlice';
 import { ProductCartInfo } from '../../types';
 import { CartInput } from '../CartInput';
 import { Button } from '../UI/Button';
@@ -14,12 +15,12 @@ export const CartCard = ({ product }: CartCardProps) => {
   return (
     <div className={s.card}>
       <div className={s.card__product}>
-        {/* <Button
+        <Button
           variant="primary"
           onClick={() => dispatch(deleteFromCart(product.id))}
         >
           Delete
-        </Button> */}
+        </Button>
         <div className={s['card__image-wrapper']}>
           <img
             className={s.card__image}

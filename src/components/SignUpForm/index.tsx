@@ -1,13 +1,10 @@
-import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Navigate } from 'react-router-dom';
 import { FormikForm } from '../FormikForm';
 import { ExtendedUserSignUpData } from '../../types';
-import { getErrorMessage } from '../../utils/getErrorMessage';
 import { useRegistUserMutation } from '../../store/slices/userApiSlice';
-import s from './form.module.scss';
 
-const SignupSchema = Yup.object().shape({
+const SignUpSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string().required('Password is required'),
   confirmPassword: Yup.string()
@@ -62,20 +59,17 @@ export const SignUpForm = () => {
   }
 
   return (
-    <div className={s['form-container']}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={SignupSchema}
-        onSubmit={(values) => registUser(values)}
-      >
-        <FormikForm
-          heading="Sign Up"
-          inputs={signUpIputsMock}
-          linkText="Already have an account?"
-          linkPath="/signin"
-          errorMessage={getErrorMessage(error)}
-        />
-      </Formik>
-    </div>
+    <FormikForm
+      form={{ formHeading: 'Sign In', submitButton: 'Sign In' }}
+      redirectLink={{
+        linkText: 'Already have an account?',
+        linkPath: '/signin',
+      }}
+      initialValues={initialValues}
+      validationSchema={SignUpSchema}
+      onSubmit={(values) => registUser(values)}
+      inputs={signUpIputsMock}
+      errorMessage={error}
+    />
   );
 };

@@ -1,7 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ProductDescription } from '../../components/ProductDescription';
 import { ProductInfoTable } from '../../components/ProductInfoTable';
 import { ReviewsList } from '../../components/ReviewsList';
 import { Button } from '../../components/UI/Button';
@@ -25,8 +24,6 @@ export const CurrentProduct = () => {
   if (isError) {
     return <NotFound message={getErrorMessage(error)} />;
   }
-
-  console.log(data?.reviews);
 
   return (
     <>
@@ -89,7 +86,11 @@ export const CurrentProduct = () => {
             tabs={[
               {
                 title: 'Description',
-                content: <ProductDescription description={data.description} />,
+                content: (
+                  <div className={s.product__description}>
+                    <p>{data.description}</p>
+                  </div>
+                ),
               },
               {
                 title: 'Additional Information',

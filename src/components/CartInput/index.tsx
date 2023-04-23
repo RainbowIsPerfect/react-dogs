@@ -1,21 +1,26 @@
 import { useState } from 'react';
-import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { addToCart } from '../../store/slices/userSlice';
 import { ProductCartInfo } from '../../types';
 import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
 import s from './cart-input.module.scss';
 
-interface InputNumberProps {
+interface CartInputProps {
   product: ProductCartInfo;
 }
 
-export const CartInput = ({ product }: InputNumberProps) => {
+export const CartInput = ({ product }: CartInputProps) => {
   const [amount, setAmount] = useState<number>(1);
+  const cart = useAppSelector((state) => state.user.cart);
   const dispatch = useAppDispatch();
+  const currentProduct = cart.find((item) => item.id === product.id);
+  const currentInCart = currentProduct ? currentProduct.stock : 0;
+  const currentAvailable = product.stock - currentInCart;
+  console.log(currentAvailable, product.stock, amount);
 
   const incrementValue = () => {
-    if (amount < product.stock) {
+    if (amount < currentAvailable) {
       setAmount((prev) => prev + 1);
     }
   };
@@ -27,6 +32,9 @@ export const CartInput = ({ product }: InputNumberProps) => {
   };
 
   const onClickButton = () => {
+    if (!currentAvailable) {
+      return null;
+    }
     if (amount > 0) {
       dispatch(
         addToCart({
@@ -37,6 +45,7 @@ export const CartInput = ({ product }: InputNumberProps) => {
         })
       );
     }
+    return null;
   };
 
   return (
@@ -48,8 +57,8 @@ export const CartInput = ({ product }: InputNumberProps) => {
         startIcon={<button onClick={() => decrementValue()}>-</button>}
         endIcon={<button onClick={() => incrementValue()}>+</button>}
         type="number"
-        min={0}
-        max={product.stock}
+        min={1}
+        max={currentAvailable}
       />
       <Button className={s.button} variant="primary" onClick={onClickButton}>
         Add to cart

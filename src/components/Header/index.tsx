@@ -40,7 +40,7 @@ export const Header = () => {
         <nav className={s.header__nav}>
           <TypedLink
             className={s.header__link}
-            to={isLoggedIn ? '/' : 'signin'}
+            to={isLoggedIn ? '/' : '/signin'}
           >
             <MainLogo className={`${s.header__icon} ${s.header__logo}`} />
             <span className={s.header__title}>React Dogs</span>
@@ -51,7 +51,7 @@ export const Header = () => {
               <Button
                 className={s.header__button}
                 variant="icon"
-                onClick={() => navigate('me')}
+                onClick={() => navigate('/me')}
               >
                 <ProfileIcon className={s.header__icon} />
               </Button>

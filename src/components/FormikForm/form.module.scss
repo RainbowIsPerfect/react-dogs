@@ -1,5 +1,9 @@
 @use '../../styles/' as *;
 
+.form-container {
+  @include flex(center, center);
+}
+
 .form {
   @include flex(center, flex-start, column);
   width: rem(500);

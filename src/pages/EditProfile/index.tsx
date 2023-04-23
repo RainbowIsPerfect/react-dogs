@@ -13,7 +13,7 @@ const SignupSchema = Yup.object().shape({
   avatar: Yup.string().url('Invalid url').required('Required'),
 });
 
-const signInInputsMock = [
+const editInputsMock = [
   {
     name: 'name',
     type: 'text',
@@ -46,22 +46,13 @@ export const EditProfile = () => {
   };
 
   return (
-    <div className={s['form-container']}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={SignupSchema}
-        onSubmit={(values) => {
-          editUser(values);
-        }}
-      >
-        <FormikForm
-          heading="Edit"
-          inputs={signInInputsMock}
-          linkText="Need an account?"
-          linkPath="me"
-          errorMessage={getErrorMessage(error)}
-        />
-      </Formik>
-    </div>
+    <FormikForm
+      form={{ formHeading: 'Edit my profile', submitButton: 'Edit' }}
+      initialValues={initialValues}
+      inputs={editInputsMock}
+      onSubmit={(values) => editUser(values)}
+      validationSchema={SignupSchema}
+      errorMessage={error}
+    />
   );
 };

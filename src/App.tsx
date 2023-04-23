@@ -14,6 +14,7 @@ import { SignUp } from './pages/SignUp';
 import { Cart } from './pages/Cart';
 import { EditProfile } from './pages/EditProfile';
 import './index.scss';
+import { CreateNewProduct } from './pages/CreateNewProduct';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Profile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'create_product',
+        element: (
+          <PrivateRoute>
+            <CreateNewProduct />
           </PrivateRoute>
         ),
       },

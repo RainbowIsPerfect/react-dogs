@@ -1,3 +1,4 @@
+import * as dayjs from 'dayjs';
 import {
   Product,
   ProductWithCustomProps,
@@ -23,8 +24,15 @@ const checkProductIsLiked = (likes: string[], userLike: string): boolean => {
   return likes.includes(userLike);
 };
 
-const addDiscountToTags = (tags: string[], discount: number) => {
+const addDiscountToTags = (tags: string[], discount: number): string[] => {
   return discount ? [...tags, `${discount}%`] : tags;
+};
+
+const formatDate = (date: string, isFullMonthName?: boolean) => {
+  if (isFullMonthName) {
+    return dayjs(date).format('DD MMMM, YYYY HH:mm:ss');
+  }
+  return dayjs(date).format('DD/MM/YYYY HH:mm:ss');
 };
 
 const extendProductWithCustomProps = (
@@ -37,6 +45,13 @@ const extendProductWithCustomProps = (
     discountedPrice: countDiscountedPrice(product.price, product.discount),
     tags: addDiscountToTags(product.tags, product.discount),
     rating: countAverageRating(product.reviews),
+    created_at: formatDate(product.created_at),
+    updated_at: formatDate(product.updated_at),
+    reviews: product.reviews.map((review) => ({
+      ...review,
+      created_at: formatDate(review.created_at, true),
+      updated_at: formatDate(review.updated_at, true),
+    })),
   };
 };
 
@@ -62,6 +77,7 @@ export const getCustomProduct = <
       total: productResponse.length,
     }) as ReturnResult<T>;
   }
+
   if ('total' in productResponse) {
     return wrapResonseInObject({
       total: productResponse.total,
@@ -70,12 +86,16 @@ export const getCustomProduct = <
       ),
     }) as ReturnResult<T>;
   }
+
   return wrapResonseInObject(
     extendProductWithCustomProps(productResponse, userId)
   ) as ReturnResult<T>;
 };
 
-const sortProducts = (productData: DataResponse, sortingQuery: SortingType) => {
+export const sortProducts = (
+  productData: DataResponse,
+  sortingQuery: SortingType
+): DataResponse => {
   switch (sortingQuery) {
     case 'price_low':
       productData.data.products.sort((a, b) => a.price - b.price);
@@ -88,6 +108,9 @@ const sortProducts = (productData: DataResponse, sortingQuery: SortingType) => {
       return productData;
     case 'sale':
       productData.data.products.sort((a, b) => b.discount - a.discount);
+      return productData;
+    case 'popularity':
+      productData.data.products.sort((a, b) => b.rating - a.rating);
       return productData;
     default:
       return productData;
