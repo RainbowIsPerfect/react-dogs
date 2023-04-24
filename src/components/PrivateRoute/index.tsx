@@ -1,17 +1,17 @@
 import { ReactElement } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/reduxHooks';
+import { TypedLink } from '../TypedLink';
 
 interface PrivateRouteProps {
   children: ReactElement;
 }
 
 export const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { isLoggedIn } = useAppSelector((state) => state.user);
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
   if (isLoggedIn) {
     return children;
   }
 
-  return <Navigate to="signin" />;
+  return <TypedLink component="Navigate" to="/signin" />;
 };

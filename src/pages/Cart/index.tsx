@@ -9,11 +9,13 @@ export const Cart = () => {
     <>
       <h1 className={s.heading}>Shopping Cart</h1>
       <div>
-        {cartItems.length
-          ? cartItems.map((item) => {
-              return <CartCard key={item.id} product={item} />;
-            })
-          : 'Cart is empty'}
+        {cartItems.length ? (
+          cartItems.map((item) => {
+            return <CartCard key={item.id} product={item} />;
+          })
+        ) : (
+          <p className={s.message}>Cart is empty</p>
+        )}
       </div>
     </>
   );

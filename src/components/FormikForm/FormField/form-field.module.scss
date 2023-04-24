@@ -1,0 +1,43 @@
+@use '../../../styles/' as *;
+
+.field {
+  @include flex(false, false, column);
+  width: 100%;
+  margin-bottom: space(s);
+  &__label {
+    margin-bottom: space(xs);
+    color: col(text);
+  }
+  &__error {
+    color: col(accent-secondary);
+    font-size: rem(14);
+  }
+  &__input {
+    width: 100%;
+    padding: space(xs);
+    margin-bottom: space(xs);
+    background-color: col(elements);
+    border: 1px solid col(elements-border);
+    border-radius: 5px;
+    font-size: rem(18);
+    color: col(text);
+    outline: none;
+    outline-offset: -2px;
+    &_input {}
+    &_textarea {
+      min-height: rem(100);
+      max-height: rem(200);
+      resize: vertical;
+    }
+    &_select {
+      overflow: auto;
+    }
+    &:focus {
+      border-color: col(accent);
+      outline: 2px solid col(accent);
+    }
+    &::placeholder {
+      color: col(text-secondary);
+    }
+  }
+}

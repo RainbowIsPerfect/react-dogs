@@ -5,6 +5,7 @@ import {
   Review,
   BaseApiResponse,
   DataResponse,
+  CustomApiResponse,
   SortingType,
 } from '../../types';
 
@@ -55,22 +56,20 @@ const extendProductWithCustomProps = (
   };
 };
 
-const wrapResonseInObject = <T>(res: T) => {
-  return { data: res };
-};
+const wrapResonse = <T>(res: T): DataResponse<T> => ({ data: res });
 
 type ReturnResult<T> = T extends Product[] | BaseApiResponse
-  ? { data: { products: ProductWithCustomProps[]; total: number } }
-  : { data: ProductWithCustomProps };
+  ? DataResponse<CustomApiResponse>
+  : DataResponse<ProductWithCustomProps>;
 
-export const getCustomProduct = <
-  T extends Product | Product[] | BaseApiResponse
->(
+type ResponseType = Product | Product[] | BaseApiResponse;
+
+export const getCustomProduct = <T extends ResponseType>(
   productResponse: T,
   userId: string
 ) => {
   if (Array.isArray(productResponse)) {
-    return wrapResonseInObject({
+    return wrapResonse({
       products: productResponse.map((product) =>
         extendProductWithCustomProps(product, userId)
       ),
@@ -79,7 +78,7 @@ export const getCustomProduct = <
   }
 
   if ('total' in productResponse) {
-    return wrapResonseInObject({
+    return wrapResonse({
       total: productResponse.total,
       products: productResponse.products.map((product) =>
         extendProductWithCustomProps(product, userId)
@@ -87,15 +86,29 @@ export const getCustomProduct = <
     }) as ReturnResult<T>;
   }
 
-  return wrapResonseInObject(
+  return wrapResonse(
     extendProductWithCustomProps(productResponse, userId)
   ) as ReturnResult<T>;
 };
 
-export const sortProducts = (
-  productData: DataResponse,
+export const getCurrentUserProducts = (
+  obj: DataResponse<CustomApiResponse>,
+  userId: string
+) => {
+  const filteredProducts = obj.data.products.filter(
+    (product) => product.author._id === userId
+  );
+
+  return wrapResonse({
+    products: filteredProducts,
+    total: filteredProducts.length,
+  });
+};
+
+export const sortProducts = <T extends CustomApiResponse>(
+  productData: DataResponse<T>,
   sortingQuery: SortingType
-): DataResponse => {
+): DataResponse<T> => {
   switch (sortingQuery) {
     case 'price_low':
       productData.data.products.sort((a, b) => a.price - b.price);

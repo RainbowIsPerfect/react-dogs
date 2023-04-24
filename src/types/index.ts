@@ -1,5 +1,4 @@
 export type RelativeRoutes =
-  | '/'
   | 'signup'
   | 'signin'
   | 'me'
@@ -8,7 +7,7 @@ export type RelativeRoutes =
   | 'products/:productId/:edit'
   | 'edit'
   | 'create_product';
-export type AbsoluteRoutes = `/${Exclude<RelativeRoutes, '/'>}`;
+export type AbsoluteRoutes = `/${Exclude<RelativeRoutes, '/'>}` | '/';
 export type DynamicRoutes = Extract<
   RelativeRoutes | AbsoluteRoutes,
   `${string}:${string}`
@@ -132,11 +131,10 @@ export type NewProduct = Pick<
   | 'wight'
 >;
 
-export type DataResponse = {
-  data: {
-    products: ProductWithCustomProps[];
-    total: number;
-  };
+export type NewProductUpdate = Partial<NewProduct> & Pick<Product, '_id'>;
+
+export type DataResponse<T> = {
+  data: T;
 };
 
 export type SortingType =

@@ -1,0 +1,26 @@
+@use '../../../styles/' as *;
+
+.select {
+  padding: space(xs);
+  min-height: 100%;
+  border: 1px solid col(elements-border);
+  border-radius: 10px;
+  font-size: fz(s);
+  color: col(text);
+  background-color: col(elements);
+  outline-offset: -2px;
+  transition: all 0.1s ease-in-out;
+  outline-color: transparent;
+  cursor: pointer;
+  &:focus {
+    background-color: col(elements-hover);
+    outline: 2px solid col(accent-hover);
+  }
+  &:hover {
+    background-color: col(elements-hover);
+  }
+}
+
+.option {
+  font-size: fz(s);
+}

@@ -19,17 +19,12 @@
     padding: space(s) space(m);
     width: 100%;
     background-color: transparent;
-    border: none;
     border-radius: 5px;
     color: col(text);
     white-space: nowrap;
-    font-size: rem(18);
+    font-size: fz(m);
     cursor: pointer;
     &_active {
-      background-color: col(accent);
-      color: col(text-elements)
-    }
-    &:hover {
       background-color: col(accent);
       color: col(text-elements)
     }

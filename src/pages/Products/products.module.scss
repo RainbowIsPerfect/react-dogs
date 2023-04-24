@@ -11,8 +11,9 @@
 }
 
 .heading {
-  color: col(text);
   margin-bottom: space(m);
+  color: col(text-accent);
+  font-size: fz(xxl);
 }
 
 .search-container {

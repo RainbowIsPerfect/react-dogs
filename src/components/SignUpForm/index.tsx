@@ -3,6 +3,8 @@ import { Navigate } from 'react-router-dom';
 import { FormikForm } from '../FormikForm';
 import { ExtendedUserSignUpData } from '../../types';
 import { useRegistUserMutation } from '../../store/slices/userApiSlice';
+import { FormInput } from '../FormikForm/types';
+import { TypedLink } from '../TypedLink';
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -16,31 +18,36 @@ const SignUpSchema = Yup.object().shape({
     .required('Name is required'),
 });
 
-const signUpIputsMock = [
+const signUpIputsMock: FormInput[] = [
   {
     name: 'name',
     type: 'text',
     labelText: 'Name',
+    as: 'input',
   },
   {
     name: 'group',
     type: 'text',
     labelText: 'Group',
+    as: 'input',
   },
   {
     name: 'email',
     type: 'email',
     labelText: 'Email',
+    as: 'input',
   },
   {
     name: 'password',
     type: 'password',
     labelText: 'Password',
+    as: 'input',
   },
   {
     name: 'confirmPassword',
     type: 'password',
     labelText: 'Confirm password',
+    as: 'input',
   },
 ];
 
@@ -55,7 +62,7 @@ export const SignUpForm = () => {
   };
 
   if (isSuccess) {
-    return <Navigate to="/signin" />;
+    return <TypedLink component="Navigate" to="/signin" />;
   }
 
   return (

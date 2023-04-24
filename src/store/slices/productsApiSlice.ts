@@ -7,8 +7,10 @@ import {
   ProductWithCustomProps,
   SearchQuery,
   NewProduct,
+  NewProductUpdate,
 } from '../../types';
 import {
+  getCurrentUserProducts,
   getCustomProduct,
   sortProducts,
 } from '../../utils/extendProductWithCustomProps';
@@ -90,6 +92,47 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    getCurrentUserProducts: builder.query<CustomApiResponse, void>({
+      queryFn: async (arg, { getState }, extraOptions, baseQuery) => {
+        const userId = (getState() as RootState).user.userData._id;
+        const response = await baseQuery(`products`);
+        const res = response.data as BaseApiResponse;
+        if (response.error) {
+          return { error: response.error as FetchBaseQueryError };
+        }
+
+        const products = getCustomProduct(res, userId);
+
+        return getCurrentUserProducts(products, userId);
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.products.map(({ _id }) => ({
+                type: 'Products' as const,
+                id: _id,
+              })),
+              { type: 'Products', id: 'LIST' },
+            ]
+          : [{ type: 'Products', id: 'LIST' }],
+    }),
+    deleteProduct: builder.mutation<Product, string>({
+      query: (productId) => {
+        return {
+          url: `products/${productId}`,
+          method: 'DELETE',
+        };
+      },
+    }),
+    updateProduct: builder.mutation<Product, NewProductUpdate>({
+      query: ({ _id, ...body }) => {
+        return {
+          url: `products/${_id}`,
+          method: 'DELETE',
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -98,4 +141,7 @@ export const {
   useGetProductByIdQuery,
   useToggleLikeMutation,
   useCreateNewProductMutation,
+  useGetCurrentUserProductsQuery,
+  useDeleteProductMutation,
+  useUpdateProductMutation,
 } = productsApiSlice;

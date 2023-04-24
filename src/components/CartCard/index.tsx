@@ -16,6 +16,7 @@ export const CartCard = ({ product }: CartCardProps) => {
     <div className={s.card}>
       <div className={s.card__product}>
         <Button
+          className={s.card__button}
           variant="primary"
           onClick={() => dispatch(deleteFromCart(product.id))}
         >

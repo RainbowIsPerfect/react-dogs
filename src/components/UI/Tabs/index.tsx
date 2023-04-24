@@ -1,9 +1,10 @@
-import { ReactElement, useState } from 'react';
+import { ReactNode, useState } from 'react';
+import { Button } from '../Button';
 import s from './tabs.module.scss';
 
 interface TabChild {
   title: string;
-  content: ReactElement;
+  content: ReactNode;
 }
 
 interface TabsProps {
@@ -14,20 +15,19 @@ export const Tabs = ({ tabs }: TabsProps) => {
   const [activeTab, setActiveTab] = useState<number>(0);
 
   return (
-    <div>
+    <>
       <div className={s.tabs__buttons}>
         {tabs.map((tab, i) => {
           return (
-            <button
+            <Button
+              key={i}
               className={`${s.tabs__button} ${
                 activeTab === i ? s.tabs__button_active : ''
               }`}
-              key={i}
               onClick={() => setActiveTab(i)}
-              type="button"
             >
               {tab.title}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -36,6 +36,6 @@ export const Tabs = ({ tabs }: TabsProps) => {
           return activeTab === i ? <div key={i}>{tab.content}</div> : null;
         })}
       </div>
-    </div>
+    </>
   );
 };

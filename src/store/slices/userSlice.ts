@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { localStorageHandler } from '../../utils/localStorageHanlder';
 import type { ProductCartInfo, User, UserData, UserInfo } from '../../types';
 
 interface UserState {
@@ -10,8 +9,8 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  token: localStorageHandler.get('user-token') || '',
-  userData: localStorageHandler.get<User>('user-data') || {
+  token: '',
+  userData: {
     name: '',
     __v: 0,
     _id: '',
@@ -20,8 +19,8 @@ const initialState: UserState = {
     email: '',
     group: '',
   },
-  isLoggedIn: Boolean(localStorageHandler.get('user-token')) || false,
-  cart: localStorageHandler.get<ProductCartInfo[]>('cart') || [],
+  isLoggedIn: false,
+  cart: [],
 };
 
 export const userSlice = createSlice({
@@ -33,10 +32,8 @@ export const userSlice = createSlice({
       state.userData = action.payload.data;
       state.isLoggedIn = true;
     },
-    logOut: (state) => {
-      state.token = '';
-      state.userData = initialState.userData;
-      state.isLoggedIn = false;
+    logOut: () => {
+      return initialState;
     },
     edit: (state, action: PayloadAction<UserInfo>) => {
       state.userData = {

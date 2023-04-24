@@ -1,8 +1,10 @@
 import { ChangeEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { CardContainer } from '../../components/CardContainer';
+import { Button } from '../../components/UI/Button';
 import { SearchIcon } from '../../components/UI/Icons/SearchIcon';
 import { Input } from '../../components/UI/Input';
+import { Select } from '../../components/UI/Select';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useGetAllProductsQuery } from '../../store/slices/productsApiSlice';
 import { SortingType } from '../../types';
@@ -13,7 +15,7 @@ import s from './products.module.scss';
 export const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const debouncedSearсh = useDebounce<string>(searchParams.get('search') || '');
-  const { data, isError, error } = useGetAllProductsQuery({
+  const { data, isError, isSuccess, error } = useGetAllProductsQuery({
     search: debouncedSearсh,
     sorting: (searchParams.get('sorting') as SortingType) || 'popularity',
   });
@@ -48,20 +50,20 @@ export const Products = () => {
           startIcon={<SearchIcon />}
           onChange={(e) => changeSearchParams(e, 'search')}
         />
-        <select
-          className={s.select}
+        <Select<SortingType>
           onChange={(e) => changeSearchParams(e, 'sorting')}
           value={searchParams.get('sorting') || ''}
-        >
-          <option value="popularity">Avg. Customer rating</option>
-          <option value="price_low">Price: low to high</option>
-          <option value="price_high">Price: high to low</option>
-          <option value="sale">Discount %</option>
-          <option value="name">Name</option>
-        </select>
+          options={[
+            { text: 'Avg. Customer rating', value: 'popularity' },
+            { text: 'Price: low to high', value: 'price_low' },
+            { text: 'Price: high to low', value: 'price_high' },
+            { text: 'Discount %', value: 'sale' },
+            { text: 'Name', value: 'name' },
+          ]}
+        />
       </div>
       <p className={s.total}>Products found: {data ? data.total : 0}</p>
-      <CardContainer products={data ? data.products : null} />
+      <CardContainer products={isSuccess ? data.products : null} />
     </>
   );
 };

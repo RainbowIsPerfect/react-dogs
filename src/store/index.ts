@@ -1,31 +1,44 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import storage from 'redux-persist/lib/storage';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 import { apiSlice } from './slices/apiSlice';
 import { userSliceReducer } from './slices/userSlice';
 import { themeSliceReducer } from './slices/themeSlice';
-import { localStorageHandler } from '../utils/localStorageHanlder';
 
-const extendedReducer = combineReducers({
+const persistConfig = {
+  key: 'root',
+  storage,
+  blacklist: ['api'],
+};
+
+const rootReducer = combineReducers({
   theme: themeSliceReducer,
   user: userSliceReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 
+export const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 export const store = configureStore({
-  reducer: extendedReducer,
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(apiSlice.middleware),
 });
 
-store.subscribe(() => {
-  const state = store.getState();
-  localStorageHandler.setAll([
-    ['color-theme', state.theme.theme],
-    ['user-token', state.user.token],
-    ['user-data', state.user.userData],
-    ['cart', state.user.cart],
-  ]);
-});
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
-
 export type AppDispatch = typeof store.dispatch;

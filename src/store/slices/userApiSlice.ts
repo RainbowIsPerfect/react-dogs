@@ -7,7 +7,6 @@ import {
   UserInfo,
   UserRegisterData,
   UserSignInData,
-  UserSignUpData,
 } from '../../types';
 import { apiSlice } from './apiSlice';
 import { edit, logIn } from './userSlice';

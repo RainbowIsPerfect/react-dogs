@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { FormikForm } from '../../components/FormikForm';
+import { FormInput } from '../../components/FormikForm/types';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import { useEditUserMutation } from '../../store/slices/userApiSlice';
 import { UserInfo } from '../../types';
@@ -13,22 +14,22 @@ const SignupSchema = Yup.object().shape({
   avatar: Yup.string().url('Invalid url').required('Required'),
 });
 
-const editInputsMock = [
+const editInputsMock: FormInput[] = [
   {
     name: 'name',
-    type: 'text',
+    as: 'input',
     labelText: 'Name',
     placeholder: 'Name',
   },
   {
     name: 'about',
-    type: 'text',
+    as: 'input',
     labelText: 'About',
     placeholder: 'About',
   },
   {
     name: 'avatar',
-    type: 'text',
+    as: 'input',
     labelText: 'Avatar',
     placeholder: 'Avatar',
   },

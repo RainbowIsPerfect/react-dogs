@@ -13,32 +13,23 @@ import { Button } from '../UI/Button';
 import { SubMenu } from '../UI/SubMenu';
 import { logOut } from '../../store/slices/userSlice';
 import { useAppNavigate } from '../../hooks/useAppNavigate';
-import s from './header.module.scss';
-import { getPath } from '../../utils/getPath';
 import { TypedLink } from '../TypedLink';
+import s from './header.module.scss';
+import { Theme } from '../../store/slices/themeSlice';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [theme, setTheme] = useTheme();
   const dispatch = useAppDispatch();
-  const { isLoggedIn, userData } = useAppSelector((state) => state.user);
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
   const navigate = useAppNavigate();
-
-  const themeButtons = [
-    {
-      title: 'OS Default',
-      value: 'os-default',
-      action: () => setTheme('os-default'),
-    },
-    { title: 'Dark', value: 'dark', action: () => setTheme('dark') },
-    { title: 'Light', value: 'light', action: () => setTheme('light') },
-  ];
 
   return (
     <header className={s.header}>
       <Container>
         <nav className={s.header__nav}>
           <TypedLink
+            component="NavLink"
             className={s.header__link}
             to={isLoggedIn ? '/' : '/signin'}
           >
@@ -47,7 +38,6 @@ export const Header = () => {
           </TypedLink>
           <ul className={s.header__list}>
             <li className={s.header__item}>
-              {/* <NavLink to={Routes.UserProfile}>Profile</NavLink> */}
               <Button
                 className={s.header__button}
                 variant="icon"
@@ -57,7 +47,6 @@ export const Header = () => {
               </Button>
             </li>
             <li className={s.header__item}>
-              {/* <NavLink to={Routes.Cart}>Cart</NavLink> */}
               <Button
                 className={s.header__button}
                 variant="icon"
@@ -76,7 +65,25 @@ export const Header = () => {
                 <ThemeIcon className={s.header__icon} />
               </Button>
               {isOpen && (
-                <SubMenu buttonContent={themeButtons} activeButton={theme} />
+                <SubMenu<Theme> activeButton={theme}>
+                  {[
+                    {
+                      text: 'OS Default',
+                      value: 'os-default',
+                      onMouseDown: () => setTheme('os-default'),
+                    },
+                    {
+                      text: 'Dark',
+                      value: 'dark',
+                      onMouseDown: () => setTheme('dark'),
+                    },
+                    {
+                      text: 'Light',
+                      value: 'light',
+                      onMouseDown: () => setTheme('light'),
+                    },
+                  ]}
+                </SubMenu>
               )}
             </li>
             <li className={s.header__item}>

@@ -41,6 +41,7 @@ export const Card = ({ productData }: CardProps) => {
           {productData.name}
         </h2>
         <TypedLink
+          component="NavLink"
           className={s.card__link}
           to="/products/:productId"
           params={{ productId: productData._id }}
