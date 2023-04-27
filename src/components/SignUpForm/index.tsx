@@ -1,16 +1,12 @@
-import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import {
-  useRegistUserMutation,
-  UserSignUpData,
-} from '../../store/slices/productsSlice';
+import { Navigate } from 'react-router-dom';
 import { FormikForm } from '../FormikForm';
-import { Routes } from '../../types';
-import { getErrorMessage } from '../../utils/getErrorMessage';
-import s from './form.module.scss';
+import { ExtendedUserSignUpData } from '../../types';
+import { useRegistUserMutation } from '../../store/slices/userApiSlice';
+import { FormInput } from '../FormikForm/types';
+import { TypedLink } from '../TypedLink';
 
-const SignupSchema = Yup.object().shape({
+const SignUpSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string().required('Password is required'),
   confirmPassword: Yup.string()
@@ -22,74 +18,65 @@ const SignupSchema = Yup.object().shape({
     .required('Name is required'),
 });
 
-const signUpIputsMock = [
+const signUpIputsMock: FormInput[] = [
   {
     name: 'name',
     type: 'text',
     labelText: 'Name',
-    placeholder: 'Name',
+    as: 'input',
   },
   {
     name: 'group',
     type: 'text',
     labelText: 'Group',
-    placeholder: 'Group',
+    as: 'input',
   },
   {
     name: 'email',
     type: 'email',
     labelText: 'Email',
-    placeholder: 'Email',
+    as: 'input',
   },
   {
     name: 'password',
     type: 'password',
     labelText: 'Password',
-    placeholder: 'Password',
+    as: 'input',
   },
   {
     name: 'confirmPassword',
     type: 'password',
     labelText: 'Confirm password',
-    placeholder: 'Confirm password',
+    as: 'input',
   },
 ];
 
-type FieldsData = UserSignUpData & { confirmPassword: string };
-
 export const SignUpForm = () => {
-  const [registUser, { error }] = useRegistUserMutation();
-  const navigate = useNavigate();
-
-  const initialValues: FieldsData = {
+  const [registUser, { error, isSuccess }] = useRegistUserMutation();
+  const initialValues: ExtendedUserSignUpData = {
+    name: '',
+    group: '',
     email: '',
     password: '',
     confirmPassword: '',
-    group: '',
-    name: '',
   };
 
-  const login = async (values: FieldsData) => {
-    const { confirmPassword, ...rest } = values;
-    await registUser(rest).unwrap();
-    navigate(Routes.Index);
-  };
+  if (isSuccess) {
+    return <TypedLink component="Navigate" to="/signin" />;
+  }
 
   return (
-    <div className={s['form-container']}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={SignupSchema}
-        onSubmit={(values) => login(values)}
-      >
-        <FormikForm
-          heading="Sign Up"
-          inputs={signUpIputsMock}
-          linkText="Already have an account?"
-          linkPath={Routes.Index}
-          errorMessage={getErrorMessage(error)}
-        />
-      </Formik>
-    </div>
+    <FormikForm
+      form={{ formHeading: 'Sign In', submitButton: 'Sign In' }}
+      redirectLink={{
+        linkText: 'Already have an account?',
+        linkPath: '/signin',
+      }}
+      initialValues={initialValues}
+      validationSchema={SignUpSchema}
+      onSubmit={(values) => registUser(values)}
+      inputs={signUpIputsMock}
+      errorMessage={error}
+    />
   );
 };

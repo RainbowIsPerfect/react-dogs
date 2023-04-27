@@ -1,0 +1,32 @@
+@use '../../styles/' as *;
+
+.products {
+  &__link {
+    display: inline-block;
+    padding: space(s);
+    margin-bottom: space(s);
+    font-size: fz(m);
+    border-radius: 5px;
+    border: none;
+    outline: transparent;
+    color: col(text-elements);
+    background-color: col(accent);
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+    &:hover {
+      background-color: col(accent-hover);
+    }
+    &:focus-visible {
+      background-color: col(accent-hover);
+    }
+  }
+  &__heading {
+    margin-bottom: space(s);
+    color: col(text-accent);
+  }
+  &__message {
+    font-size: space(x);
+    color: col(text);
+  }
+}

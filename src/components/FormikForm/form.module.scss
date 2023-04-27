@@ -1,5 +1,9 @@
 @use '../../styles/' as *;
 
+.form-container {
+  @include flex(center, center);
+}
+
 .form {
   @include flex(center, flex-start, column);
   width: rem(500);
@@ -10,38 +14,6 @@
     font-size: rem(35);
     margin-bottom: space(s);
     color: col(text);
-  }
-  &__label {
-    margin-bottom: space(xs);
-    color: col(text);
-  }
-  &__input-container {
-    @include flex(false, false, column);
-    width: 100%;
-    margin-bottom: space(s);
-  }
-  &__input {
-    width: 100%;
-    padding: space(xs);
-    margin-bottom: space(xs);
-    background-color: col(elements);
-    border: 1px solid col(elements-border);
-    border-radius: 5px;
-    font-size: rem(18);
-    color: col(text);
-    outline: none;
-    outline-offset: -2px;
-    &:focus {
-      border-color: col(accent);
-      outline: 2px solid col(accent);
-    }
-    &::placeholder {
-      color: col(text-secondary);
-    }
-  }
-  &__error {
-    color: col(accent-secondary);
-    font-size: rem(14);
   }
   &__button {
     margin-bottom: space(s);

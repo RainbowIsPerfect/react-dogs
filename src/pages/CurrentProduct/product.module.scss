@@ -47,6 +47,9 @@
       text-decoration: line-through;
     }
   }
+  &__description {
+    color: col(text);
+  }
   &__item {
     font-size: rem(22);
   }

@@ -3,54 +3,52 @@
 .button {
   display: inline-block;
   padding: space(s);
-  font-size: rem(18);
+  font-size: fz(m);
+  color: col(text-elements);
   border-radius: 5px;
   border: none;
-  outline: none;
+  outline: transparent;
   transition: background-color 0.2s ease-in-out;
   cursor: pointer;
-}
-
-.button-primary {
-  color: col(text-elements);
-  background-color: col(accent);
-  &:hover {
-    background-color: col(accent-hover);
+  &_primary {
+    color: col(text-elements);
+    background-color: col(accent);
+    &:hover {
+      background-color: col(accent-hover);
+    }
+    &:focus-visible {
+      background-color: col(accent-hover);
+    }
   }
-  &:focus-visible {
-    background-color: col(accent-hover);
+  &_secondary {
+    color: col(text);
+    border: 1px solid col(elements-border);
+    background-color: transparent;
+    &:hover {
+      background-color: col(main-bg);
+    }
+    &:focus-visible {
+      background-color: col(main-bg);
+      outline: none;
+    }
   }
-}
-
-.button-secondary {
-  color: col(text);
-  border: 1px solid col(elements-border);
-  background-color: transparent;
-  &:hover {
-    background-color: col(main-bg);
-  }
-  &:focus-visible {
-    background-color: col(main-bg);
-  }
-}
-
-.button-icon {
-  padding: space(s);
-  border: none;
-  border-radius: 5px;
-  outline: none;
-  background-color: transparent;
-  cursor: pointer;
-  & svg {
-    fill: col(text);
-    pointer-events: none;
-    width: 100%;
-    height: 100%;
-  }
-  &:hover {
-    background-color: col(text-hover);
-  }
-  &:focus {
-    background-color: col(text-hover);
+  &_icon {
+    padding: space(xs);
+    border: none;
+    outline: none;
+    background-color: transparent;
+    cursor: pointer;
+    & svg {
+      fill: col(text);
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+    }
+    &:hover {
+      background-color: col(elements-hover-bg);
+    }
+    &:focus-visible {
+      background-color: col(elements-hover-bg);
+    }
   }
 }

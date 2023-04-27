@@ -22,7 +22,7 @@ export function isErrorWithMessage(
 
 export const getErrorMessage = (error: unknown) => {
   if (isFetchBaseQueryError(error)) {
-    if (isErrorWithMessage(error?.data)) {
+    if (isErrorWithMessage(error.data)) {
       return error.data.message;
     }
   } else if (isErrorWithMessage(error)) {

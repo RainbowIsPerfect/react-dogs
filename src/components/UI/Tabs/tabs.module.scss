@@ -7,17 +7,13 @@
     margin-bottom: space(s);
   }
   &__button {
-    padding: space(s);
+    border-radius: 0;
     background-color: transparent;
-    outline: none;
-    border: none;
     color: col(text);
-    font-size: rem(18);
-    overflow: hidden;
-    transition: all 0.2s ease;
-    cursor: pointer;
+    transition: all 0.2s ease-in-out;
     &_active {
       background-color: col(accent);
+      color: col(text-elements);
     }
     &:first-child {
       border-top-left-radius: 5px;
@@ -26,7 +22,7 @@
       border-top-right-radius: 5px;
     }
     &:hover {
-      background-color: col(accent-hover);
+      color: col(text-elements);
     }
   }
 }

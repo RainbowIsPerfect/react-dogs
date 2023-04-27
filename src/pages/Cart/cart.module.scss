@@ -1,0 +1,11 @@
+@use '../../styles/' as *;
+
+.heading {
+  margin-bottom: space(m);
+  color: col(text-accent);
+}
+
+.message {
+  font-size: fz(x);
+  color: col(text);
+}

@@ -1,20 +1,17 @@
-import { countDiscountedPrice } from '../../../utils/countDiscountedPrice';
 import s from './card-price.module.scss';
 
 interface CardPriceProps {
   price: number;
-  discount: number;
+  discountedPrice: number;
 }
 
-export const CardPrice = ({ price, discount }: CardPriceProps) => {
-  if (discount === 0) {
-    return <p className={s.price}>{price} &#8381;</p>;
-  }
-
-  return (
+export const CardPrice = ({ price, discountedPrice }: CardPriceProps) => {
+  return discountedPrice === price ? (
+    <p className={s.price}>{price} &#8381;</p>
+  ) : (
     <p className={`${s.price} ${s.price_special}`}>
-      {countDiscountedPrice(price, discount)} &#8381;
-      <span className={s.price_full}>{price} &#8381;</span>
+      {discountedPrice} &#8381;
+      <span className={s.price_prev}>{price} &#8381;</span>
     </p>
   );
 };

@@ -1,26 +1,44 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { productsApi } from './slices/productsSlice';
-import { authSliceReducer } from './slices/authSlice';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import storage from 'redux-persist/lib/storage';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import { apiSlice } from './slices/apiSlice';
+import { userSliceReducer } from './slices/userSlice';
 import { themeSliceReducer } from './slices/themeSlice';
-import { localStorageHandler } from '../utils/localStorageHanlder';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  blacklist: ['api'],
+};
+
+const rootReducer = combineReducers({
+  theme: themeSliceReducer,
+  user: userSliceReducer,
+  [apiSlice.reducerPath]: apiSlice.reducer,
+});
+
+export const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    theme: themeSliceReducer,
-    auth: authSliceReducer,
-    [productsApi.reducerPath]: productsApi.reducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(productsApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(apiSlice.middleware),
 });
 
-store.subscribe(() => {
-  const state = store.getState();
-  localStorageHandler
-    .set('color-theme', state.theme.theme)
-    .set('user-token', state.auth.token)
-    .set('user-data', state.auth.userData);
-});
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

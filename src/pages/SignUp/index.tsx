@@ -1,13 +1,13 @@
 import { Navigate } from 'react-router-dom';
 import { SignUpForm } from '../../components/SignUpForm';
 import { useAppSelector } from '../../hooks/reduxHooks';
-import { Routes } from '../../types';
+import { getPath } from '../../utils/getPath';
 
 export const SignUp = () => {
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
   if (isLoggedIn) {
-    return <Navigate to={Routes.Product} />;
+    return <Navigate to="/" />;
   }
 
   return <SignUpForm />;

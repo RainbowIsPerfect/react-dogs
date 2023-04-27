@@ -7,6 +7,9 @@
   @each $name, $space in $spacing {
     --space-#{$name}: #{rem($space)};
   }
+  @each $name, $size in $font-size {
+    --font-size-#{$name}: #{rem($size)};
+  }
   font-family: Roboto;
 }
 

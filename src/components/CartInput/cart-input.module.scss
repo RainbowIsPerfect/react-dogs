@@ -1,0 +1,14 @@
+@use '../../styles/' as *;
+
+.container {
+  width: rem(200);
+}
+
+.input {
+  margin-bottom: space(s);
+  width: 100%
+}
+
+.button {
+  width: 100%;
+}

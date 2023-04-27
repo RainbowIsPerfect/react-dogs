@@ -1,20 +1,20 @@
 @use '../../../styles/' as *;
 
 .price {
-  margin-bottom: space(s);
+  @include flex(false, center);
+  margin-bottom: space(xs);
+  color: col(text-accent);
   font-weight: 700;
-  font-size: rem(22);
+  font-size: fz(x);
+  word-spacing: -.2ch;
   &_special {
     color: col(accent-secondary);
-    position: relative;
   }
-  &_full {
-    position: absolute;
-    top: rem(-12);
-    left: rem(1);
+  &_prev {
+    margin-left: space(xxs);
     text-decoration: line-through;
     font-weight: 400;
-    font-size: rem(12);
+    font-size: fz(s);
     color: col(text-secondary);
   }
 }
