@@ -11,7 +11,7 @@ import { NotFound } from '../NotFound';
 import { useAppNavigate } from '../../hooks/useAppNavigate';
 import { useGetProductByIdQuery } from '../../store/slices/productsApiSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { addToCart } from '../../store/slices/userSlice';
+import { addToCart, getCartProductById } from '../../store/slices/cartSlice';
 import s from './product.module.scss';
 
 export const CurrentProduct = () => {
@@ -22,8 +22,9 @@ export const CurrentProduct = () => {
   const { data, isError, isLoading, isSuccess, error } = useGetProductByIdQuery(
     productId ?? skipToken
   );
-  const cart = useAppSelector((state) => state.user.cart);
-  const isInCart = Boolean(cart.find((item) => item._id === data?._id));
+  const isInCart = useAppSelector((state) =>
+    getCartProductById(state, data?._id || '')
+  );
 
   if (isError) {
     return <NotFound message={getErrorMessage(error)} />;

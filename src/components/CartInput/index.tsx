@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import {
+  addToCart,
   changeProductAmount,
   deleteFromCart,
-  findProductById,
-} from '../../store/slices/userSlice';
+  getCartProductById,
+} from '../../store/slices/cartSlice';
 import { Product } from '../../types';
+import { Button } from '../UI/Button';
 import { Input } from '../UI/Input';
 import s from './cart-input.module.scss';
 
@@ -15,9 +17,10 @@ interface CartInputProps {
 
 export const CartInput = ({ product }: CartInputProps) => {
   const dispatch = useAppDispatch();
-  const currentInCart = useAppSelector((state) =>
-    findProductById(state, product._id)
+  const currentItem = useAppSelector((state) =>
+    getCartProductById(state, product._id)
   );
+  const currentInCart = currentItem ? currentItem.currentInCart : 0;
 
   useEffect(() => {
     if (currentInCart === 0) {
@@ -37,6 +40,9 @@ export const CartInput = ({ product }: CartInputProps) => {
 
   return (
     <div className={s.container}>
+      <Button onClick={() => dispatch(addToCart({ _id: '2', stock: 10 }))}>
+        1
+      </Button>
       <Input
         readOnly
         containerClassName={s.input}

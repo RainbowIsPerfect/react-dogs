@@ -1,11 +1,11 @@
 import { CartCard } from '../../components/CartCard';
 import { useAppSelector } from '../../hooks/reduxHooks';
+import { getAllCartIds } from '../../store/slices/cartSlice';
 import { useGetUserCartProductsQuery } from '../../store/slices/productsApiSlice';
-import { getCartProductsIds } from '../../store/slices/userSlice';
 import s from './cart.module.scss';
 
 export const Cart = () => {
-  const cartItems = useAppSelector((state) => getCartProductsIds(state));
+  const cartItems = useAppSelector((state) => getAllCartIds(state));
   const { data, isLoading } = useGetUserCartProductsQuery(cartItems);
 
   if (isLoading) {

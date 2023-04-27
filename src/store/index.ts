@@ -11,6 +11,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import { apiSlice } from './slices/apiSlice';
+import { cartSliceReducer } from './slices/cartSlice';
 import { userSliceReducer } from './slices/userSlice';
 import { themeSliceReducer } from './slices/themeSlice';
 
@@ -23,6 +24,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   theme: themeSliceReducer,
   user: userSliceReducer,
+  cart: cartSliceReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

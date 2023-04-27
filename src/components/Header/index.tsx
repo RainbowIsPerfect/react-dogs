@@ -14,12 +14,13 @@ import { SubMenu } from '../UI/SubMenu';
 import { logOut } from '../../store/slices/userSlice';
 import { useAppNavigate } from '../../hooks/useAppNavigate';
 import { TypedLink } from '../TypedLink';
-import s from './header.module.scss';
 import { Theme } from '../../store/slices/themeSlice';
+import { getCartProductsTotal } from '../../store/slices/cartSlice';
+import s from './header.module.scss';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const productsAmount = useAppSelector((state) => state.user.cart).length;
+  const productsAmount = useAppSelector((state) => getCartProductsTotal(state));
   const [theme, setTheme] = useTheme();
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
