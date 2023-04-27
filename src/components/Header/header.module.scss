@@ -35,6 +35,17 @@
   &__button {
     height: rem(35);
     width: rem(35);
+    position: relative;
+    &_cart {
+      position: absolute;
+      top: -3px;
+      right: -5px;
+      background-color: col(accent);
+      color: col(text);
+      border-radius: 50%;
+      padding: space(xs);
+      font-size: fz(xs);
+    }
   }
   &__logo {
     fill: col(accent-logo);

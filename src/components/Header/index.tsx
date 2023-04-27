@@ -19,6 +19,7 @@ import { Theme } from '../../store/slices/themeSlice';
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const productsAmount = useAppSelector((state) => state.user.cart).length;
   const [theme, setTheme] = useTheme();
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
@@ -52,6 +53,7 @@ export const Header = () => {
                 variant="icon"
                 onClick={() => navigate('/cart')}
               >
+                <span className={s.header__button_cart}>{productsAmount}</span>
                 <CartIcon className={s.header__icon} />
               </Button>
             </li>

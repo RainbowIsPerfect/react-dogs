@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { RootState } from '..';
 
 export const apiSlice = createApi({
-  tagTypes: ['Products', 'User'],
+  tagTypes: ['Products', 'User', 'Cart'],
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.react-learning.ru/',
     prepareHeaders: (headers, { getState }) => {

@@ -4,22 +4,26 @@ import { useParams } from 'react-router-dom';
 import { ProductInfoTable } from '../../components/ProductInfoTable';
 import { ReviewsList } from '../../components/ReviewsList';
 import { Button } from '../../components/UI/Button';
-import { CartInput } from '../../components/CartInput';
 import { Modal } from '../../components/UI/Modal';
 import { Tabs } from '../../components/UI/Tabs';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import { NotFound } from '../NotFound';
 import { useAppNavigate } from '../../hooks/useAppNavigate';
 import { useGetProductByIdQuery } from '../../store/slices/productsApiSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { addToCart } from '../../store/slices/userSlice';
 import s from './product.module.scss';
 
 export const CurrentProduct = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { productId } = useParams<string>();
+  const dispatch = useAppDispatch();
   const navigate = useAppNavigate();
   const { data, isError, isLoading, isSuccess, error } = useGetProductByIdQuery(
     productId ?? skipToken
   );
+  const cart = useAppSelector((state) => state.user.cart);
+  const isInCart = Boolean(cart.find((item) => item._id === data?._id));
 
   if (isError) {
     return <NotFound message={getErrorMessage(error)} />;
@@ -72,14 +76,15 @@ export const CurrentProduct = () => {
               <>{data.price} &#8381;</>
             )}
           </div>
-          <CartInput
-            product={{
-              stock: data.stock,
-              id: data._id,
-              image: data.pictures,
-              name: data.name,
-            }}
-          />
+          <Button
+            onClick={() =>
+              isInCart
+                ? navigate('/cart')
+                : dispatch(addToCart({ _id: data._id, stock: data.stock }))
+            }
+          >
+            {isInCart ? 'Go to cart' : 'Add to cart'}
+          </Button>
         </div>
       </div>
       <Tabs

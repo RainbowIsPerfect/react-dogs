@@ -1,51 +1,38 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { addToCart } from '../../store/slices/userSlice';
-import { ProductCartInfo } from '../../types';
-import { Button } from '../UI/Button';
+import {
+  changeProductAmount,
+  deleteFromCart,
+  findProductById,
+} from '../../store/slices/userSlice';
+import { Product } from '../../types';
 import { Input } from '../UI/Input';
 import s from './cart-input.module.scss';
 
 interface CartInputProps {
-  product: ProductCartInfo;
+  product: Product;
 }
 
 export const CartInput = ({ product }: CartInputProps) => {
-  const [amount, setAmount] = useState<number>(1);
-  const cart = useAppSelector((state) => state.user.cart);
   const dispatch = useAppDispatch();
-  const currentProduct = cart.find((item) => item.id === product.id);
-  const currentInCart = currentProduct ? currentProduct.stock : 0;
-  const currentAvailable = product.stock - currentInCart;
-  console.log(currentAvailable, product.stock, amount);
+  const currentInCart = useAppSelector((state) =>
+    findProductById(state, product._id)
+  );
 
-  const incrementValue = () => {
-    if (amount < currentAvailable) {
-      setAmount((prev) => prev + 1);
+  useEffect(() => {
+    if (currentInCart === 0) {
+      dispatch(deleteFromCart(product._id));
     }
-  };
+  }, [dispatch, product._id, currentInCart]);
 
-  const decrementValue = () => {
-    if (amount > 1) {
-      setAmount((prev) => prev - 1);
-    }
-  };
-
-  const onClickButton = () => {
-    if (!currentAvailable) {
-      return null;
-    }
-    if (amount > 0) {
-      dispatch(
-        addToCart({
-          stock: amount,
-          id: product.id,
-          image: product.image,
-          name: product.name,
-        })
-      );
-    }
-    return null;
+  const changeValue = (action: 'increment' | 'decrement') => {
+    dispatch(
+      changeProductAmount({
+        _id: product._id,
+        amount: action === 'increment' ? currentInCart + 1 : currentInCart - 1,
+        stock: product.stock,
+      })
+    );
   };
 
   return (
@@ -53,16 +40,18 @@ export const CartInput = ({ product }: CartInputProps) => {
       <Input
         readOnly
         containerClassName={s.input}
-        value={amount}
-        startIcon={<button onClick={() => decrementValue()}>-</button>}
-        endIcon={<button onClick={() => incrementValue()}>+</button>}
+        value={currentInCart}
+        startIcon={<button onClick={() => changeValue('decrement')}>-</button>}
+        endIcon={
+          <button
+            disabled={currentInCart === product.stock}
+            onClick={() => changeValue('increment')}
+          >
+            +
+          </button>
+        }
         type="number"
-        min={1}
-        max={currentAvailable}
       />
-      <Button className={s.button} variant="primary" onClick={onClickButton}>
-        Add to cart
-      </Button>
     </div>
   );
 };

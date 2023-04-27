@@ -105,12 +105,9 @@ export interface UserRegisterData extends User {
   isAdmin: boolean;
 }
 
-export interface ProductCartInfo {
-  id: string;
-  image: string;
-  name: string;
-  stock: number;
-}
+export type ProductCartInfo = Pick<Product, '_id' | 'stock'> & {
+  currentInCart: number;
+};
 
 export type UserInfo = Pick<User, 'about' | 'name' | 'avatar'>;
 

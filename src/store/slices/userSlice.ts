@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '..';
 import type { ProductCartInfo, User, UserData, UserInfo } from '../../types';
 
 interface UserState {
@@ -41,30 +42,56 @@ export const userSlice = createSlice({
         ...action.payload,
       };
     },
-    addToCart: (state, action: PayloadAction<ProductCartInfo>) => {
+    addToCart: (
+      state,
+      action: PayloadAction<Pick<ProductCartInfo, '_id' | 'stock'>>
+    ) => {
       const currentItem = state.cart.find(
-        (item) => item.id === action.payload.id
+        (item) => item._id === action.payload._id
       );
-
       if (!currentItem) {
-        state.cart.push(action.payload);
-      } else {
-        currentItem.stock += action.payload.stock;
+        state.cart.push({ ...action.payload, currentInCart: 1 });
+      }
+    },
+    changeProductAmount: (
+      state,
+      action: PayloadAction<
+        Pick<ProductCartInfo, '_id' | 'stock'> & { amount: number }
+      >
+    ) => {
+      const currentItem = state.cart.find(
+        (item) => item._id === action.payload._id
+      );
+      if (currentItem) {
+        currentItem.currentInCart = action.payload.amount;
       }
     },
     deleteFromCart: (state, action: PayloadAction<string>) => {
-      const currentItem = state.cart.find((item) => item.id === action.payload);
+      const currentItem = state.cart.find(
+        (item) => item._id === action.payload
+      );
 
       if (currentItem) {
-        state.cart = state.cart.filter((item) => item.id !== action.payload);
+        state.cart = state.cart.filter((item) => item._id !== action.payload);
       }
     },
   },
 });
 
-export type UserReturnType = { user: ReturnType<typeof userSlice.reducer> };
+export const findProductById = (state: RootState, id: string) => {
+  const item = state.user.cart.find((product) => product._id === id);
+  return item ? item.currentInCart : 0;
+};
+export const getCartProductsIds = (state: RootState) =>
+  state.user.cart.map(({ _id }) => _id);
 
-export const { logIn, logOut, edit, addToCart, deleteFromCart } =
-  userSlice.actions;
+export const {
+  logIn,
+  logOut,
+  edit,
+  addToCart,
+  deleteFromCart,
+  changeProductAmount,
+} = userSlice.actions;
 
 export const userSliceReducer = userSlice.reducer;

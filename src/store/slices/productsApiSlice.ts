@@ -133,6 +133,31 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    getUserCartProducts: builder.query<Product[], string[]>({
+      queryFn: async (arg, baseQueryApi, extraOptions, baseQuery) => {
+        const response = await Promise.all(
+          arg.map((item) => baseQuery(`products/${item}`))
+        );
+        const fetchError = response.find((item) => item.error);
+        const res = response.map((item) => item.data) as Product[];
+
+        if (fetchError?.error) {
+          return { error: fetchError.error };
+        }
+
+        return { data: res };
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ _id }) => ({
+                type: 'Cart' as const,
+                id: _id,
+              })),
+              { type: 'Cart', id: 'CART' },
+            ]
+          : [{ type: 'Cart', id: 'CART' }],
+    }),
   }),
 });
 
@@ -144,4 +169,5 @@ export const {
   useGetCurrentUserProductsQuery,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useGetUserCartProductsQuery,
 } = productsApiSlice;

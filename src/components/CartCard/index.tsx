@@ -1,31 +1,19 @@
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { deleteFromCart } from '../../store/slices/userSlice';
-import { ProductCartInfo } from '../../types';
+import { Product } from '../../types';
 import { CartInput } from '../CartInput';
-import { Button } from '../UI/Button';
 import s from './cart-card.module.scss';
 
 interface CartCardProps {
-  product: ProductCartInfo;
+  product: Product;
 }
 
 export const CartCard = ({ product }: CartCardProps) => {
-  const dispatch = useAppDispatch();
-
   return (
     <div className={s.card}>
       <div className={s.card__product}>
-        <Button
-          className={s.card__button}
-          variant="primary"
-          onClick={() => dispatch(deleteFromCart(product.id))}
-        >
-          Delete
-        </Button>
         <div className={s['card__image-wrapper']}>
           <img
             className={s.card__image}
-            src={product.image}
+            src={product.pictures}
             alt={product.name}
           />
         </div>
