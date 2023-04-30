@@ -1,5 +1,12 @@
 @use '../../styles/' as *;
 
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(rem(250), 1fr));
+  grid-auto-rows: 1fr;
+  gap: space(m);
+}
+
 .input {
   width: 100%;
   margin-right: space(s);

@@ -16,7 +16,7 @@ export const ReviewsList = ({ reviews }: ReviewsListProps) => {
               <img
                 className={s.review__img}
                 src={review.author.avatar}
-                alt=""
+                alt={`${review.author.name} avatar`}
               />
               <p className={s.review__name}>{review.author.name}</p>
             </div>

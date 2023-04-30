@@ -1,15 +1,13 @@
-import { Navigate } from 'react-router-dom';
 import { SignInForm } from '../../components/SignInForm';
+import { TypedLink } from '../../components/TypedLink';
 import { useAppSelector } from '../../hooks/reduxHooks';
 
 export const SignIn = () => {
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
-  // if (isLoggedIn) {
-  //   return <p>Youre already logged in</p>;
-  // }
+  if (isLoggedIn) {
+    return <TypedLink component="Navigate" to="/" />;
+  }
 
   return <SignInForm />;
 };
-
-/* <Navigate to="/" /> */

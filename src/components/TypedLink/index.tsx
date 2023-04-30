@@ -2,6 +2,7 @@ import { AnchorHTMLAttributes, ReactNode } from 'react';
 import { Link, Navigate, NavLink } from 'react-router-dom';
 import { getPath } from '../../utils/getPath';
 import { DynamicRoutes, DynamicRoutesParams, Routes } from '../../types';
+import s from './link.module.scss';
 
 type LinkComponents = 'Link' | 'Navigate' | 'NavLink';
 
@@ -13,6 +14,7 @@ type ParamsType<T> = T extends DynamicRoutes
 
 type DefaultProps = {
   children: ReactNode;
+  variant: 'primary' | 'secondary' | 'icon' | 'transparent';
   className?: string;
 };
 
@@ -38,13 +40,14 @@ export const TypedLink = <T extends Routes, C extends LinkComponents>({
   replace,
   children,
   className,
+  variant,
   ...props
 }: TypedLinkProps<T, C>) => {
   switch (component) {
     case 'Link':
       return (
         <Link
-          className={className}
+          className={`${s.link} ${s[`link_${variant}`]} ${className}`}
           replace={replace}
           to={params ? getPath(to as DynamicRoutes, params) : to}
           {...props}
@@ -55,7 +58,7 @@ export const TypedLink = <T extends Routes, C extends LinkComponents>({
     case 'NavLink':
       return (
         <NavLink
-          className={className}
+          className={`${s.link} ${className}`}
           replace={replace}
           to={params ? getPath(to as DynamicRoutes, params) : to}
           {...props}

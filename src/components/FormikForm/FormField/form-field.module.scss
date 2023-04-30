@@ -23,7 +23,6 @@
     color: col(text);
     outline: none;
     outline-offset: -2px;
-    &_input {}
     &_textarea {
       min-height: rem(100);
       max-height: rem(200);

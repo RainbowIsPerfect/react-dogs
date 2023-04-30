@@ -1,3 +1,5 @@
+// @deprecated
+
 class LocalStorageHandler {
   private storage: Storage;
 

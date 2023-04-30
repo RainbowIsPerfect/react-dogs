@@ -5,7 +5,7 @@
   position: relative;
   border-radius: 10px;
   overflow: hidden;
-  transition: border-color 0.1s ease-in-out;
+  transition: all 0.2s ease-in-out;
   & button {
     @include flex(center, center);
     width: 100%;
@@ -40,10 +40,12 @@
   font-size: rem(20);
   color: col(text);
   background-color: col(elements);
+  border: none;
   border: 1px solid col(elements-border);
   border-radius: 10px;
   outline: transparent;
   outline-offset: -2px;
+  transition: all 0.2s ease-in-out;
   &[type='number'] {
     text-align: center;
     &::-webkit-outer-spin-button,
@@ -73,26 +75,24 @@
 
 .start {
   @include flex(center, center);
-  width: rem(30);
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  @include size(rem(30), 100%);
+  @include pos(absolute, 0, false, false, 0);
   & button {
-    border-left: none;
+    @include button-pseudo(col(elements-border), col(elements-hover));
+    border: none;
     border-right: 1px solid col(elements-border);
+    transition: all 0.2s ease-in-out;
   }
 }
 
 .end {
   @include flex(center, center);
-  width: rem(30);
-  height: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
+  @include size(rem(30), 100%);
+  @include pos(absolute, 0, 0);
   & button {
-    border-right: none;
+    @include button-pseudo(col(elements-border), col(elements-hover));
+    border: none;
     border-left: 1px solid col(elements-border);
+    transition: all 0.2s ease-in-out;
   }
 }

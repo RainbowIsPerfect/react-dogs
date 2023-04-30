@@ -15,23 +15,18 @@
     @include flex(false, center);
   }
   &__data {
-    @include flex(false,false, column);
+    @include flex(false, false, column);
   }
   &__image-wrapper {
+    @include size(rem(100), rem(80));
     margin-right: space(xs);
-    width: rem(100);
-    height: rem(80);
     border-radius: 5px;
     overflow: hidden;
   }
   &__image {
-    width: 100%;
-    height: 100%;
+    @include image;
   }
   &__heading {
     font-size: fz(m);
-  }
-  &__button {
-    margin-right: space(s);
   }
 }

@@ -17,6 +17,10 @@
   @return var(--font-size-#{$font-size});
 }
 
+@function bp($breakpoint) {
+  @return var(--font-size-#{$breakpoint});
+}
+
 @mixin pos($pos, $top: false, $right: false, $bot: false, $left: false) {
   position: $pos;
   @if ($top) {
@@ -47,4 +51,56 @@
   @if ($gap) {
     gap: $gap;
   }
+}
+
+@mixin webkitbox {
+  flex-grow: 1;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  box-orient: vertical;
+}
+
+@mixin button($isLink: false) {
+  display: inline-block;
+  padding: space(s);
+  font-size: fz(m);
+  color: col(text-elements);
+  border-radius: 5px;
+  outline: transparent;
+  transition: background-color 0.2s ease-in-out;
+  @if ($isLink) {
+    text-decoration: none;
+  }
+  @else {
+    border: none;
+    cursor: pointer;
+  }
+}
+
+@mixin button-pseudo($color: white, $disabled-color: white) {
+  &:hover {
+    background-color: $color;
+  }
+  &:focus-visible {
+    background-color: $color;
+  }
+  &:disabled {
+    background-color: $disabled-color;
+    cursor: default;
+  }
+}
+
+@mixin image($width: 100%, $height: 100%) {
+  display: block;
+  width: $width;
+  height: $height;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
 }

@@ -5,24 +5,20 @@
   background-color: col(main-bg);
   border-bottom: 1px solid col(elements-border);
   &__link {
-    display: block;
     @include flex(center, center);
     height: rem(35);
-    outline: 1px solid transparent;
-    border-radius: 5px;
-    text-decoration: none;
     color: col(text);
   }
   &__title {
     margin-left: space(s);
-    font-size: rem(25);
+    font-size: fz(x);
     white-space: nowrap;
   }
   &__nav {
     @include flex(space-between, center);
   }
   &__list {
-    @include flex();
+    @include flex;
     list-style-type: none;
   }
   &__item {
@@ -33,15 +29,12 @@
     }
   }
   &__button {
-    height: rem(35);
-    width: rem(35);
+    @include size(rem(35), rem(35));
     position: relative;
     &_cart {
-      position: absolute;
-      top: -3px;
-      right: -5px;
+      @include pos(absolute, -2, -8);
       background-color: col(accent);
-      color: col(text);
+      color: col(text-accent);
       border-radius: 50%;
       padding: space(xs);
       font-size: fz(xs);
@@ -50,10 +43,6 @@
   &__logo {
     fill: col(accent-logo);
     min-width: rem(30);
-  }
-  &__image {
-    width: 100%;
-    height: 100%;
   }
 }
 

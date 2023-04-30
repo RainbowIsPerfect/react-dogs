@@ -1,25 +1,15 @@
 @use '../../styles/' as *;
 
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(rem(250), 1fr));
+  grid-auto-rows: 1fr;
+  gap: space(m);
+}
+
 .products {
   &__link {
-    display: inline-block;
-    padding: space(s);
     margin-bottom: space(s);
-    font-size: fz(m);
-    border-radius: 5px;
-    border: none;
-    outline: transparent;
-    color: col(text-elements);
-    background-color: col(accent);
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out;
-    cursor: pointer;
-    &:hover {
-      background-color: col(accent-hover);
-    }
-    &:focus-visible {
-      background-color: col(accent-hover);
-    }
   }
   &__heading {
     margin-bottom: space(s);

@@ -81,7 +81,14 @@ export const CurrentProduct = () => {
             onClick={() =>
               isInCart
                 ? navigate('/cart')
-                : dispatch(addToCart({ _id: data._id, stock: data.stock }))
+                : dispatch(
+                    addToCart({
+                      _id: data._id,
+                      stock: data.stock,
+                      price: data.price,
+                      discountedPrice: data.discountedPrice,
+                    })
+                  )
             }
           >
             {isInCart ? 'Go to cart' : 'Add to cart'}

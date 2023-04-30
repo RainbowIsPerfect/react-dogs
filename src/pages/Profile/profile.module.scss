@@ -1,55 +1,45 @@
 @use '../../styles/' as *;
 
 .profile {
-  @include flex(false, false, false, space(x));
+  display: grid;
+  grid-template-columns: minmax(rem(200), rem(300)) 1fr;
   margin-bottom: space(s);
   color: col(text);
   &__image-wrapper {
-    flex: 1 0 15%;
+    height: rem(300);
     border-radius: 5px;
     overflow: hidden;
   }
   &__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    @include image;
   }
   &__info {
     @include flex(false, flex-start, column);
-    flex: 1 1 60%;
     padding: space(s);
     overflow: auto;
   }
   &__name {
     color: col(text-accent);
-    margin-bottom: space(m);
-    font-size: rem(35);
+    margin-bottom: space(xs);
+    font-size: fz(xxl);
     font-weight: 700;
   }
-  &__list {
-    list-style-type: none;
-  }
-  &__item {
+  &__group {
     margin-bottom: space(s);
-    font-size: rem(20);
+    color: col(text-secondary);
   }
-  &__link {
-    display: inline-block;
-    padding: space(s);
+  &__description {
+    flex: 1 1 auto;
+    margin-bottom: space(s);
     font-size: fz(m);
-    border-radius: 5px;
-    border: none;
-    outline: transparent;
-    color: col(text-elements);
-    background-color: col(accent);
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out;
-    cursor: pointer;
-    &:hover {
-      background-color: col(accent-hover);
+  }
+}
+
+@media (max-width: 600px){
+  .profile {
+    &__info {
+      padding: space(s) 0;
     }
-    &:focus-visible {
-      background-color: col(accent-hover);
-    }
+    grid-template-columns: 1fr;
   }
 }

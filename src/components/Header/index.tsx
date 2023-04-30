@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Container } from '../Container';
 import { MainLogo } from '../UI/Icons/MainLogo';
 import { ProfileIcon } from '../UI/Icons/ProfileIcon';
@@ -12,7 +11,6 @@ import { LogInIcon } from '../UI/Icons/LogInIcon';
 import { Button } from '../UI/Button';
 import { SubMenu } from '../UI/SubMenu';
 import { logOut } from '../../store/slices/userSlice';
-import { useAppNavigate } from '../../hooks/useAppNavigate';
 import { TypedLink } from '../TypedLink';
 import { Theme } from '../../store/slices/themeSlice';
 import { getCartProductsTotal } from '../../store/slices/cartSlice';
@@ -24,39 +22,41 @@ export const Header = () => {
   const [theme, setTheme] = useTheme();
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
-  const navigate = useAppNavigate();
 
   return (
     <header className={s.header}>
       <Container>
         <nav className={s.header__nav}>
           <TypedLink
-            component="NavLink"
+            variant="transparent"
+            component="Link"
             className={s.header__link}
             to={isLoggedIn ? '/' : '/signin'}
           >
-            <MainLogo className={`${s.header__icon} ${s.header__logo}`} />
+            <MainLogo className={s.header__logo} />
             <span className={s.header__title}>React Dogs</span>
           </TypedLink>
           <ul className={s.header__list}>
             <li className={s.header__item}>
-              <Button
+              <TypedLink
+                component="Link"
+                to="/me"
                 className={s.header__button}
                 variant="icon"
-                onClick={() => navigate('/me')}
               >
-                <ProfileIcon className={s.header__icon} />
-              </Button>
+                <ProfileIcon />
+              </TypedLink>
             </li>
             <li className={s.header__item}>
-              <Button
+              <TypedLink
+                component="Link"
+                to="/cart"
                 className={s.header__button}
                 variant="icon"
-                onClick={() => navigate('/cart')}
               >
                 <span className={s.header__button_cart}>{productsAmount}</span>
-                <CartIcon className={s.header__icon} />
-              </Button>
+                <CartIcon />
+              </TypedLink>
             </li>
             <li className={s.header__item}>
               <Button
@@ -65,7 +65,7 @@ export const Header = () => {
                 onClick={() => setIsOpen(!isOpen)}
                 onBlur={() => setIsOpen(false)}
               >
-                <ThemeIcon className={s.header__icon} />
+                <ThemeIcon />
               </Button>
               {isOpen && (
                 <SubMenu<Theme> activeButton={theme}>
@@ -95,11 +95,7 @@ export const Header = () => {
                 variant="icon"
                 onClick={() => dispatch(logOut())}
               >
-                {isLoggedIn ? (
-                  <LogOutIcon className={s.header__icon} />
-                ) : (
-                  <LogInIcon className={s.header__icon} />
-                )}
+                {isLoggedIn ? <LogOutIcon /> : <LogInIcon />}
               </Button>
             </li>
           </ul>

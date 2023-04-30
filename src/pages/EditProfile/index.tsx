@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { FormikForm } from '../../components/FormikForm';
 import { FormInput } from '../../components/FormikForm/types';
+import { TypedLink } from '../../components/TypedLink';
 import { useAppSelector } from '../../hooks/reduxHooks';
 import { useEditUserMutation } from '../../store/slices/userApiSlice';
 import { UserInfo } from '../../types';
@@ -39,12 +40,16 @@ export const EditProfile = () => {
   const { avatar, name, about } = useAppSelector(
     (state) => state.user.userData
   );
-  const [editUser, { isSuccess, error }] = useEditUserMutation();
+  const [editUser, { error, isSuccess }] = useEditUserMutation();
   const initialValues: UserInfo = {
     name,
     about,
     avatar,
   };
+
+  if (isSuccess) {
+    return <TypedLink component="Navigate" to="/me" />;
+  }
 
   return (
     <FormikForm

@@ -133,24 +133,25 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
-    getUserCartProducts: builder.query<Product[], string[]>({
-      queryFn: async (arg, baseQueryApi, extraOptions, baseQuery) => {
+    getUserCartProducts: builder.query<CustomApiResponse, string[]>({
+      queryFn: async (arg, { getState }, extraOptions, baseQuery) => {
         const response = await Promise.all(
           arg.map((item) => baseQuery(`products/${item}`))
         );
         const fetchError = response.find((item) => item.error);
         const res = response.map((item) => item.data) as Product[];
+        const userId = (getState() as RootState).user.userData._id;
 
         if (fetchError?.error) {
           return { error: fetchError.error };
         }
 
-        return { data: res };
+        return getCustomProduct(res, userId);
       },
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ _id }) => ({
+              ...result.products.map(({ _id }) => ({
                 type: 'Cart' as const,
                 id: _id,
               })),
