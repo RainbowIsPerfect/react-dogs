@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { toggleIsSelected } from '../../store/slices/cartSlice';
 import { ProductWithCustomProps } from '../../types';
+import { ComponentWithChildren } from '../../types/prop-types';
 import { CartInput } from '../CartInput';
 import { TypedLink } from '../TypedLinks/TypedLink';
 import s from './cart-card.module.scss';
@@ -37,7 +38,7 @@ export const CartCard = ({ product }: CartCardProps) => {
           <TypedLink
             to="/products/:productId"
             params={{ productId: product._id }}
-            variant="unstyled"
+            variant="transparent"
           >
             {product.name}
           </TypedLink>

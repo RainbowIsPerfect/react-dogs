@@ -10,6 +10,7 @@ import { SearchQuery, SortingType } from '../../types';
 import s from './products.module.scss';
 import { Select } from '../../components/UI/FormElements/Select';
 import { Option } from '../../components/UI/FormElements/Option';
+import { Button } from '../../components/UI/FormElements/Button';
 
 export const Products = () => {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -4,7 +4,7 @@ export type RelativeRoutes =
   | 'me'
   | 'cart'
   | 'products/:productId'
-  | 'products/:productId/:edit'
+  | 'products/edit/:productId'
   | 'edit'
   | 'create_product';
 export type AbsoluteRoutes = `/${RelativeRoutes}` | '/';

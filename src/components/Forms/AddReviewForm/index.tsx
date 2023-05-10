@@ -25,11 +25,12 @@ export const AddReviewForm = ({ _id, className = '' }: AddReviewFormProps) => {
     <FormikForm
       validationSchema={AddReviewSchema}
       initialValues={initialValues}
-      onSubmit={(values) => {
-        addReview({
+      onSubmit={async (values, { resetForm }) => {
+        await addReview({
           ...values,
           _id,
         });
+        resetForm();
       }}
     >
       <FormikForm.FormComponent className={s.form} errorMsg={error}>

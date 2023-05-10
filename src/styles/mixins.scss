@@ -53,6 +53,13 @@
   }
 }
 
+@mixin border($radius: false) {
+  border: 1px solid col(elements-border);
+  @if ($radius) {
+    border-radius: $radius;
+  }
+}
+
 @mixin webkitbox {
   flex-grow: 1;
   display: -webkit-box;
@@ -65,25 +72,15 @@
 }
 
 @mixin base-elements-styles {
-  width: 100%;
   padding: space(xs);
   background-color: col(elements);
-  border: 1px solid col(elements-border);
   border-radius: 5px;
   font-size: fz(m);
   color: col(text);
   outline: transparent;
-  outline-offset: -2px;
   transition: all 0.1s ease-in-out;
-  &:focus {
-    border-color: col(accent);
-    background-color: col(elements-hover);
-    outline: 2px solid col(accent);
-  }
   &:focus-visible {
-    border-color: col(accent);
     background-color: col(elements-hover);
-    outline: 2px solid col(accent);
   }
   &:hover {
     background-color: col(elements-hover);
@@ -92,6 +89,35 @@
     background-color: col(elements-disabled);
     cursor: default;
   }
+}
+
+@mixin focusable-elements-styles {
+  @include base-elements-styles;
+  border: 1px solid col(elements-border);
+  outline-offset: -2px;
+  width: 100%;
+  &:focus {
+    border-color: col(accent);
+    background-color: col(elements-hover);
+    outline: 2px solid col(accent);
+  }
+  &:focus-visible {
+    border-color: col(accent);
+    outline: 2px solid col(accent);
+  }
+}
+
+@mixin button-styles {
+  @include base-elements-styles;
+  display: inline-block;
+  padding: space(s);
+  border: none;
+  cursor: pointer;
+}
+
+@mixin link-styles {
+  @include button-styles;
+  text-decoration: none;
 }
 
 @mixin button($isLink: false) {

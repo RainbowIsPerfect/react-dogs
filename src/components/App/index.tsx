@@ -3,6 +3,7 @@ import { MainLayout } from '../../layouts/MainLayout';
 import { Cart } from '../../pages/Cart';
 import { CreateNewProduct } from '../../pages/CreateNewProduct';
 import { CurrentProduct } from '../../pages/CurrentProduct';
+import { EditProduct } from '../../pages/EditProduct';
 import { EditProfile } from '../../pages/EditProfile';
 import { NotFound } from '../../pages/NotFound';
 import { Products } from '../../pages/Products';
@@ -46,6 +47,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <CurrentProduct />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'products/edit/:productId',
+        element: (
+          <PrivateRoute>
+            <EditProduct />
           </PrivateRoute>
         ),
       },

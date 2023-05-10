@@ -2,9 +2,8 @@
 
 .card {
   @include flex(false, false, column);
+  @include border(5px);
   background-color: col(elements-bg);
-  border: 1px solid col(elements-border);
-  border-radius: 5px;
   overflow: hidden;
   &__header {
     position: relative;
@@ -28,12 +27,12 @@
   &__like {
     @include pos(absolute, 5, 5);
     @include size(rem(30), rem(30));
-    border-radius: 50%;
+    @include border(50%);
     background-color: #fff;
-    border: 1px solid col(elements-border);
-    @include button-pseudo;
     &:hover,
     &:focus-visible {
+      border: 1px solid col(accent);
+      background-color: #fff;
       & .card__icon {
         fill: col(accent);
       }
@@ -41,10 +40,6 @@
         fill: col(text-secondary);
       }
     }
-  }
-  &__button {
-    padding: space(s);
-    width: 100%;
   }
   &__body {
     @include flex(false, center, column);
@@ -56,18 +51,17 @@
   &__description {
     @include webkitbox;
     text-align: center;
+    padding: 0;
     font-size: fz(s);
     color: col(text);
-    padding: 0;
     font-weight: 400;
     &:hover {
       color: col(accent);
     }
   }
   &__link {
+    @include size(100%, 100%);
     padding: 0;
-    width: 100%;
-    height: 100%;
   }
   &__price {
     margin-bottom: space(xs);
@@ -77,13 +71,16 @@
   }
   &__icon {
     fill: col(text-secondary);
-    transition: fill 0.2s ease-in;
+    transition: fill 0.1s ease-in;
     &_active {
       fill: col(accent);
     }
   }
   &__footer {
-    @include flex(center, center);
+    @include flex(center, center, column);
     padding: space(s);
+  }
+  &__button {
+    width: 100%;
   }
 }

@@ -5,14 +5,13 @@ import { useGetCurrentUserQuery } from '../../store/slices/userApiSlice';
 import s from './profile.module.scss';
 
 export const Profile = () => {
-  const { data, error, isLoading, isSuccess } = useGetCurrentUserQuery();
+  const { data, error, isLoading } = useGetCurrentUserQuery();
 
   return (
     <>
       <ConditionalRenderer
         error={error}
         isLoading={isLoading}
-        isSuccess={isSuccess}
         className={s.profile}
       >
         {data && (
@@ -28,11 +27,7 @@ export const Profile = () => {
               <p className={s.profile__name}>{data.name}</p>
               <p className={s.profile__group}>Your group: {data.group}</p>
               <p className={s.profile__description}>{data.about}</p>
-              <TypedLink
-                className={s.profile__link}
-                variant="primary"
-                to="/edit"
-              >
+              <TypedLink variant="primary" to="/edit">
                 Edit profile
               </TypedLink>
             </div>

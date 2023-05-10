@@ -1,10 +1,11 @@
 import * as Yup from 'yup';
 import { Navigate } from 'react-router-dom';
+import { FormikHelpers } from 'formik';
 import { useCreateNewProductMutation } from '../../../store/slices/productsApiSlice';
 import { NewProduct } from '../../../types';
 import { FormikForm } from '../../FormikForm';
 
-const NewProductSchema = Yup.object().shape({
+export const NewProductSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
   description: Yup.string().required('Required'),
   pictures: Yup.string().url('Invalid url').required('Required'),
@@ -20,7 +21,18 @@ const NewProductSchema = Yup.object().shape({
   ).required('Required'),
 });
 
-export const CreateNewProductForm = () => {
+interface CreateNewProductFormProps {
+  newInitialValues?: NewProduct;
+  onSubmit?: (
+    values: NewProduct,
+    formikHelpers: FormikHelpers<NewProduct>
+  ) => void | Promise<any>;
+}
+
+export const CreateNewProductForm = ({
+  newInitialValues,
+  onSubmit,
+}: CreateNewProductFormProps) => {
   const [createNewProduct, { error, isSuccess }] =
     useCreateNewProductMutation();
   const initialValues: NewProduct = {
@@ -40,9 +52,9 @@ export const CreateNewProductForm = () => {
 
   return (
     <FormikForm
-      initialValues={initialValues}
+      initialValues={newInitialValues ?? initialValues}
       validationSchema={NewProductSchema}
-      onSubmit={(values) => createNewProduct(values)}
+      onSubmit={onSubmit ?? ((values) => createNewProduct(values))}
     >
       <FormikForm.FormContainer>
         <FormikForm.FormComponent errorMsg={error}>

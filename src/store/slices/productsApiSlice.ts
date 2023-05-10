@@ -9,7 +9,6 @@ import {
   NewProduct,
   NewProductUpdate,
   UserReview,
-  CartItem,
 } from '../../types';
 import {
   getCurrentUserProducts,
@@ -93,6 +92,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
           body: newProduct,
         };
       },
+      invalidatesTags: ['Products'],
     }),
     getCurrentUserProducts: builder.query<CustomApiResponse, void>({
       queryFn: async (arg, { getState }, extraOptions, baseQuery) => {
@@ -125,14 +125,20 @@ export const productsApiSlice = apiSlice.injectEndpoints({
           method: 'DELETE',
         };
       },
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Products', id: arg }];
+      },
     }),
     updateProduct: builder.mutation<Product, NewProductUpdate>({
       query: ({ _id, ...body }) => {
         return {
           url: `products/${_id}`,
-          method: 'DELETE',
+          method: 'PATCH',
           body,
         };
+      },
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Products', id: arg._id }];
       },
     }),
     getUserCartProducts: builder.query<CustomApiResponse, string[]>({
@@ -140,14 +146,10 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         const response = await Promise.all(
           arg.map((item) => baseQuery(`products/${item}`))
         );
-        const fetchError = response.find((item) => item.error);
-        const res = response.map((item) => item.data) as Product[];
-
+        const res = response
+          .filter((item) => item.data)
+          .map((item) => item.data) as Product[];
         const userId = (getState() as RootState).user.userData._id;
-
-        if (fetchError?.error) {
-          return { error: fetchError.error };
-        }
 
         return getCustomProduct(res, userId);
       },
@@ -155,12 +157,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         result
           ? [
               ...result.products.map(({ _id }) => ({
-                type: 'Cart' as const,
+                type: 'Products' as const,
                 id: _id,
               })),
-              { type: 'Cart', id: 'CART' },
+              { type: 'Products', id: 'LIST' },
             ]
-          : [{ type: 'Cart', id: 'CART' }],
+          : [{ type: 'Products', id: 'LIST' }],
     }),
     addReview: builder.mutation<Product, UserReview>({
       query: ({ _id, ...review }) => {
@@ -168,6 +170,17 @@ export const productsApiSlice = apiSlice.injectEndpoints({
           url: `products/review/${_id}`,
           method: 'POST',
           body: review,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Products', id: arg._id },
+      ],
+    }),
+    deleteReview: builder.mutation<Product, { _id: string; reviewId: string }>({
+      query: ({ _id, reviewId }) => {
+        return {
+          url: `/products/review/${_id}/${reviewId}`,
+          method: 'DELETE',
         };
       },
       invalidatesTags: (result, error, arg) => [
@@ -187,4 +200,5 @@ export const {
   useUpdateProductMutation,
   useGetUserCartProductsQuery,
   useAddReviewMutation,
+  useDeleteReviewMutation,
 } = productsApiSlice;

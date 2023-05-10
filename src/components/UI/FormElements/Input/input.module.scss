@@ -1,7 +1,7 @@
 @use '../../../../styles/' as *;
 
 .input {
-  @include base-elements-styles;
+  @include focusable-elements-styles;
   &[type='number'] {
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {

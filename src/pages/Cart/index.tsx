@@ -12,7 +12,7 @@ import s from './cart.module.scss';
 
 export const Cart = () => {
   const products = useAppSelector((state) => state.cart.products);
-  const { data, isLoading, error, isSuccess } = useGetUserCartProductsQuery(
+  const { data, isLoading, error } = useGetUserCartProductsQuery(
     products.map((item) => item._id)
   );
   const dispatch = useAppDispatch();
@@ -33,11 +33,7 @@ export const Cart = () => {
   return (
     <>
       <h1 className={s.heading}>Shopping Cart</h1>
-      <ConditionalRenderer
-        error={error}
-        isLoading={isLoading}
-        isSuccess={isSuccess}
-      >
+      <ConditionalRenderer error={error} isLoading={isLoading}>
         {data && data.products.length ? (
           <>
             <div className={s.order}>
@@ -68,6 +64,7 @@ export const Cart = () => {
                       deleteByIds(selectedProduct.map((item) => item._id))
                     )
                   }
+                  disabled={selectedProduct.length === 0}
                   className={s.order__button}
                 >
                   Proceed to checkout

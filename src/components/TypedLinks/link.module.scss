@@ -1,8 +1,7 @@
 @use '../../styles/' as *;
 
 .link {
-  @include button(true);
-  @include flex(center, center);
+  @include link-styles;
   text-align: center;
   &_primary {
     background-color: col(accent);
@@ -18,14 +17,18 @@
   &_transparent {
     color: col(text-accent);
     background-color: transparent;
-    &:hover {
-      color: col(accent);
-    }
+    &:hover,
     &:focus-visible {
       color: col(accent);
+      background-color: transparent;
     }
     &_active {
       color: col(accent);
+      &:hover,
+      &:focus-visible {
+        color: col(accent-hover);
+        background-color: transparent;
+      }
     }
   }
   &_icon {
@@ -39,8 +42,5 @@
       pointer-events: none;
       @include size(100%, 100%);
     }
-  }
-  &_transparent {
-    
   }
 }

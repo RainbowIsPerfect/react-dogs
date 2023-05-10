@@ -1,13 +1,11 @@
 @use '../../styles/' as *;
 
 .card {
-  @include flex(space-between,center);
+  @include flex(space-between, center);
+  @include border(5px);
   padding: space(s);
   margin-bottom: space(s);
-  border-radius: 5px;
-  border: 1px solid col(elements-border);
   background-color: col(elements-bg);
-  color: col(text);
   &:last-child {
     margin-bottom: 0;
   }

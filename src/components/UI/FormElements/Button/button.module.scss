@@ -1,12 +1,7 @@
 @use '../../../../styles/' as *;
 
 .button {
-  @include base-elements-styles;
-  display: inline-block;
-  padding: space(s);
-  color: col(text-elements);
-  border: none;
-  cursor: pointer;
+  @include button-styles;
   &_primary {
     @include button-pseudo(col(accent-hover), col(elements-hover));
     color: col(text-elements);
@@ -20,7 +15,11 @@
   }
   &_icon {
     @include flex(center, center);
-    @include button-pseudo(col(elements-hover), col(elements-hover));
+    &:hover,
+    &:focus-visible {
+      color: col(accent-hover);
+      background-color: transparent;
+    }
     padding: space(xs);
     border: none;
     background-color: transparent;
@@ -33,11 +32,10 @@
   &_transparent {
     color: col(text-accent);
     background-color: transparent;
-    &:hover {
-      color: col(accent);
-    }
+    &:hover,
     &:focus-visible {
       color: col(accent);
+      background-color: transparent;
     }
   }
 }

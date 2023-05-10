@@ -7,13 +7,14 @@ import { ProductPrice } from '../ProductPrice';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import { addToCart } from '../../store/slices/cartSlice';
 import { TypedLink } from '../TypedLinks/TypedLink';
+import { ComponentWithChildren } from '../../types/prop-types';
 import s from './card.module.scss';
 
-interface CardProps {
+interface CardProps extends Partial<ComponentWithChildren> {
   productData: ProductWithCustomProps;
 }
 
-export const Card = ({ productData }: CardProps) => {
+export const Card = ({ productData, children }: CardProps) => {
   const [toggleLike, { isLoading }] = useToggleLikeMutation();
   const currentItem = useAppSelector((state) =>
     state.cart.products.find((item) => item._id === productData._id)
@@ -74,7 +75,7 @@ export const Card = ({ productData }: CardProps) => {
           <TypedLink
             to="/products/:productId"
             params={{ productId: productData._id }}
-            variant="unstyled"
+            variant="transparent"
             className={s.card__description}
           >
             {productData.name}
@@ -83,18 +84,19 @@ export const Card = ({ productData }: CardProps) => {
       </div>
       <footer className={s.card__footer}>
         {currentItem ? (
-          <TypedLink to="/cart" className={s.card__button} variant="primary">
+          <TypedLink className={s.card__button} to="/cart" variant="primary">
             Already in cart
           </TypedLink>
         ) : (
           <Button
-            className={s.card__button}
+            className={`${s.card__button}`}
             onClick={() => dispatch(addToCart(productData._id))}
             disabled={productData.stock <= 0}
           >
             {productData.stock <= 0 ? 'Out of stock' : 'Add to cart'}
           </Button>
         )}
+        {children}
       </footer>
     </div>
   );
