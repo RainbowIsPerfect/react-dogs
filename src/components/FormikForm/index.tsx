@@ -1,60 +1,44 @@
-import { Form, Formik, FormikConfig, FormikValues } from 'formik';
 import * as Yup from 'yup';
-import { SerializedError } from '@reduxjs/toolkit';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import { Link } from 'react-router-dom';
-import { Button } from '../UI/Button';
-import { getErrorMessage } from '../../utils/getErrorMessage';
+import { createContext, ReactNode } from 'react';
+import { Formik, FormikConfig, FormikValues } from 'formik';
+import { RedirectLink } from './RedirectLink';
 import { FormField } from './FormField';
-import { FormInput, FormProps, RedirectLink } from './types';
-import s from './form.module.scss';
+import { SubmitButton } from './SubmitButton';
+import { FormContainer } from './FormContainer';
+import { Heading } from './FormHeading';
+import { FormComponent } from './FormComponent';
+import { FormOption } from './FormOption';
 
-interface FormikFormProps<T extends FormikValues> extends FormikConfig<T> {
-  inputs: FormInput[];
-  form: FormProps;
-  redirectLink?: RedirectLink;
+const FormContext = createContext(null);
+
+interface CustomFormProps<T extends FormikValues> extends FormikConfig<T> {
   validationSchema: Yup.ObjectSchema<T>;
-  errorMessage?: FetchBaseQueryError | SerializedError;
+  children: ReactNode;
 }
 
 export const FormikForm = <T extends FormikValues>({
-  form,
-  inputs,
-  redirectLink,
-  errorMessage,
+  onSubmit,
   initialValues,
   validationSchema,
-  onSubmit,
+  children,
   ...props
-}: FormikFormProps<T>) => {
+}: CustomFormProps<T>) => {
   return (
-    <div className={s['form-container']}>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={onSubmit}
-        {...props}
-      >
-        <Form className={s.form}>
-          <h1 className={s.form__heading}>{form.formHeading}</h1>
-          {errorMessage ? (
-            <p className={`${s.form__error} ${s['form__res-error']}`}>
-              {getErrorMessage(errorMessage)}
-            </p>
-          ) : null}
-          {inputs.map((input) => {
-            return <FormField key={input.name} input={input} />;
-          })}
-          <Button className={s.form__button} variant="primary" type="submit">
-            {form.submitButton || 'Submit'}
-          </Button>
-          {redirectLink ? (
-            <Link className={s.form__link} to={redirectLink.linkPath}>
-              {redirectLink.linkText}
-            </Link>
-          ) : null}
-        </Form>
-      </Formik>
-    </div>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+      {...props}
+    >
+      {children}
+    </Formik>
   );
 };
+
+FormikForm.FormComponent = FormComponent;
+FormikForm.FormContainer = FormContainer;
+FormikForm.Heading = Heading;
+FormikForm.RedirectLink = RedirectLink;
+FormikForm.FormField = FormField;
+FormikForm.FormOption = FormOption;
+FormikForm.SubmitButton = SubmitButton;

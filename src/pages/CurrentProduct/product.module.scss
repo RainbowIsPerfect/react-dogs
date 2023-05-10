@@ -1,25 +1,21 @@
 @use '../../styles/' as *;
 
 .product {
-  @include flex(false, false, false, space(x));
+  display: grid;
+  grid-template-columns: minmax(rem(250), rem(300)) 1fr;
   margin-bottom: space(s);
-  font-size: rem(20);
-  height: rem(300);
   color: col(text);
   &__image-wrapper {
-    flex: 1 0 15%;
+    height: rem(300);
     border-radius: 5px;
     overflow: hidden;
     cursor: pointer;
   }
   &__image {
-    display: block;
-    width: 100%;
-    height: 100%;
+    @include image;
   }
   &__info {
     @include flex(false, flex-start, column);
-    flex: 1 1 60%;
     padding: space(s);
     overflow: auto;
   }
@@ -28,27 +24,20 @@
   }
   &__name {
     margin-bottom: space(xs);
-    font-size: rem(32);
-    color: col(text);
+    font-size: fz(xxl);
+    color: col(text-accent);
   }
   &__number {
-    margin-bottom: space(m);
-    font-size: rem(14);
+    margin-bottom: space(s);
+    font-size: space(m);
     color: col(text-secondary);
   }
-  &__price {
-    font-size: rem(30);
-    &_special {
-      color: col(accent-secondary);
-      margin-right: space(xs);
-    }
-    &_full {
-      font-size: rem(18);
-      text-decoration: line-through;
-    }
+  &__rating {
+    margin-bottom: space(s);
   }
   &__description {
     color: col(text);
+    font-size: fz(m);
   }
   &__item {
     font-size: rem(22);
@@ -61,5 +50,15 @@
   }
   &__main {
     flex: 1 1 auto;
+    margin-bottom: space(s);
+  }
+}
+
+@media (max-width: 600px){
+  .product {
+    &__info {
+      padding: space(s) 0;
+    }
+    grid-template-columns: 1fr;
   }
 }

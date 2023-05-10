@@ -8,6 +8,8 @@ import {
   SearchQuery,
   NewProduct,
   NewProductUpdate,
+  UserReview,
+  CartItem,
 } from '../../types';
 import {
   getCurrentUserProducts,
@@ -140,6 +142,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         );
         const fetchError = response.find((item) => item.error);
         const res = response.map((item) => item.data) as Product[];
+
         const userId = (getState() as RootState).user.userData._id;
 
         if (fetchError?.error) {
@@ -159,6 +162,18 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             ]
           : [{ type: 'Cart', id: 'CART' }],
     }),
+    addReview: builder.mutation<Product, UserReview>({
+      query: ({ _id, ...review }) => {
+        return {
+          url: `products/review/${_id}`,
+          method: 'POST',
+          body: review,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Products', id: arg._id },
+      ],
+    }),
   }),
 });
 
@@ -171,4 +186,5 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useGetUserCartProductsQuery,
+  useAddReviewMutation,
 } = productsApiSlice;

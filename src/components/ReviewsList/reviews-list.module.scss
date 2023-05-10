@@ -38,3 +38,14 @@
     height: rem(15);
   }
 }
+
+.reviews{
+  &__form {
+    width: 100%;
+  }
+  &__message {
+    margin-bottom: space(m);
+    font-size: fz(x);
+    color: col(text);
+  }
+}

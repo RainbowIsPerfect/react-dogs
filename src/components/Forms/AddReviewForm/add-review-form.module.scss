@@ -1,0 +1,10 @@
+@use '../../../styles/' as *;
+
+.form {
+  width: 100%;
+  margin-bottom: space(s);
+  padding: space(s);
+  &__heading {
+    font-size: fz(x);
+  }
+}

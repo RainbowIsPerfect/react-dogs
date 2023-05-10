@@ -1,0 +1,13 @@
+@use '../../../styles/' as *;
+
+.form {
+  @include flex(center, flex-start, column);
+  width: rem(500);
+  padding: space(m);
+  border-radius: 5px;
+  background-color: col(elements-bg);
+  &__error {
+    margin-bottom: space(m);
+    color: col(accent-secondary);
+  }
+}

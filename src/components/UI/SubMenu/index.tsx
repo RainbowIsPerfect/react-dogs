@@ -1,6 +1,5 @@
 import { ButtonHTMLAttributes } from 'react';
-import { MapContainer } from '../../MapContainer';
-import { Button } from '../Button';
+import { Button } from '../FormElements/Button';
 import s from './submenu.module.scss';
 
 interface ButtonProps<T extends string = string>
@@ -38,12 +37,3 @@ export const SubMenu = <T extends string = string>({
     </ul>
   );
 };
-// <MapContainer
-//   parent={{ tag: 'ul', className: s.submenu }}
-//   child={{
-//     tag: 'li',
-//     className: `${s.submenu__button}`,
-//   }}
-// >
-//   {children}
-// </MapContainer>

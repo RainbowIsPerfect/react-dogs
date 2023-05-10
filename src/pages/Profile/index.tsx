@@ -1,6 +1,6 @@
 import { ConditionalRenderer } from '../../components/ConditionalRenderer';
 import { CurrentUserProducts } from '../../components/CurrentUserProducts';
-import { TypedLink } from '../../components/TypedLink';
+import { TypedLink } from '../../components/TypedLinks/TypedLink';
 import { useGetCurrentUserQuery } from '../../store/slices/userApiSlice';
 import s from './profile.module.scss';
 
@@ -31,7 +31,6 @@ export const Profile = () => {
               <TypedLink
                 className={s.profile__link}
                 variant="primary"
-                component="Link"
                 to="/edit"
               >
                 Edit profile

@@ -1,0 +1,79 @@
+@use '../../../../styles/' as *;
+
+.input {
+  @include base-elements-styles;
+  &[type='number'] {
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+  &_start {
+    padding-left: space(xxl);
+  }
+  &_end {
+    padding-right: space(xxl);
+  }
+  &::placeholder {
+    color: col(text-secondary);
+  }
+}
+
+.container {
+  @include flex;
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+  transition: all 0.1s ease-in-out;
+  & button {
+    @include flex(center, center);
+    width: 100%;
+    height: 100%;
+    color: inherit;
+    border-top: none;
+    border-bottom: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+    &:hover {
+      .icon {
+        fill: col(text);
+      }
+    }
+    &:focus-visible {
+      .icon {
+        fill: col(text);
+      }
+    }
+  }
+  & svg {
+    width: 60%;
+    pointer-events: none;
+    fill: col(text-secondary);
+  }
+}
+
+.start {
+  @include flex(center, center);
+  @include size(rem(30), 100%);
+  @include pos(absolute, 0, false, false, 0);
+  & button {
+    @include button-pseudo(col(elements-border), col(elements-hover));
+    border: none;
+    border-right: 1px solid col(elements-border);
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+.end {
+  @include flex(center, center);
+  @include size(rem(30), 100%);
+  @include pos(absolute, 0, 0);
+  & button {
+    @include button-pseudo(col(elements-border), col(elements-hover));
+    border: none;
+    border-left: 1px solid col(elements-border);
+    transition: all 0.2s ease-in-out;
+  }
+}

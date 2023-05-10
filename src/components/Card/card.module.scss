@@ -6,70 +6,84 @@
   border: 1px solid col(elements-border);
   border-radius: 5px;
   overflow: hidden;
-  position: relative;
+  &__header {
+    position: relative;
+    height: rem(280);
+  }
   &__image {
-    @include image(100%, rem(230));
-  }
-  &__body {
-    @include flex(false, flex-start, column);
-    height: rem(125);
-    padding: space(s);
-    color: col(text);
-  }
-  &__description {
-    @include webkitbox;
-    margin-bottom: space(s);
-    font-size: fz(s);
-    font-weight: 400;
+    @include image;
   }
   &__tags {
     @include pos(absolute, 5, false, false, 5);
     @include flex;
   }
   &__tag {
-      padding: space(xs);
-      margin-right: space(xs);
-      list-style-type: none;
-      color: col(text-elements);
-      background-color: col(accent-secondary);
-      border-radius: 5px;
-  }
-  &__price {
-    @include flex(false, center);
-    margin-bottom: space(xs);
-    color: col(text-accent);
-    font-weight: 700;
-    font-size: fz(x);
-    word-spacing: -.2ch;
-    &_special {
-      color: col(accent-secondary);
-    }
-    &_prev {
-      margin-left: space(xxs);
-      text-decoration: line-through;
-      font-weight: 400;
-      font-size: fz(s);
-      color: col(text-secondary);
-    }
+    padding: space(xs);
+    margin-right: space(xs);
+    list-style-type: none;
+    color: col(text-elements);
+    background-color: col(accent);
+    border-radius: 5px;
   }
   &__like {
     @include pos(absolute, 5, 5);
     @include size(rem(30), rem(30));
-    & svg {
-      fill: col(text);
-      transition: fill 0.2s ease-in;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 1px solid col(elements-border);
+    @include button-pseudo;
+    &:hover,
+    &:focus-visible {
+      & .card__icon {
+        fill: col(accent);
+      }
+      & .card__icon_active {
+        fill: col(text-secondary);
+      }
     }
-    & svg.active {
-      fill: col(accent-secondary);
-    }
+  }
+  &__button {
+    padding: space(s);
+    width: 100%;
+  }
+  &__body {
+    @include flex(false, center, column);
+    flex: 1 1 auto;
+    padding: space(s);
+    padding-bottom: 0;
+    color: col(text);
+  }
+  &__description {
+    @include webkitbox;
+    text-align: center;
+    font-size: fz(s);
+    color: col(text);
+    padding: 0;
+    font-weight: 400;
     &:hover {
-      background-color: transparent;
-      & svg {
-        fill: col(accent-secondary);
-      }
-      & svg.active {
-        fill: col(text);
-      }
+      color: col(accent);
     }
+  }
+  &__link {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+  &__price {
+    margin-bottom: space(xs);
+  }
+  &__rating {
+    margin-bottom: space(xs);
+  }
+  &__icon {
+    fill: col(text-secondary);
+    transition: fill 0.2s ease-in;
+    &_active {
+      fill: col(accent);
+    }
+  }
+  &__footer {
+    @include flex(center, center);
+    padding: space(s);
   }
 }

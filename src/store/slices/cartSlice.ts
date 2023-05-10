@@ -1,116 +1,104 @@
-import {
-  createSlice,
-  PayloadAction,
-  createEntityAdapter,
-} from '@reduxjs/toolkit';
-import { RootState } from '..';
-import { ProductCartInfo, Cart } from '../../types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Cart } from '../../types';
 
-type AddToCartWithAmount = Pick<ProductCartInfo, '_id'> & { amount: number };
-
-const cartAdapter = createEntityAdapter<Cart>({
-  selectId: (item) => item._id,
-});
+const initialState: Cart = {
+  products: [],
+};
 
 export const cartSlice = createSlice({
   name: 'cart',
-  initialState: cartAdapter.getInitialState({
-    price: 0,
-    discountedPrice: 0,
-  }),
+  initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<ProductCartInfo>) => {
-      const currentItem = state.entities[action.payload._id];
+    addToCart: (state, action: PayloadAction<string>) => {
+      const currentItem = state.products.find(
+        (product) => product._id === action.payload
+      );
+
       if (!currentItem) {
-        cartAdapter.addOne(state, {
-          ...action.payload,
-          currentPrice: action.payload.price,
-          currentDiscountedPrice: action.payload.discountedPrice,
+        state.products.push({
+          _id: action.payload,
           currentInCart: 1,
+          isSelected: true,
         });
-        state.price += action.payload.price;
-        state.discountedPrice += action.payload.discountedPrice;
       }
     },
-    setProductAmount: (state, action: PayloadAction<AddToCartWithAmount>) => {
-      const currentItem = state.entities[action.payload._id];
-      if (currentItem) {
-        currentItem.currentInCart = action.payload.amount;
-      }
-    },
+    // setProductAmount: (state, action: PayloadAction<AddToCartWithAmount>) => {
+    //   const currentItem = state.entities[action.payload._id];
+    //   if (currentItem) {
+    //     currentItem.currentInCart = action.payload.amount;
+    //   }
+    // },
     incrementProductAmount: (state, action: PayloadAction<string>) => {
-      const currentItem = state.entities[action.payload];
-      if (currentItem && currentItem.stock > currentItem.currentInCart) {
-        cartAdapter.updateOne(state, {
-          id: action.payload,
-          changes: {
-            currentInCart: currentItem.currentInCart + 1,
-            currentPrice: currentItem.currentPrice + currentItem.price,
-            currentDiscountedPrice:
-              currentItem.currentDiscountedPrice + currentItem.discountedPrice,
-          },
-        });
-        state.price += currentItem.price;
-        state.discountedPrice += currentItem.discountedPrice;
+      const currentItem = state.products.find(
+        (product) => product._id === action.payload
+      );
+
+      if (currentItem) {
+        currentItem.currentInCart += 1;
       }
     },
     decrementProductAmount: (state, action: PayloadAction<string>) => {
-      const currentItem = state.entities[action.payload];
+      const currentItem = state.products.find(
+        (product) => product._id === action.payload
+      );
 
       if (currentItem) {
-        cartAdapter.updateOne(state, {
-          id: action.payload,
-          changes: {
-            currentInCart: currentItem.currentInCart - 1,
-            currentPrice: currentItem.currentPrice - currentItem.price,
-            currentDiscountedPrice:
-              currentItem.currentDiscountedPrice - currentItem.discountedPrice,
-          },
-        });
-        state.price -= currentItem.price;
-        state.discountedPrice -= currentItem.discountedPrice;
-        if (state.entities[action.payload]?.currentInCart === 0) {
-          cartAdapter.removeOne(state, action.payload);
+        currentItem.currentInCart -= 1;
+        if (currentItem.currentInCart === 0) {
+          state.products = state.products.filter(
+            (product) => product._id !== action.payload
+          );
         }
       }
     },
     deleteFromCart: (state, action: PayloadAction<string>) => {
-      const currentItem = state.entities[action.payload];
+      const currentItem = state.products.find(
+        (product) => product._id === action.payload
+      );
 
       if (currentItem) {
-        state.price -= currentItem.currentPrice;
-        state.discountedPrice -= currentItem.currentDiscountedPrice;
-        cartAdapter.removeOne(state, action.payload);
+        state.products = state.products.filter(
+          (product) => product._id !== action.payload
+        );
       }
     },
+    deleteByIds: (state, action: PayloadAction<string[]>) => {
+      state.products = state.products.filter(
+        (product) => !action.payload.includes(product._id)
+      );
+    },
     clearCart: (state) => {
-      cartAdapter.removeAll(state);
-      state.price = 0;
-      state.discountedPrice = 0;
+      state.products = [];
+      // state.totalDiscountedPrice = 0;
+      // state.totalPrice = 0;
+    },
+    toggleIsSelected: (state, action: PayloadAction<string>) => {
+      const currentItem = state.products.find(
+        (product) => product._id === action.payload
+      );
+      if (currentItem) {
+        currentItem.isSelected = !currentItem.isSelected;
+      }
+    },
+    toggleSelectAll: (state) => {
+      const isEverySelected = state.products.every((item) => item.isSelected);
+
+      state.products = state.products.map((product) => ({
+        ...product,
+        isSelected: !isEverySelected,
+      }));
     },
   },
 });
 
-const adapterSelectors = cartAdapter.getSelectors();
-
-export const getAllCartProducts = (state: RootState) =>
-  adapterSelectors.selectAll(state.cart);
-
-export const getCartProductById = (state: RootState, id: string) =>
-  adapterSelectors.selectById(state.cart, id);
-
-export const getAllCartIds = (state: RootState) =>
-  adapterSelectors.selectIds(state.cart) as string[];
-
-export const getCartProductsTotal = (state: RootState) =>
-  adapterSelectors.selectTotal(state.cart);
-
 export const {
-  deleteFromCart,
-  setProductAmount,
+  // setProductAmount,
   addToCart,
   decrementProductAmount,
   incrementProductAmount,
+  deleteByIds,
+  toggleIsSelected,
+  toggleSelectAll,
   clearCart,
 } = cartSlice.actions;
 

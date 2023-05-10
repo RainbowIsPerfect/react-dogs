@@ -29,4 +29,9 @@
   &__heading {
     font-size: fz(m);
   }
+  &__checkbox {
+    @include size(rem(20), rem(20));
+    margin-right: space(xs);
+    cursor: pointer;
+  }
 }

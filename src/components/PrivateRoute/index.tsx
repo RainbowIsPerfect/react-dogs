@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { useAppSelector } from '../../hooks/reduxHooks';
-import { TypedLink } from '../TypedLink';
+import { TypedNavigate } from '../TypedLinks/TypedNavigate';
 
 interface PrivateRouteProps {
   children: ReactElement;
@@ -13,5 +13,5 @@ export const PrivateRoute = ({ children }: PrivateRouteProps) => {
     return children;
   }
 
-  return <TypedLink component="Navigate" to="/signin" />;
+  return <TypedNavigate to="/signin" />;
 };

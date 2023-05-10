@@ -1,0 +1,15 @@
+@use '../../../styles/' as *;
+
+.rating {
+  @include flex;
+  &__icon {
+    width: rem(15);
+    height: rem(15);
+    &_active {
+      fill: col(accent);
+    }
+  }
+  &__count {
+    margin-left: space(xs);
+  }
+}

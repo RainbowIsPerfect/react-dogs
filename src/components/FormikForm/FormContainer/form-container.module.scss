@@ -1,0 +1,5 @@
+@use '../../../styles/' as *;
+
+.form-container {
+  @include flex(center, center);
+}

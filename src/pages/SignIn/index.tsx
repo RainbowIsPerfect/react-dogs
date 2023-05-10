@@ -1,12 +1,12 @@
-import { SignInForm } from '../../components/SignInForm';
-import { TypedLink } from '../../components/TypedLink';
+import { SignInForm } from '../../components/Forms/SignInForm';
+import { TypedNavigate } from '../../components/TypedLinks/TypedNavigate';
 import { useAppSelector } from '../../hooks/reduxHooks';
 
 export const SignIn = () => {
   const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
   if (isLoggedIn) {
-    return <TypedLink component="Navigate" to="/" />;
+    return <TypedNavigate to="/" />;
   }
 
   return <SignInForm />;

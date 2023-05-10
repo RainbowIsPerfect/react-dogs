@@ -26,7 +26,7 @@ const checkProductIsLiked = (likes: string[], userLike: string): boolean => {
 };
 
 const addDiscountToTags = (tags: string[], discount: number): string[] => {
-  return discount ? [...tags, `${discount}%`] : tags;
+  return discount ? [`-${discount}%`, ...tags] : tags;
 };
 
 const formatDate = (date: string, isFullMonthName?: boolean) => {
@@ -56,7 +56,7 @@ const extendProductWithCustomProps = (
   };
 };
 
-const wrapResonse = <T>(res: T): DataResponse<T> => ({ data: res });
+const wrapResponse = <T>(res: T): DataResponse<T> => ({ data: res });
 
 type ReturnResult<T> = T extends Product[] | BaseApiResponse
   ? DataResponse<CustomApiResponse>
@@ -69,7 +69,7 @@ export const getCustomProduct = <T extends ResponseType>(
   userId: string
 ) => {
   if (Array.isArray(productResponse)) {
-    return wrapResonse({
+    return wrapResponse({
       products: productResponse.map((product) =>
         extendProductWithCustomProps(product, userId)
       ),
@@ -78,7 +78,7 @@ export const getCustomProduct = <T extends ResponseType>(
   }
 
   if ('total' in productResponse) {
-    return wrapResonse({
+    return wrapResponse({
       total: productResponse.total,
       products: productResponse.products.map((product) =>
         extendProductWithCustomProps(product, userId)
@@ -86,7 +86,7 @@ export const getCustomProduct = <T extends ResponseType>(
     }) as ReturnResult<T>;
   }
 
-  return wrapResonse(
+  return wrapResponse(
     extendProductWithCustomProps(productResponse, userId)
   ) as ReturnResult<T>;
 };
@@ -99,7 +99,7 @@ export const getCurrentUserProducts = (
     (product) => product.author._id === userId
   );
 
-  return wrapResonse({
+  return wrapResponse({
     products: filteredProducts,
     total: filteredProducts.length,
   });

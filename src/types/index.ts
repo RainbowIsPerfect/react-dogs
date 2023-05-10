@@ -7,12 +7,13 @@ export type RelativeRoutes =
   | 'products/:productId/:edit'
   | 'edit'
   | 'create_product';
-export type AbsoluteRoutes = `/${Exclude<RelativeRoutes, '/'>}` | '/';
+export type AbsoluteRoutes = `/${RelativeRoutes}` | '/';
 export type DynamicRoutes = Extract<
   RelativeRoutes | AbsoluteRoutes,
   `${string}:${string}`
 >;
 export type Routes = AbsoluteRoutes | RelativeRoutes;
+export type RoutesWithoutParams = Exclude<Routes, `${string}/:${string}`>;
 
 export type ExtractParams<T> =
   T extends `${string}:${infer Param}/${infer Rest}`
@@ -24,8 +25,8 @@ export type ExtractParams<T> =
 export type DynamicRoutesParams<T extends DynamicRoutes> = ExtractParams<T>;
 
 interface BaseResponseData {
-  __v: number;
   _id: string;
+  __v: number;
 }
 
 interface CreateData<T extends string | Author> {
@@ -105,24 +106,21 @@ export interface UserRegisterData extends User {
   isAdmin: boolean;
 }
 
-export interface CurrentCartState {
+export interface CartItem {
+  _id: string;
   currentInCart: number;
-  currentPrice: number;
-  currentDiscountedPrice: number;
+  isSelected: boolean;
 }
 
-export type ProductCartInfo = Pick<
-  ProductWithCustomProps,
-  '_id' | 'stock' | 'price' | 'discountedPrice'
->;
-
-export type Cart = ProductCartInfo & CurrentCartState;
+export type Cart = {
+  products: CartItem[];
+};
 
 export type UserInfo = Pick<User, 'about' | 'name' | 'avatar'>;
-
+export type UserReview = Pick<Review, 'rating' | 'text' | '_id'>;
 export type AdditionalProductInfo = Pick<
   Product,
-  'stock' | 'wight' | 'created_at' | 'updated_at' | '_id'
+  'stock' | 'wight' | 'created_at' | 'updated_at'
 >;
 
 export type NewProduct = Pick<

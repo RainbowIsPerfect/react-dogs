@@ -1,0 +1,57 @@
+@use '../../styles/' as *;
+
+.header {
+  padding: space(m) 0;
+  background-color: col(main-bg);
+  &__navigation {
+    @include flex(space-between, center);
+  }
+  &__nav {
+    @include flex(false, center);
+  }
+  &__list {
+    @include flex;
+    list-style-type: none;
+  }
+  &__item {
+    margin-right: space(x);
+    position: relative;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  &__button {
+    @include size(rem(35), rem(35));
+    position: relative;
+    &_cart {
+      @include pos(absolute, -2, -8);
+      background-color: col(accent);
+      color: col(text-accent);
+      border-radius: 50%;
+      padding: space(xs);
+      font-size: fz(xs);
+    }
+  }
+  &__icon {
+    fill: col(text-accent);
+  }
+  &__link {
+    font-size: fz(xm);
+  }
+  &__logo-icon {
+    width: rem(30);
+    fill: col(accent);
+  }
+  &__logo {
+    margin-right: space(x);
+    padding: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    &__title {
+      display: none;
+    }
+  }
+}

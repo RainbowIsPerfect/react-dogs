@@ -5,6 +5,7 @@
     @include flex;
     border-bottom: 1px solid col(elements);
     margin-bottom: space(s);
+    overflow: auto;
   }
   &__button {
     border-radius: 0;

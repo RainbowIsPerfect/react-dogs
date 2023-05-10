@@ -1,30 +1,33 @@
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { useAppDispatch } from '../../hooks/reduxHooks';
 import {
   decrementProductAmount,
-  getCartProductById,
   incrementProductAmount,
 } from '../../store/slices/cartSlice';
-import { Product } from '../../types';
-import { Input } from '../UI/Input';
+import { CartItem, ProductWithCustomProps } from '../../types';
+import { ProductPrice } from '../ProductPrice';
+import { Input } from '../UI/FormElements/Input';
 import s from './cart-input.module.scss';
 
 interface CartInputProps {
-  product: Product;
+  product: ProductWithCustomProps;
+  currentProduct: CartItem;
 }
 
-export const CartInput = ({ product }: CartInputProps) => {
+export const CartInput = ({ product, currentProduct }: CartInputProps) => {
   const dispatch = useAppDispatch();
-  const currentItem = useAppSelector((state) =>
-    getCartProductById(state, product._id)
-  );
 
-  return currentItem ? (
+  return currentProduct ? (
     <div className={s.container}>
-      <p>{currentItem.currentPrice}</p>
+      <ProductPrice
+        price={product.price * currentProduct.currentInCart}
+        discountedPrice={product.discountedPrice * currentProduct.currentInCart}
+        className={s.input__price}
+      />
       <Input
         readOnly
-        containerClassName={s.input}
-        value={currentItem.currentInCart}
+        className={s.input}
+        inputClassName={s.input__field}
+        value={currentProduct.currentInCart}
         type="number"
         startIcon={
           <button
@@ -37,7 +40,7 @@ export const CartInput = ({ product }: CartInputProps) => {
         endIcon={
           <button
             className={s.input__button}
-            disabled={currentItem.currentInCart === product.stock}
+            disabled={currentProduct.currentInCart === product.stock}
             onClick={() => dispatch(incrementProductAmount(product._id))}
           >
             +

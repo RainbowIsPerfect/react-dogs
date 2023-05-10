@@ -1,36 +1,33 @@
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
+import { DefaultPropsWithChildren } from '../../types/prop-types';
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import { Loader } from '../UI/Loaders/Spinner';
 import s from './renderer.module.scss';
 
-interface ConditionalRendererProps {
+interface ConditionalRendererProps extends DefaultPropsWithChildren {
   isLoading: boolean;
-  isSuccess: boolean;
   error: FetchBaseQueryError | SerializedError | undefined;
-  children: ReactNode;
   isFetching?: boolean;
-  loader?: ReactNode;
-  className?: string;
+  loader?: ReactElement;
 }
 
 export const ConditionalRenderer = ({
   isLoading,
-  isSuccess,
   error,
   children,
   loader = <Loader />,
   isFetching = false,
   className = '',
 }: ConditionalRendererProps) => {
-  const condition = isLoading || isFetching || !!error;
+  if (isFetching || isLoading) {
+    return loader;
+  }
 
-  return (
-    <div className={condition ? '' : className}>
-      {(isLoading || isFetching) && loader}
-      {error && <p className={s.error}>{getErrorMessage(error)}</p>}
-      {isSuccess && !isFetching && children}
-    </div>
-  );
+  if (error) {
+    return <p className={s.error}>{getErrorMessage(error)}</p>;
+  }
+
+  return <div className={className}>{children}</div>;
 };

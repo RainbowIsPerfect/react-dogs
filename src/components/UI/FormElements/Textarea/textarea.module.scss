@@ -1,0 +1,11 @@
+@use '../../../../styles/' as *;
+
+.textarea {
+  @include base-elements-styles;
+  min-height: rem(100);
+  max-height: rem(200);
+  resize: vertical;
+  &::placeholder {
+    color: col(text-secondary);
+  }
+}

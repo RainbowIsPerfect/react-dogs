@@ -1,11 +1,7 @@
 @use '../../styles/' as *;
 
-.centered {
-  @include flex(center, center);
-}
-
 .error {
   font-size: fz(m);
   text-align: center;
-  color: col(accent-secondary)
+  color: col(accent-secondary);
 }
