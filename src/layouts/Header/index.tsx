@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { Container } from '../Container';
 import { MainLogo } from '../../components/UI/Icons/MainLogo';
-import { ThemeIcon } from '../../components/UI/Icons/ThemeIcon';
 import { useTheme } from '../../hooks/useTheme';
-import { LogOutIcon } from '../../components/UI/Icons/LogOutIcon';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { LogInIcon } from '../../components/UI/Icons/LogInIcon';
 import { Button } from '../../components/UI/FormElements/Button';
 import { SubMenu } from '../../components/UI/SubMenu';
 import { logOut } from '../../store/slices/userSlice';
@@ -46,7 +43,7 @@ export const Header = () => {
                 </TypedNavLink>
               </li>
               <li className={s.header__item}>
-                <TypedNavLink className={s.header__link} to="/edit">
+                <TypedNavLink className={s.header__link} to="/favorite">
                   Favorites
                 </TypedNavLink>
               </li>

@@ -6,7 +6,8 @@ export type RelativeRoutes =
   | 'products/:productId'
   | 'products/edit/:productId'
   | 'edit'
-  | 'create_product';
+  | 'create_product'
+  | 'favorite';
 export type AbsoluteRoutes = `/${RelativeRoutes}` | '/';
 export type DynamicRoutes = Extract<
   RelativeRoutes | AbsoluteRoutes,

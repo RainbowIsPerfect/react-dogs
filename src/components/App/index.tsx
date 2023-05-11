@@ -5,6 +5,7 @@ import { CreateNewProduct } from '../../pages/CreateNewProduct';
 import { CurrentProduct } from '../../pages/CurrentProduct';
 import { EditProduct } from '../../pages/EditProduct';
 import { EditProfile } from '../../pages/EditProfile';
+import { Favorites } from '../../pages/Favorites';
 import { NotFound } from '../../pages/NotFound';
 import { Products } from '../../pages/Products';
 import { Profile } from '../../pages/Profile';
@@ -79,6 +80,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <EditProfile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'favorite',
+        element: (
+          <PrivateRoute>
+            <Favorites />
           </PrivateRoute>
         ),
       },

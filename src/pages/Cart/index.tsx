@@ -1,5 +1,6 @@
 import { CartCard } from '../../components/CartCard';
 import { ConditionalRenderer } from '../../components/ConditionalRenderer';
+import { TypedLink } from '../../components/TypedLinks/TypedLink';
 import { Button } from '../../components/UI/FormElements/Button';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
 import {
@@ -88,7 +89,10 @@ export const Cart = () => {
             })}
           </>
         ) : (
-          <p className={s.message}>Cart is empty</p>
+          <div>
+            <p className={s.message}>Cart is empty</p>
+            <TypedLink to="/">Go to catalog</TypedLink>
+          </div>
         )}
       </ConditionalRenderer>
     </>

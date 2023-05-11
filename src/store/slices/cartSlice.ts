@@ -22,12 +22,17 @@ export const cartSlice = createSlice({
         });
       }
     },
-    // setProductAmount: (state, action: PayloadAction<AddToCartWithAmount>) => {
-    //   const currentItem = state.entities[action.payload._id];
-    //   if (currentItem) {
-    //     currentItem.currentInCart = action.payload.amount;
-    //   }
-    // },
+    setProductAmount: (
+      state,
+      action: PayloadAction<{ _id: string; amount: number }>
+    ) => {
+      const currentItem = state.products.find(
+        (product) => product._id === action.payload._id
+      );
+      if (currentItem) {
+        currentItem.currentInCart = action.payload.amount;
+      }
+    },
     incrementProductAmount: (state, action: PayloadAction<string>) => {
       const currentItem = state.products.find(
         (product) => product._id === action.payload
@@ -92,7 +97,7 @@ export const cartSlice = createSlice({
 });
 
 export const {
-  // setProductAmount,
+  setProductAmount,
   addToCart,
   decrementProductAmount,
   incrementProductAmount,

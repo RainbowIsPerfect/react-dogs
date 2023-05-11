@@ -187,6 +187,32 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         { type: 'Products', id: arg._id },
       ],
     }),
+    getFavoriteUserProducts: builder.query<CustomApiResponse, void>({
+      queryFn: async (arg, { getState }, _, baseQuery) => {
+        const userId = (getState() as RootState).user.userData._id;
+        const response = await baseQuery(`products`);
+        const res = response.data as BaseApiResponse;
+
+        if (response.error) {
+          return { error: response.error };
+        }
+
+        return getCustomProduct(
+          res.products.filter((product) => product.likes.includes(userId)),
+          userId
+        );
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.products.map(({ _id }) => ({
+                type: 'Products' as const,
+                id: _id,
+              })),
+              { type: 'Products', id: 'LIST' },
+            ]
+          : [{ type: 'Products', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -201,4 +227,5 @@ export const {
   useGetUserCartProductsQuery,
   useAddReviewMutation,
   useDeleteReviewMutation,
+  useGetFavoriteUserProductsQuery,
 } = productsApiSlice;
