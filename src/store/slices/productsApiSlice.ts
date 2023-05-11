@@ -22,10 +22,11 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     getAllProducts: builder.query<CustomApiResponse, SearchQuery>({
       queryFn: async (searchQuery, { getState }, _, baseQuery) => {
         const userId = (getState() as RootState).user.userData._id;
+
         const response = await baseQuery(
           searchQuery.search
-            ? `products/search?query=${searchQuery.search}`
-            : `products`
+            ? `products?query=${searchQuery.search}&page=${searchQuery.page}&limit=${searchQuery.itemsPerPage}`
+            : `products?page=${searchQuery.page}&limit=${searchQuery.itemsPerPage}`
         );
         const res = response.data as BaseApiResponse | Product[];
 
@@ -33,10 +34,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
           return { error: response.error as FetchBaseQueryError };
         }
 
-        const products = getCustomProduct(
-          'total' in res ? res.products : res,
-          userId
-        );
+        const products = getCustomProduct(res, userId);
 
         return sortProducts(products, searchQuery.sorting);
       },

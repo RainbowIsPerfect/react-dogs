@@ -152,4 +152,6 @@ export type SortingType =
 export interface SearchQuery {
   search: string;
   sorting: SortingType;
+  page: number;
+  itemsPerPage: number;
 }

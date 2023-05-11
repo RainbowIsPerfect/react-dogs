@@ -1,3 +1,4 @@
+import { useInView } from 'react-intersection-observer';
 import { Button } from '../UI/FormElements/Button';
 import { LikeIcon } from '../UI/Icons/LikeIcon';
 import type { ProductWithCustomProps } from '../../types';
@@ -20,9 +21,13 @@ export const Card = ({ productData, children }: CardProps) => {
     state.cart.products.find((item) => item._id === productData._id)
   );
   const dispatch = useAppDispatch();
+  const { ref, inView } = useInView({
+    threshold: 0,
+    triggerOnce: true,
+  });
 
   return (
-    <div className={s.card}>
+    <div ref={ref} className={s.card}>
       <header className={s.card__header}>
         <TypedLink
           to="/products/:productId"
@@ -30,11 +35,13 @@ export const Card = ({ productData, children }: CardProps) => {
           variant="unstyled"
           className={s.card__link}
         >
-          <img
-            className={s.card__image}
-            src={productData.pictures}
-            alt={productData.name}
-          />
+          {inView && (
+            <img
+              className={s.card__image}
+              src={productData.pictures}
+              alt={productData.name}
+            />
+          )}
         </TypedLink>
         {productData.tags.length !== 0 && (
           <ul className={s.card__tags}>

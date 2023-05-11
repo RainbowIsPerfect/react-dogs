@@ -1,0 +1,38 @@
+@use '../../styles/' as *;
+
+.pagination {
+  @include flex(center, center);
+  width: 100%;
+  background-color: col(elements-bg);
+  @include border(5px);
+  list-style-type: none;
+  &__item {
+    @include flex(center, center);
+    height: rem(40);
+    color: col(text-accent);
+    font-size: fz(m);
+    cursor: pointer;
+    &:hover {
+      color: col(text-accent);
+    }
+    &_active {
+      background-color: col(accent-hover);
+    }
+    &_next {
+      &:hover {
+        color: col(text-accent);
+      }
+    }
+    &_previous {
+      &:hover {
+        color: col(text-accent);
+      }
+    }
+    &_page {
+      @include size(rem(40), rem(40));
+      &:hover {
+        background-color: col(accent-hover);
+      }
+    }
+  }
+}
