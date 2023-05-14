@@ -111,10 +111,14 @@ export const sortProducts = <T extends CustomApiResponse>(
 ): DataResponse<T> => {
   switch (sortingQuery) {
     case 'price_low':
-      productData.data.products.sort((a, b) => a.price - b.price);
+      productData.data.products.sort(
+        (a, b) => a.discountedPrice - b.discountedPrice
+      );
       return productData;
     case 'price_high':
-      productData.data.products.sort((a, b) => b.price - a.price);
+      productData.data.products.sort(
+        (a, b) => b.discountedPrice - a.discountedPrice
+      );
       return productData;
     case 'name':
       productData.data.products.sort((a, b) => a.name.localeCompare(b.name));

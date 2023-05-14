@@ -14,6 +14,7 @@ import { apiSlice } from './slices/apiSlice';
 import { cartSliceReducer } from './slices/cartSlice';
 import { userSliceReducer } from './slices/userSlice';
 import { themeSliceReducer } from './slices/themeSlice';
+import { filterSliceReducer } from './slices/filterSlice';
 
 const persistConfig = {
   key: 'root',
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   theme: themeSliceReducer,
   user: userSliceReducer,
   cart: cartSliceReducer,
+  filter: filterSliceReducer,
   [apiSlice.reducerPath]: apiSlice.reducer,
 });
 

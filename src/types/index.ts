@@ -1,13 +1,6 @@
-export type RelativeRoutes =
-  | 'signup'
-  | 'signin'
-  | 'me'
-  | 'cart'
-  | 'products/:productId'
-  | 'products/edit/:productId'
-  | 'edit'
-  | 'create_product'
-  | 'favorite';
+import { SORTING_VALUES, ROUTES } from '../constants';
+
+export type RelativeRoutes = (typeof ROUTES)[number];
 export type AbsoluteRoutes = `/${RelativeRoutes}` | '/';
 export type DynamicRoutes = Extract<
   RelativeRoutes | AbsoluteRoutes,
@@ -142,16 +135,13 @@ export type DataResponse<T> = {
   data: T;
 };
 
-export type SortingType =
-  | 'price_low'
-  | 'price_high'
-  | 'name'
-  | 'sale'
-  | 'popularity';
+export type SortingType = (typeof SORTING_VALUES)[number];
 
-export interface SearchQuery {
+export interface SearchOptions {
   search: string;
   sorting: SortingType;
+}
+export interface SearchQuery extends SearchOptions {
   page: number;
   itemsPerPage: number;
 }

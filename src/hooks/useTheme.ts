@@ -11,7 +11,9 @@ export const useTheme = () => {
   }, [theme]);
 
   const setTheme = (themeType: Theme): void => {
-    dispatch(switchTheme(themeType));
+    if (themeType !== theme) {
+      dispatch(switchTheme(themeType));
+    }
   };
 
   return [theme, setTheme] as const;

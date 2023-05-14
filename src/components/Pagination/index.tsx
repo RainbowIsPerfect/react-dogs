@@ -1,14 +1,18 @@
-import ReactPaginate from 'react-paginate';
+import ReactPaginate, { ReactPaginateProps } from 'react-paginate';
 import s from './pagination.module.scss';
 
-interface PaginationProps {
-  onPageChange: (selectedItem: { selected: number }) => void;
-  pageCount: number;
-}
+type PaginationProps = Required<
+  Pick<ReactPaginateProps, 'onPageChange' | 'initialPage' | 'pageCount'>
+>;
 
-export const Pagination = ({ pageCount, onPageChange }: PaginationProps) => {
+export const Pagination = ({
+  pageCount,
+  initialPage,
+  onPageChange,
+}: PaginationProps) => {
   return (
     <ReactPaginate
+      initialPage={initialPage}
       activeClassName={`${s.pagination__item} ${s.pagination__item_active}`}
       breakClassName={s.pagination__item_page}
       breakLinkClassName={s.pagination__item}
@@ -26,6 +30,7 @@ export const Pagination = ({ pageCount, onPageChange }: PaginationProps) => {
       pageCount={pageCount}
       previousLabel="<"
       renderOnZeroPageCount={null}
+      disableInitialCallback
     />
   );
 };

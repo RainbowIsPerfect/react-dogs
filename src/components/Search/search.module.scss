@@ -1,0 +1,14 @@
+@use '../../styles/' as *;
+
+.search-container {
+  @include flex(space-between);
+  margin-bottom: space(x);
+}
+
+.input {
+  width: 100%;
+  margin-right: space(s);
+  &:last-child {
+    margin: 0;
+  }
+}
