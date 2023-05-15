@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { productsApiSlice } from './productsApiSlice';
 import { Cart } from '../../types';
 
 const initialState: Cart = {
@@ -93,6 +94,19 @@ export const cartSlice = createSlice({
         isSelected: !isEverySelected,
       }));
     },
+  },
+  extraReducers(builder) {
+    builder.addMatcher(
+      productsApiSlice.endpoints.getUserCartProducts.matchFulfilled,
+      (state, action) => {
+        state.products = state.products.filter((product) => {
+          const isInCart = action.payload.products.find(
+            (requstedProduct) => requstedProduct._id === product._id
+          );
+          return isInCart;
+        });
+      }
+    );
   },
 });
 

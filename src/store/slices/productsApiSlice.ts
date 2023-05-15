@@ -147,6 +147,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         const res = response
           .filter((item) => item.data)
           .map((item) => item.data) as Product[];
+
         const userId = (getState() as RootState).user.userData._id;
 
         return getCustomProduct(res, userId);
