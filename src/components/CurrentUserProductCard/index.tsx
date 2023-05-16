@@ -15,7 +15,7 @@ export const CurrentUserProductCard = ({
   const [deleteProduct, { isLoading }] = useDeleteProductMutation();
 
   return (
-    <Card productData={product}>
+    <Card product={product}>
       <TypedLink
         className={s.button}
         to="/products/edit/:productId"

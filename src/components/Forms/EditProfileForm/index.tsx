@@ -1,11 +1,9 @@
-import { Field } from 'formik';
 import * as Yup from 'yup';
 import { useAppSelector } from '../../../hooks/reduxHooks';
 import { useEditUserMutation } from '../../../store/slices/userApiSlice';
 import { UserInfo } from '../../../types';
 import { FormikForm } from '../../FormikForm';
 import { TypedNavigate } from '../../TypedLinks/TypedNavigate';
-import { Input } from '../../UI/FormElements/Input';
 
 const EditUserSchema = Yup.object().shape({
   name: Yup.string().required('Required'),

@@ -47,11 +47,3 @@
     padding: 0;
   }
 }
-
-@media (max-width: 600px) {
-  .header {
-    &__title {
-      display: none;
-    }
-  }
-}

@@ -1,110 +1,52 @@
-import { useInView } from 'react-intersection-observer';
-import { Button } from '../UI/FormElements/Button';
-import { LikeIcon } from '../UI/Icons/LikeIcon';
-import type { ProductWithCustomProps } from '../../types';
-import { useToggleLikeMutation } from '../../store/slices/productsApiSlice';
+import { ProductWithCustomProps } from '../../types';
 import { Rating } from '../UI/Rating';
 import { ProductPrice } from '../ProductPrice';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { addToCart } from '../../store/slices/cartSlice';
 import { TypedLink } from '../TypedLinks/TypedLink';
 import { ComponentWithChildren } from '../../types/prop-types';
+import { CardFooter } from './CardFooter';
+import { CardHeader } from './CardHeader';
 import s from './card.module.scss';
 
 interface CardProps extends Partial<ComponentWithChildren> {
-  productData: ProductWithCustomProps;
+  product: ProductWithCustomProps;
 }
 
-export const Card = ({ productData, children }: CardProps) => {
-  const [toggleLike, { isLoading }] = useToggleLikeMutation();
-  const currentItem = useAppSelector((state) =>
-    state.cart.products.find((item) => item._id === productData._id)
-  );
-  const dispatch = useAppDispatch();
-  const { ref, inView } = useInView({
-    threshold: 0,
-    triggerOnce: true,
-  });
-
+export const Card = ({ product, children }: CardProps) => {
   return (
-    <div ref={ref} className={s.card}>
-      <header className={s.card__header}>
-        <TypedLink
-          to="/products/:productId"
-          params={{ productId: productData._id }}
-          variant="unstyled"
-          className={s.card__link}
-        >
-          {inView && (
-            <img
-              className={s.card__image}
-              src={productData.pictures}
-              alt={productData.name}
-            />
-          )}
-        </TypedLink>
-        {productData.tags.length !== 0 && (
-          <ul className={s.card__tags}>
-            {productData.tags.map((tag, i) => (
-              <li key={i} className={s.card__tag}>
-                {tag}
-              </li>
-            ))}
-          </ul>
-        )}
-        <Button
-          disabled={isLoading}
-          className={s.card__like}
-          variant="icon"
-          onClick={() =>
-            toggleLike({ _id: productData._id, likes: productData.likes })
-          }
-        >
-          <LikeIcon
-            className={`${s.card__icon} ${
-              productData.isLiked ? s.card__icon_active : ''
-            }`}
-          />
-        </Button>
-      </header>
+    <div className={s.card}>
+      <CardHeader
+        _id={product._id}
+        isLiked={product.isLiked}
+        likes={product.likes}
+        name={product.name}
+        pictures={product.pictures}
+        tags={product.tags}
+      />
       <div className={s.card__body}>
         <Rating
-          counter={productData.reviews.length}
+          counter={product.reviews.length}
           className={s.card__rating}
-          rating={productData.rating}
+          rating={product.rating}
         />
         <ProductPrice
           className={s.card__price}
-          discountedPrice={productData.discountedPrice}
-          price={productData.price}
+          discountedPrice={product.discountedPrice}
+          price={product.price}
         />
-        <h2 title={productData.name}>
+        <h2 title={product.name}>
           <TypedLink
             to="/products/:productId"
-            params={{ productId: productData._id }}
+            params={{ productId: product._id }}
             variant="transparent"
             className={s.card__description}
           >
-            {productData.name}
+            {product.name}
           </TypedLink>
         </h2>
       </div>
-      <footer className={s.card__footer}>
-        {currentItem ? (
-          <TypedLink className={s.card__button} to="/cart" variant="primary">
-            Already in cart
-          </TypedLink>
-        ) : (
-          <Button
-            className={`${s.card__button}`}
-            onClick={() => dispatch(addToCart(productData._id))}
-            disabled={productData.stock <= 0}
-          >
-            {productData.stock <= 0 ? 'Out of stock' : 'Add to cart'}
-          </Button>
-        )}
+      <CardFooter _id={product._id} stock={product.stock}>
         {children}
-      </footer>
+      </CardFooter>
     </div>
   );
 };

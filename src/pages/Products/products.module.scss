@@ -1,49 +1,7 @@
 @use '../../styles/' as *;
 
-.card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(rem(250), 1fr));
-  grid-auto-rows: 1fr;
-  gap: space(m);
-  margin-bottom: space(m);
-}
-
-.input {
-  width: 100%;
-  margin-right: space(s);
-  &:last-child {
-    margin: 0;
-  }
-}
-
-.total {
-  margin-bottom: space(x);
-  color: col(text);
-}
-
 .heading {
   margin-bottom: space(m);
   color: col(text-accent);
   font-size: fz(xxl);
-}
-
-.search-container {
-  @include flex(space-between);
-  margin-bottom: space(x);
-}
-
-.select {
-  padding: space(xs);
-  min-height: 100%;
-  border: 1px solid col(elements-border);
-  border-radius: 10px;
-  font-size: fz(s);
-  color: col(text);
-  background-color: col(elements);
-}
-
-.message {
-  margin-bottom: space(s);
-  font-size: fz(m);
-  color: col(text);
 }

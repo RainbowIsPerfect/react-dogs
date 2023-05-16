@@ -23,7 +23,7 @@ export const Favorites = () => {
       >
         {condition ? (
           data.products.map((product) => (
-            <Card productData={product} key={product._id} />
+            <Card product={product} key={product._id} />
           ))
         ) : (
           <>
