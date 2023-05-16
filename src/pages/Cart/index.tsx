@@ -12,12 +12,14 @@ import { useGetUserCartProductsQuery } from '../../store/slices/productsApiSlice
 import s from './cart.module.scss';
 
 export const Cart = () => {
-  const products = useAppSelector((state) => state.cart.products);
+  const { products } = useAppSelector((state) => state.cart);
   const { data, isLoading, error } = useGetUserCartProductsQuery(
-    products.map((item) => item._id)
+    products.map((product) => product._id)
   );
   const dispatch = useAppDispatch();
-  const selectedProduct = products.filter((product) => product.isSelected);
+  const selectedProduct = products
+    .filter((product) => product.isSelected)
+    .map((item) => item._id);
   const countSum = (priceType: 'discountedPrice' | 'price') => {
     if (!data) return 0;
     return data.products.reduce((acc, curr) => {
@@ -60,11 +62,7 @@ export const Cart = () => {
               </div>
               <div className={s.order__buttons}>
                 <Button
-                  onClick={() =>
-                    dispatch(
-                      deleteByIds(selectedProduct.map((item) => item._id))
-                    )
-                  }
+                  onClick={() => dispatch(deleteByIds(selectedProduct))}
                   disabled={selectedProduct.length === 0}
                   className={s.order__button}
                 >
@@ -81,6 +79,12 @@ export const Cart = () => {
                   className={s.order__button}
                 >
                   Delete all
+                </Button>
+                <Button
+                  onClick={() => dispatch(deleteByIds(selectedProduct))}
+                  className={s.order__button}
+                >
+                  Delete selected
                 </Button>
               </div>
             </div>
