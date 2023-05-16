@@ -1,12 +1,11 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import { ReactNode } from 'react';
+import { Dispatch, ReactElement, SetStateAction } from 'react';
 import { createPortal } from 'react-dom';
+import { ComponentWithChildren } from '../../../types/prop-types';
 import s from './modal.module.scss';
 
-interface ModalProps {
-  children: ReactNode;
+interface ModalProps extends ComponentWithChildren<ReactElement> {
   isOpen: boolean;
-  setIsOpen: (...args: any[]) => any;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const modalRoot = document.getElementById('modal') as HTMLDivElement;

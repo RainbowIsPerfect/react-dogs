@@ -1,69 +1,69 @@
-import { ChangeEvent } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CardContainer } from '../../components/CardContainer';
-import { Button } from '../../components/UI/Button';
-import { SearchIcon } from '../../components/UI/Icons/SearchIcon';
-import { Input } from '../../components/UI/Input';
-import { Select } from '../../components/UI/Select';
-import { useDebounce } from '../../hooks/useDebounce';
+import { Card } from '../../components/Card';
+import { ConditionalRenderer } from '../../components/ConditionalRenderer';
 import { useGetAllProductsQuery } from '../../store/slices/productsApiSlice';
-import { SortingType } from '../../types';
-import { getErrorMessage } from '../../utils/getErrorMessage';
-import { NotFound } from '../NotFound';
+import { Pagination } from '../../components/Pagination';
+import { Search } from '../../components/Search';
+import { useAppSelector } from '../../hooks/reduxHooks';
+import { ITEMS_PER_PAGE } from '../../constants';
 import s from './products.module.scss';
 
 export const Products = () => {
+  const { search, sorting } = useAppSelector((state) => state.filter);
   const [searchParams, setSearchParams] = useSearchParams();
-  const debouncedSearсh = useDebounce<string>(searchParams.get('search') || '');
-  const { data, isError, isSuccess, error } = useGetAllProductsQuery({
-    search: debouncedSearсh,
-    sorting: (searchParams.get('sorting') as SortingType) || 'popularity',
-  });
-
-  const changeSearchParams = <T extends HTMLInputElement | HTMLSelectElement>(
-    e: ChangeEvent<T>,
-    searchParam: 'sorting' | 'search'
-  ) => {
-    if (!e.target.value) {
-      searchParams.delete(searchParam);
-      return setSearchParams(searchParams);
+  const [currentPage, setCurrentPage] = useState<number>(() => {
+    const page = searchParams.get('page');
+    if (page) {
+      return Number.isNaN(+page) ? 1 : +page;
     }
+    return 1;
+  });
+  const { data, isLoading, isFetching, error } = useGetAllProductsQuery({
+    search,
+    sorting,
+    itemsPerPage: ITEMS_PER_PAGE,
+    page: currentPage,
+  });
+  const pageCount = data ? Math.ceil(data.total / ITEMS_PER_PAGE) : 0;
 
-    return setSearchParams((prev) => {
-      prev.set(searchParam, e.target.value);
+  const onPageChange = (selected: number) => {
+    setCurrentPage(selected + 1);
+    setSearchParams((prev) => {
+      prev.set('page', String(selected + 1));
       return prev;
     });
   };
 
-  if (isError) {
-    return <NotFound message={getErrorMessage(error)} />;
-  }
-
   return (
     <>
       <h1 className={s.heading}>Catalog</h1>
-      <div className={s['search-container']}>
-        <Input
-          value={searchParams.get('search') || ''}
-          containerClassName={s.input}
-          placeholder="Search"
-          startIcon={<SearchIcon />}
-          onChange={(e) => changeSearchParams(e, 'search')}
-        />
-        <Select<SortingType>
-          onChange={(e) => changeSearchParams(e, 'sorting')}
-          value={searchParams.get('sorting') || ''}
-          options={[
-            { text: 'Avg. Customer rating', value: 'popularity' },
-            { text: 'Price: low to high', value: 'price_low' },
-            { text: 'Price: high to low', value: 'price_high' },
-            { text: 'Discount %', value: 'sale' },
-            { text: 'Name', value: 'name' },
-          ]}
-        />
-      </div>
+      <Search />
       <p className={s.total}>Products found: {data ? data.total : 0}</p>
-      <CardContainer products={isSuccess ? data.products : null} />
+      <ConditionalRenderer
+        isLoading={isLoading}
+        isFetching={isFetching}
+        error={error}
+      >
+        {data && data.products.length > 0 ? (
+          <div className={s['card-container']}>
+            {data.products.map((product) => (
+              <Card key={product._id} productData={product} />
+            ))}
+          </div>
+        ) : (
+          <p className={s.message}>
+            {currentPage > pageCount
+              ? 'No such page'
+              : `Sorry, there are no products matching your request "${search}"`}
+          </p>
+        )}
+        <Pagination
+          initialPage={currentPage - 1}
+          pageCount={pageCount}
+          onPageChange={({ selected }) => onPageChange(selected)}
+        />
+      </ConditionalRenderer>
     </>
   );
 };

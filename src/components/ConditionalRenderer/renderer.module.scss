@@ -1,0 +1,7 @@
+@use '../../styles/' as *;
+
+.error {
+  font-size: fz(m);
+  text-align: center;
+  color: col(accent-secondary);
+}

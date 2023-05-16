@@ -17,6 +17,10 @@
   @return var(--font-size-#{$font-size});
 }
 
+@function bp($breakpoint) {
+  @return var(--font-size-#{$breakpoint});
+}
+
 @mixin pos($pos, $top: false, $right: false, $bot: false, $left: false) {
   position: $pos;
   @if ($top) {
@@ -47,4 +51,111 @@
   @if ($gap) {
     gap: $gap;
   }
+}
+
+@mixin border($radius: false) {
+  border: 1px solid col(elements-border);
+  @if ($radius) {
+    border-radius: $radius;
+  }
+}
+
+@mixin webkitbox {
+  flex-grow: 1;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  box-orient: vertical;
+}
+
+@mixin base-elements-styles {
+  padding: space(xs);
+  background-color: col(elements);
+  border-radius: 5px;
+  font-size: fz(m);
+  color: col(text);
+  outline: transparent;
+  transition: all 0.1s ease-in-out;
+  &:focus-visible {
+    background-color: col(elements-hover);
+  }
+  &:hover {
+    background-color: col(elements-hover);
+  }
+  &:disabled {
+    background-color: col(elements-disabled);
+    cursor: default;
+  }
+}
+
+@mixin focusable-elements-styles {
+  @include base-elements-styles;
+  border: 1px solid col(elements-border);
+  outline-offset: -2px;
+  width: 100%;
+  &:focus {
+    border-color: col(accent);
+    background-color: col(elements-hover);
+    outline: 2px solid col(accent);
+  }
+  &:focus-visible {
+    border-color: col(accent);
+    outline: 2px solid col(accent);
+  }
+}
+
+@mixin button-styles {
+  @include base-elements-styles;
+  display: inline-block;
+  padding: space(s);
+  border: none;
+  cursor: pointer;
+}
+
+@mixin link-styles {
+  @include button-styles;
+  text-decoration: none;
+}
+
+@mixin button($isLink: false) {
+  display: inline-block;
+  padding: space(s);
+  font-size: fz(m);
+  color: col(text-elements);
+  border-radius: 5px;
+  outline: transparent;
+  transition: background-color 0.2s ease-in-out;
+  @if ($isLink) {
+    text-decoration: none;
+  } @else {
+    border: none;
+    cursor: pointer;
+  }
+}
+
+@mixin button-pseudo($color: white, $disabled-color: white) {
+  &:hover {
+    background-color: $color;
+  }
+  &:focus-visible {
+    background-color: $color;
+  }
+  &:disabled {
+    background-color: $disabled-color;
+    cursor: default;
+  }
+}
+
+@mixin image($width: 100%, $height: 100%) {
+  display: block;
+  width: $width;
+  height: $height;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
 }

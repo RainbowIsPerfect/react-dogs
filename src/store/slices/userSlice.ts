@@ -1,11 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { ProductCartInfo, User, UserData, UserInfo } from '../../types';
+import { createSlice } from '@reduxjs/toolkit';
+import { userApiSlice } from './userApiSlice';
+import type { User } from '../../types';
 
 interface UserState {
   token: string;
   userData: User;
   isLoggedIn: boolean;
-  cart: ProductCartInfo[];
 }
 
 const initialState: UserState = {
@@ -20,51 +20,34 @@ const initialState: UserState = {
     group: '',
   },
   isLoggedIn: false,
-  cart: [],
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    logIn: (state, action: PayloadAction<UserData>) => {
-      state.token = action.payload.token;
-      state.userData = action.payload.data;
-      state.isLoggedIn = true;
-    },
     logOut: () => {
       return initialState;
     },
-    edit: (state, action: PayloadAction<UserInfo>) => {
-      state.userData = {
-        ...state.userData,
-        ...action.payload,
-      };
-    },
-    addToCart: (state, action: PayloadAction<ProductCartInfo>) => {
-      const currentItem = state.cart.find(
-        (item) => item.id === action.payload.id
+  },
+  extraReducers: (builder) => {
+    builder
+      .addMatcher(
+        userApiSlice.endpoints.setSignIn.matchFulfilled,
+        (state, action) => {
+          state.token = action.payload.token;
+          state.userData = action.payload.data;
+          state.isLoggedIn = true;
+        }
+      )
+      .addMatcher(
+        userApiSlice.endpoints.editUser.matchFulfilled,
+        (state, action) => {
+          state.userData = action.payload;
+        }
       );
-
-      if (!currentItem) {
-        state.cart.push(action.payload);
-      } else {
-        currentItem.stock += action.payload.stock;
-      }
-    },
-    deleteFromCart: (state, action: PayloadAction<string>) => {
-      const currentItem = state.cart.find((item) => item.id === action.payload);
-
-      if (currentItem) {
-        state.cart = state.cart.filter((item) => item.id !== action.payload);
-      }
-    },
   },
 });
 
-export type UserReturnType = { user: ReturnType<typeof userSlice.reducer> };
-
-export const { logIn, logOut, edit, addToCart, deleteFromCart } =
-  userSlice.actions;
-
+export const { logOut } = userSlice.actions;
 export const userSliceReducer = userSlice.reducer;

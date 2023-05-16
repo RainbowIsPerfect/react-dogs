@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes } from 'react';
-import { Button } from '../Button';
+import { Button } from '../FormElements/Button';
 import s from './submenu.module.scss';
 
 interface ButtonProps<T extends string = string>

@@ -6,6 +6,44 @@
 }
 
 .message {
+  margin-bottom: space(s);
   font-size: fz(x);
   color: col(text);
+}
+
+.order {
+  padding: space(s);
+  margin-bottom: space(m);
+  background-color: col(elements-bg);
+  border-radius: 5px;
+  border: 1px solid col(elements-border);
+  &__total {
+    @include flex(space-between);
+    margin-bottom: space(s);
+  }
+  &__summary {
+    @include flex(flex-end, false, column);
+  }
+  &__buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15.625rem, 1fr));
+    gap: space(xs);
+  }
+  &__text {
+    &_secondary {
+      font-size: fz(s);
+      color: col(text-secondary);
+    }
+    &_accent {
+      font-size: fz(x);
+      color: col(text);
+    }
+    &_price {
+      text-decoration: line-through;
+      text-align: end;
+    }
+  }
+  &__button {
+    width: 100%;
+  }
 }

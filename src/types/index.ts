@@ -1,18 +1,13 @@
-export type RelativeRoutes =
-  | 'signup'
-  | 'signin'
-  | 'me'
-  | 'cart'
-  | 'products/:productId'
-  | 'products/:productId/:edit'
-  | 'edit'
-  | 'create_product';
-export type AbsoluteRoutes = `/${Exclude<RelativeRoutes, '/'>}` | '/';
+import { SORTING_VALUES, ROUTES } from '../constants';
+
+export type RelativeRoutes = (typeof ROUTES)[number];
+export type AbsoluteRoutes = `/${RelativeRoutes}` | '/';
 export type DynamicRoutes = Extract<
   RelativeRoutes | AbsoluteRoutes,
   `${string}:${string}`
 >;
 export type Routes = AbsoluteRoutes | RelativeRoutes;
+export type RoutesWithoutParams = Exclude<Routes, `${string}/:${string}`>;
 
 export type ExtractParams<T> =
   T extends `${string}:${infer Param}/${infer Rest}`
@@ -24,8 +19,8 @@ export type ExtractParams<T> =
 export type DynamicRoutesParams<T extends DynamicRoutes> = ExtractParams<T>;
 
 interface BaseResponseData {
-  __v: number;
   _id: string;
+  __v: number;
 }
 
 interface CreateData<T extends string | Author> {
@@ -105,18 +100,21 @@ export interface UserRegisterData extends User {
   isAdmin: boolean;
 }
 
-export interface ProductCartInfo {
-  id: string;
-  image: string;
-  name: string;
-  stock: number;
+export interface CartItem {
+  _id: string;
+  currentInCart: number;
+  isSelected: boolean;
 }
 
-export type UserInfo = Pick<User, 'about' | 'name' | 'avatar'>;
+export type Cart = {
+  products: CartItem[];
+};
 
+export type UserInfo = Pick<User, 'about' | 'name' | 'avatar'>;
+export type UserReview = Pick<Review, 'rating' | 'text' | '_id'>;
 export type AdditionalProductInfo = Pick<
   Product,
-  'stock' | 'wight' | 'created_at' | 'updated_at' | '_id'
+  'stock' | 'wight' | 'created_at' | 'updated_at'
 >;
 
 export type NewProduct = Pick<
@@ -137,14 +135,13 @@ export type DataResponse<T> = {
   data: T;
 };
 
-export type SortingType =
-  | 'price_low'
-  | 'price_high'
-  | 'name'
-  | 'sale'
-  | 'popularity';
+export type SortingType = (typeof SORTING_VALUES)[number];
 
-export interface SearchQuery {
+export interface SearchOptions {
   search: string;
   sorting: SortingType;
+}
+export interface SearchQuery extends SearchOptions {
+  page: number;
+  itemsPerPage: number;
 }

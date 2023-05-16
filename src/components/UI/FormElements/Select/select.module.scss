@@ -1,0 +1,7 @@
+@use '../../../../styles/' as *;
+
+.select {
+  @include focusable-elements-styles;
+  overflow: auto;
+  cursor: pointer;
+}

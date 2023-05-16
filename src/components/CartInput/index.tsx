@@ -1,68 +1,71 @@
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
-import { addToCart } from '../../store/slices/userSlice';
-import { ProductCartInfo } from '../../types';
-import { Button } from '../UI/Button';
-import { Input } from '../UI/Input';
+import { ChangeEvent, useState } from 'react';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import {
+  decrementProductAmount,
+  incrementProductAmount,
+  setProductAmount,
+} from '../../store/slices/cartSlice';
+import { CartItem, ProductWithCustomProps } from '../../types';
+import { ProductPrice } from '../ProductPrice';
+import { Button } from '../UI/FormElements/Button';
+import { Input } from '../UI/FormElements/Input';
 import s from './cart-input.module.scss';
 
 interface CartInputProps {
-  product: ProductCartInfo;
+  product: ProductWithCustomProps;
+  currentProduct: CartItem;
 }
 
-export const CartInput = ({ product }: CartInputProps) => {
-  const [amount, setAmount] = useState<number>(1);
-  const cart = useAppSelector((state) => state.user.cart);
+export const CartInput = ({ product, currentProduct }: CartInputProps) => {
   const dispatch = useAppDispatch();
-  const currentProduct = cart.find((item) => item.id === product.id);
-  const currentInCart = currentProduct ? currentProduct.stock : 0;
-  const currentAvailable = product.stock - currentInCart;
-  console.log(currentAvailable, product.stock, amount);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
 
-  const incrementValue = () => {
-    if (amount < currentAvailable) {
-      setAmount((prev) => prev + 1);
+  const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    let inputValue = e.target.value;
+    if (+inputValue === 0) {
+      inputValue = '1';
     }
-  };
-
-  const decrementValue = () => {
-    if (amount > 1) {
-      setAmount((prev) => prev - 1);
+    if (+inputValue > product.stock) {
+      inputValue = `${product.stock}`;
     }
-  };
-
-  const onClickButton = () => {
-    if (!currentAvailable) {
-      return null;
-    }
-    if (amount > 0) {
-      dispatch(
-        addToCart({
-          stock: amount,
-          id: product.id,
-          image: product.image,
-          name: product.name,
-        })
-      );
-    }
-    return null;
+    return dispatch(
+      setProductAmount({ _id: product._id, amount: +inputValue })
+    );
   };
 
   return (
     <div className={s.container}>
-      <Input
-        readOnly
-        containerClassName={s.input}
-        value={amount}
-        startIcon={<button onClick={() => decrementValue()}>-</button>}
-        endIcon={<button onClick={() => incrementValue()}>+</button>}
-        type="number"
-        min={1}
-        max={currentAvailable}
+      <ProductPrice
+        price={product.price * currentProduct.currentInCart}
+        discountedPrice={product.discountedPrice * currentProduct.currentInCart}
+        className={s.input__price}
       />
-      <Button className={s.button} variant="primary" onClick={onClickButton}>
-        Add to cart
-      </Button>
+      <Input
+        className={`${s.input} ${isFocused ? s.input_active : ''}`}
+        inputClassName={s.input__field}
+        value={currentProduct.currentInCart}
+        onChange={onChangeInput}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        type="number"
+        startIcon={
+          <Button
+            className={s.input__button}
+            onClick={() => dispatch(decrementProductAmount(product._id))}
+          >
+            -
+          </Button>
+        }
+        endIcon={
+          <Button
+            className={s.input__button}
+            disabled={currentProduct.currentInCart === product.stock}
+            onClick={() => dispatch(incrementProductAmount(product._id))}
+          >
+            +
+          </Button>
+        }
+      />
     </div>
   );
 };

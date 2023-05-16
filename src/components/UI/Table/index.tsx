@@ -1,20 +1,21 @@
 import s from './table.module.scss';
 
-interface TableProps {
-  content: {
-    header: string;
-    data: string | number;
-    id: string | number;
-  }[];
+interface TableItem {
+  header: string;
+  data: string | number;
 }
 
-export const Table = ({ content }: TableProps) => {
+interface TableProps {
+  children: TableItem[];
+}
+
+export const Table = ({ children }: TableProps) => {
   return (
     <table className={s.table}>
       <tbody>
-        {content.map((row) => {
+        {children.map((row, i) => {
           return (
-            <tr key={row.id} className={s.table__row}>
+            <tr key={i} className={s.table__row}>
               <th className={s.table__header}>{row.header}</th>
               <td className={s.table__data}>{row.data}</td>
             </tr>

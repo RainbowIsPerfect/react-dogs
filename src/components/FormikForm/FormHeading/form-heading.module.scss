@@ -1,0 +1,7 @@
+@use '../../../styles/' as *;
+
+.form__heading {
+  font-size: rem(35);
+  margin-bottom: space(s);
+  color: col(text-accent);
+}

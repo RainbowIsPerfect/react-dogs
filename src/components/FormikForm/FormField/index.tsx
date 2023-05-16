@@ -1,35 +1,72 @@
 import { ErrorMessage, Field } from 'formik';
-import { FormInput } from '../types';
+import { ComponentProps } from 'react';
+import { Input } from '../../UI/FormElements/Input';
+import { Select } from '../../UI/FormElements/Select';
+import { Textarea } from '../../UI/FormElements/Textarea';
 import s from './form-field.module.scss';
 
-interface FormFieldProps<T extends FormInput> {
-  input: T;
-}
+type CustomInputProps = ComponentProps<typeof Input>;
+type CustomSelectProps = ComponentProps<typeof Select>;
+type CustomTextareaProps = ComponentProps<typeof Textarea>;
 
-export const FormField = <T extends FormInput>({
-  input: { as, labelText, name, options, ...props },
-}: FormFieldProps<T>) => {
+type As = 'input' | 'textarea' | 'select';
+
+type BaseFieldProps<T extends As> = {
+  name: string;
+  as?: T;
+  labelText?: string;
+  children?: never;
+};
+
+type InputFormFieldProps = CustomInputProps & BaseFieldProps<'input'>;
+
+type TextAreaFormFieldProps = BaseFieldProps<'textarea'> &
+  Omit<CustomTextareaProps, 'children'>;
+
+type SelectFormFieldProps = Omit<BaseFieldProps<'select'>, 'children'> &
+  CustomSelectProps;
+
+type FormFieldProps =
+  | InputFormFieldProps
+  | TextAreaFormFieldProps
+  | SelectFormFieldProps;
+
+export const FormField = ({
+  as = 'input',
+  name,
+  children,
+  labelText,
+  placeholder,
+  ...props
+}: FormFieldProps) => {
+  const getCurrentComponent = (type: As) => {
+    switch (type) {
+      case 'input':
+        return Input;
+      case 'select':
+        return Select;
+      case 'textarea':
+        return Textarea;
+      default:
+        return Input;
+    }
+  };
+
   return (
-    <div className={s.field} key={name}>
-      <label className={s.field__label} htmlFor={name}>
-        {labelText}
-      </label>
+    <div className={s.field}>
+      {labelText && (
+        <label className={s.field__label} htmlFor={name}>
+          {labelText}
+        </label>
+      )}
       <Field
-        id={name}
-        as={as}
-        className={`${s.field__input} ${s[`field__input_${as}`]}`}
+        className={`${s.field__input}`}
+        component={getCurrentComponent(as)}
         name={name}
+        placeholder={placeholder || labelText}
         {...props}
       >
-        {options
-          ? options.map((option, i) => {
-              return (
-                <option key={i} value={option.value}>
-                  {option.text}
-                </option>
-              );
-            })
-          : null}
+        {children}
       </Field>
       <ErrorMessage
         name={name}

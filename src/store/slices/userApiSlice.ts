@@ -9,7 +9,6 @@ import {
   UserSignInData,
 } from '../../types';
 import { apiSlice } from './apiSlice';
-import { edit, logIn } from './userSlice';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -37,8 +36,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
         if (response.error) {
           return { error: response.error as FetchBaseQueryError };
         }
-
-        dispatch(logIn(response.data as UserData));
 
         return { data: response.data as UserData };
       },
@@ -113,7 +110,6 @@ export const userApiSlice = apiSlice.injectEndpoints({
             return { error: userInfoResponse.error as FetchBaseQueryError };
           }
 
-          dispatch(edit(userInfo));
           return { data: userInfoResponse.data as User };
         }
 

@@ -1,0 +1,41 @@
+@use '../../../../styles/' as *;
+
+.button {
+  @include button-styles;
+  &_primary {
+    @include button-pseudo(col(accent-hover), col(elements-hover));
+    color: col(text-elements);
+    background-color: col(accent);
+  }
+  &_secondary {
+    color: col(text);
+    @include button-pseudo(col(main-bg), col(elements-hover));
+    border: 1px solid col(elements-border);
+    background-color: transparent;
+  }
+  &_icon {
+    @include flex(center, center);
+    &:hover,
+    &:focus-visible {
+      color: col(accent-hover);
+      background-color: transparent;
+    }
+    padding: space(xs);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    & svg {
+      @include size(100%, 100%);
+      pointer-events: none;
+    }
+  }
+  &_transparent {
+    color: col(text-accent);
+    background-color: transparent;
+    &:hover,
+    &:focus-visible {
+      color: col(accent);
+      background-color: transparent;
+    }
+  }
+}

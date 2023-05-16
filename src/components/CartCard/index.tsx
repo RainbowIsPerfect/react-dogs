@@ -1,37 +1,50 @@
-import { useAppDispatch } from '../../hooks/reduxHooks';
-import { deleteFromCart } from '../../store/slices/userSlice';
-import { ProductCartInfo } from '../../types';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks';
+import { toggleIsSelected } from '../../store/slices/cartSlice';
+import { ProductWithCustomProps } from '../../types';
+import { ComponentWithChildren } from '../../types/prop-types';
 import { CartInput } from '../CartInput';
-import { Button } from '../UI/Button';
+import { TypedLink } from '../TypedLinks/TypedLink';
 import s from './cart-card.module.scss';
 
 interface CartCardProps {
-  product: ProductCartInfo;
+  product: ProductWithCustomProps;
 }
 
 export const CartCard = ({ product }: CartCardProps) => {
+  const currentItem = useAppSelector((state) =>
+    state.cart.products.find((item) => item._id === product._id)
+  );
   const dispatch = useAppDispatch();
 
-  return (
+  return currentItem ? (
     <div className={s.card}>
       <div className={s.card__product}>
-        <Button
-          className={s.card__button}
-          variant="primary"
-          onClick={() => dispatch(deleteFromCart(product.id))}
-        >
-          Delete
-        </Button>
+        <input
+          className={s.card__checkbox}
+          type="checkbox"
+          onChange={() => {
+            dispatch(toggleIsSelected(product._id));
+          }}
+          checked={currentItem.isSelected}
+        />
         <div className={s['card__image-wrapper']}>
           <img
             className={s.card__image}
-            src={product.image}
+            src={product.pictures}
             alt={product.name}
           />
         </div>
-        <h2 className={s.card__heading}>{product.name}</h2>
+        <h2 className={s.card__heading}>
+          <TypedLink
+            to="/products/:productId"
+            params={{ productId: product._id }}
+            variant="transparent"
+          >
+            {product.name}
+          </TypedLink>
+        </h2>
       </div>
-      <CartInput product={product} />
+      <CartInput product={product} currentProduct={currentItem} />
     </div>
-  );
+  ) : null;
 };

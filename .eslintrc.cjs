@@ -36,11 +36,6 @@ module.exports = {
     'react/no-array-index-key': 0,
     'import/no-cycle': 0,
     'react/button-has-type': 0,
-    // 'prettier/prettier': [
-    //   'error',
-    //   {
-    //     endOfLine: 'crlf',
-    //   },
-    // ],
+    '@typescript-eslint/ban-types': 0,
   },
 };

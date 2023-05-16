@@ -1,0 +1,46 @@
+@use '../../styles/' as *;
+
+.link {
+  @include link-styles;
+  text-align: center;
+  &_primary {
+    background-color: col(accent);
+    color: col(text-elements);
+    @include button-pseudo(col(accent-hover));
+  }
+  &_secondary {
+    color: col(text);
+    border: 1px solid col(elements-border);
+    background-color: transparent;
+    @include button-pseudo(col(main-bg));
+  }
+  &_transparent {
+    color: col(text-accent);
+    background-color: transparent;
+    &:hover,
+    &:focus-visible {
+      color: col(accent);
+      background-color: transparent;
+    }
+    &_active {
+      color: col(accent);
+      &:hover,
+      &:focus-visible {
+        color: col(accent-hover);
+        background-color: transparent;
+      }
+    }
+  }
+  &_icon {
+    padding: space(xs);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    @include button-pseudo(col(elements-hover));
+    & svg {
+      fill: col(text);
+      pointer-events: none;
+      @include size(100%, 100%);
+    }
+  }
+}

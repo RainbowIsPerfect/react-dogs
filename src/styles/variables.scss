@@ -1,36 +1,34 @@
 $colors: (
-  accent: rgb(28 100 242),
-  accent-hover: rgb(26, 88, 212),
-  accent-logo: #38bdf8,
-  accent-secondary: rgb(192, 57, 97),
+  accent: #4299e1,
+  accent-hover: #3182ce,
+  accent-secondary: #b94d4d,
 );
 
 $colors-dark: (
-  main-bg: #1e293b,
-  secondary-bg: #131a25,
-  elements-bg: #1e293b,
-  text: #a0a7af,
-  text-accent: #d8dee6,
-  text-secondary: #6a6e75,
-  text-elements: #fff,
-  elements: #374151,
-  elements-hover-bg: #253750,
-  elements-hover: #3d4753,
-  elements-border: #545e6d,
+  main-bg: #1a202c,
+  secondary-bg: #1a202c,
+  text: #a0aec0,
+  text-accent: #e2e8f0,
+  text-secondary: #6e7886,
+  text-elements: #e8edf3,
+  elements: #202731,
+  elements-bg: #222936,
+  elements-hover: #262f3a,
+  elements-disabled: #2f3a47,
+  elements-border: rgba(255, 255, 255, 0.16),
 );
 
 $colors-light: (
-  main-bg: #f8f5f5,
-  secondary-bg: #ffffff,
-  elements-bg: #f8f5f5,
-  text: #292929,
-  text-accent: #1a1a1a,
-  text-hover: #9e9e9e,
+  main-bg: #f8f6f6,
+  secondary-bg: #f8f6f6,
+  elements-bg: #f0ebeb,
+  text: #283141,
+  text-accent: #2d3748,
   text-secondary: #757575,
   text-elements: #fff,
   elements: #e7e3e3,
-  elements-hover-bg: #9e9e9e,
   elements-hover: #f1efef,
+  elements-disabled: #f1efef,
   elements-border: #c5c5c5,
 );
 
@@ -48,8 +46,9 @@ $font-size: (
   xxl: 35,
   xl: 30,
   x: 24,
+  xm: 20,
   m: 18,
   s: 15,
   xs: 12,
   xxs: 10,
-)
+);

@@ -1,27 +1,24 @@
-import { OptionHTMLAttributes, SelectHTMLAttributes } from 'react';
+import { HTMLOptionProps, HTMLSelectProps } from '../../../types/prop-types';
 import s from './select.module.scss';
 
-interface OptionProps<T extends string = string>
-  extends OptionHTMLAttributes<HTMLOptionElement> {
+interface OptionProps<T extends string = string> extends HTMLOptionProps {
   value: T;
   text: string;
 }
 
-interface SelectProps<T extends string = string>
-  extends SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectProps<T extends string = string> extends HTMLSelectProps {
   options: OptionProps<T>[];
-  className?: string;
 }
 
 export const Select = <T extends string = string>({
-  className,
+  className = '',
   options,
   ...props
 }: SelectProps<T>) => {
   return (
     <select className={`${s.select} ${className}`} {...props}>
       {options.map(
-        ({ value, text, className: optionClassName, ...optionProps }) => {
+        ({ value, text, className: optionClassName = '', ...optionProps }) => {
           return (
             <option
               className={`${s.option} ${optionClassName}`}

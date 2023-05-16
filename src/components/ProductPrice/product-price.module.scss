@@ -1,0 +1,17 @@
+@use '../../styles/' as *;
+
+.price {
+  color: col(text-accent);
+  font-weight: 700;
+  font-size: fz(m);
+  word-spacing: -0.2ch;
+  &_special {
+    color: col(accent);
+  }
+  &_prev {
+    text-decoration: line-through;
+    margin-right: space(xxs);
+    font-weight: 400;
+    color: col(text-secondary);
+  }
+}

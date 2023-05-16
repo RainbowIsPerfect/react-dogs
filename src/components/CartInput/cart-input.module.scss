@@ -6,9 +6,24 @@
 
 .input {
   margin-bottom: space(s);
-  width: 100%
-}
-
-.button {
-  width: 100%;
+  color: col(text);
+  border: 1px solid col(elements-border);
+  &_active {
+    border-color: col(accent);
+  }
+  &__price {
+    margin-bottom: space(xs);
+    text-align: center;
+  }
+  &__field {
+    text-align: center;
+    border: none;
+    &:focus,
+    &:focus-visible {
+      outline: transparent;
+    }
+  }
+  &__button {
+    border-radius: 0px;
+  }
 }
