@@ -1,10 +1,6 @@
-import { ReactNode } from 'react';
+import { ComponentWithChildren } from '../../types/prop-types';
 import s from './container.module.scss';
 
-interface ContainerProps {
-  children: ReactNode;
-}
-
-export const Container = ({ children }: ContainerProps) => {
+export const Container = ({ children }: ComponentWithChildren) => {
   return <div className={s.container}>{children}</div>;
 };

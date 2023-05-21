@@ -1,0 +1,20 @@
+@use '../../styles/' as *;
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(rem(250), 1fr));
+  grid-auto-rows: 1fr;
+  gap: space(m);
+  margin-bottom: space(m);
+}
+
+.total {
+  margin-bottom: space(x);
+  color: col(text);
+}
+
+.message {
+  margin-bottom: space(s);
+  font-size: fz(m);
+  color: col(text);
+}

@@ -12,7 +12,7 @@ export const Pagination = ({
 }: PaginationProps) => {
   return (
     <ReactPaginate
-      initialPage={initialPage}
+      forcePage={initialPage}
       activeClassName={`${s.pagination__item} ${s.pagination__item_active}`}
       breakClassName={s.pagination__item_page}
       breakLinkClassName={s.pagination__item}

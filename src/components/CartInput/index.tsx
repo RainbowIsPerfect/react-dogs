@@ -1,5 +1,6 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useAppDispatch } from '../../hooks/reduxHooks';
+import { useClassNameOnFocus } from '../../hooks/useClassNameOnFocus';
 import {
   decrementProductAmount,
   incrementProductAmount,
@@ -18,19 +19,18 @@ interface CartInputProps {
 
 export const CartInput = ({ product, currentProduct }: CartInputProps) => {
   const dispatch = useAppDispatch();
-  const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const { className, ...handlers } = useClassNameOnFocus(s.input_active);
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    let inputValue = e.target.value;
-    if (+inputValue === 0) {
-      inputValue = '1';
+    let inputValue = e.target.valueAsNumber;
+    if (inputValue === 0 || Number.isNaN(inputValue)) {
+      inputValue = 1;
     }
-    if (+inputValue > product.stock) {
-      inputValue = `${product.stock}`;
+    if (inputValue > product.stock) {
+      inputValue = product.stock;
     }
-    return dispatch(
-      setProductAmount({ _id: product._id, amount: +inputValue })
-    );
+    return dispatch(setProductAmount({ _id: product._id, amount: inputValue }));
   };
 
   return (
@@ -41,12 +41,11 @@ export const CartInput = ({ product, currentProduct }: CartInputProps) => {
         className={s.input__price}
       />
       <Input
-        className={`${s.input} ${isFocused ? s.input_active : ''}`}
+        className={`${s.input} ${className}`}
         inputClassName={s.input__field}
         value={currentProduct.currentInCart}
         onChange={onChangeInput}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        {...handlers}
         type="number"
         startIcon={
           <Button

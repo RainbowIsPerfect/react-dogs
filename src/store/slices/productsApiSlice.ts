@@ -9,6 +9,7 @@ import {
   NewProduct,
   NewProductUpdate,
   UserReview,
+  CartItem,
 } from '../../types';
 import {
   getCurrentUserProducts,
@@ -16,6 +17,7 @@ import {
   sortProducts,
 } from '../../utils/extendProductWithCustomProps';
 import { apiSlice } from './apiSlice';
+import { deleteByIds } from './cartSlice';
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -140,13 +142,21 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       },
     }),
     getUserCartProducts: builder.query<CustomApiResponse, string[]>({
-      queryFn: async (arg, { getState }, extraOptions, baseQuery) => {
+      queryFn: async (arg, { getState, dispatch }, extraOptions, baseQuery) => {
         const response = await Promise.all(
-          arg.map((item) => baseQuery(`products/${item}`))
+          arg.map((id) => baseQuery(`products/${id}`))
         );
         const res = response
           .filter((item) => item.data)
           .map((item) => item.data) as Product[];
+
+        const errorIds = arg.filter(
+          (item) => !res.find((el) => el._id === item)
+        );
+
+        if (errorIds.length > 0) {
+          dispatch(deleteByIds([...errorIds]));
+        }
 
         const userId = (getState() as RootState).user.userData._id;
 
@@ -155,9 +165,9 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.products.map(({ _id }) => ({
+              ...result.products.map((product) => ({
                 type: 'Products' as const,
-                id: _id,
+                id: product._id,
               })),
               { type: 'Products', id: 'LIST' },
             ]
