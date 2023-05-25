@@ -26,6 +26,7 @@ export const AddReviewForm = ({ _id, className = '' }: AddReviewFormProps) => {
       validationSchema={AddReviewSchema}
       initialValues={initialValues}
       onSubmit={async (values, { resetForm }) => {
+        values.rating = Number(values.rating);
         await addReview({
           ...values,
           _id,

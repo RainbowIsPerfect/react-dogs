@@ -9,7 +9,6 @@ import {
   NewProduct,
   NewProductUpdate,
   UserReview,
-  CartItem,
 } from '../../types';
 import {
   getCurrentUserProducts,
@@ -26,9 +25,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         const userId = (getState() as RootState).user.userData._id;
 
         const response = await baseQuery(
-          searchQuery.search
-            ? `products?query=${searchQuery.search}&page=${searchQuery.page}&limit=${searchQuery.itemsPerPage}`
-            : `products?page=${searchQuery.page}&limit=${searchQuery.itemsPerPage}`
+          `products?query=${searchQuery.search}&limit=${searchQuery.itemsPerPage}&page=${searchQuery.page}`
         );
         const res = response.data as BaseApiResponse | Product[];
 
@@ -87,7 +84,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     createNewProduct: builder.mutation<ProductWithCustomProps, NewProduct>({
       query: (newProduct) => {
         return {
-          url: 'https://api.react-learning.ru/products',
+          url: 'http://localhost:5000/products',
           method: 'POST',
           body: newProduct,
         };

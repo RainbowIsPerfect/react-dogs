@@ -15,7 +15,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     getCurrentUser: builder.query<User, void>({
       queryFn: async (userData, { getState }, _, baseQuery) => {
         const userGroup = (getState() as RootState).user.userData.group;
-        const response = await baseQuery(`v2/${userGroup}/users/me`);
+        const response = await baseQuery(`users/me`);
 
         if (response.error) {
           return { error: response.error as FetchBaseQueryError };
@@ -28,7 +28,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     setSignIn: builder.mutation<UserData, UserSignInData>({
       queryFn: async (userData, { dispatch }, _, baseQuery) => {
         const response = await baseQuery({
-          url: `signin`,
+          url: `users/signin`,
           method: 'POST',
           body: userData,
         });
@@ -45,7 +45,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       queryFn: async (extendedSignUpData, { dispatch }, _, baseQuery) => {
         const { confirmPassword, ...signUpData } = extendedSignUpData;
         const response = await baseQuery({
-          url: `signup`,
+          url: `users/signup`,
           method: 'POST',
           body: signUpData,
         });
@@ -78,42 +78,17 @@ export const userApiSlice = apiSlice.injectEndpoints({
     editUser: builder.mutation<User, UserInfo>({
       queryFn: async (userInfo, { getState, dispatch }, _, baseQuery) => {
         const stateUser = (getState() as RootState).user.userData;
+        const userInfoResponse = await baseQuery({
+          url: `users/me`,
+          method: 'PATCH',
+          body: userInfo,
+        });
 
-        if (userInfo.avatar !== stateUser.avatar) {
-          const avatarResponse = await baseQuery({
-            url: `v2/${stateUser.group}/users/me/avatar`,
-            method: 'PATCH',
-            body: {
-              avatar: userInfo.avatar,
-            },
-          });
-
-          if (avatarResponse.error) {
-            return { error: avatarResponse.error as FetchBaseQueryError };
-          }
+        if (userInfoResponse.error) {
+          return { error: userInfoResponse.error as FetchBaseQueryError };
         }
 
-        if (
-          userInfo.name !== stateUser.name ||
-          userInfo.about !== stateUser.about
-        ) {
-          const userInfoResponse = await baseQuery({
-            url: `v2/${stateUser.group}/users/me`,
-            method: 'PATCH',
-            body: {
-              name: userInfo.name,
-              about: userInfo.about,
-            },
-          });
-
-          if (userInfoResponse.error) {
-            return { error: userInfoResponse.error as FetchBaseQueryError };
-          }
-
-          return { data: userInfoResponse.data as User };
-        }
-
-        return { data: stateUser as User };
+        return { data: userInfoResponse.data as User };
       },
       invalidatesTags: ['User'],
     }),
