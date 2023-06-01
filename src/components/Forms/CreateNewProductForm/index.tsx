@@ -12,10 +12,10 @@ export const NewProductSchema = Yup.object().shape({
   wight: Yup.string().required('Required'),
   price: Yup.number().positive('Must be positive number').required('Required'),
   discount: Yup.number()
-    .positive('Must be positive number')
+    .min(0, "Can't be negative")
     .max(99, `Can't be more than 99`)
     .required('Required'),
-  stock: Yup.number().positive('Must be positive number').required('Required'),
+  stock: Yup.number().min(0, "Can't be negative").required('Required'),
   tags: Yup.array(
     Yup.string().oneOf<string>(['sale', 'new']).required('Required')
   ).required('Required'),

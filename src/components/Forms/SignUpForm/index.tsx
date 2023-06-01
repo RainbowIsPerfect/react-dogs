@@ -46,11 +46,13 @@ export const SignUpForm = () => {
             as="input"
             name="password"
             labelText="Password"
+            type="password"
           />
           <FormikForm.FormField
             as="input"
             name="confirmPassword"
             labelText="Confirm password"
+            type="password"
           />
           <FormikForm.SubmitButton />
           <FormikForm.RedirectLink to="/signin">

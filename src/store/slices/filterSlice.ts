@@ -3,7 +3,7 @@ import { SearchOptions, SortingType } from '../../types';
 
 const initialState: SearchOptions = {
   search: '',
-  sorting: 'popularity',
+  sorting: 'DATE_NEWEST',
 };
 
 type Option = { search: string } | { sorting: SortingType };
@@ -24,6 +24,9 @@ const filterSlice = createSlice({
     },
     changeSorting: (state, action: PayloadAction<SortingType>) => {
       state.sorting = action.payload;
+    },
+    resetFilters: () => {
+      return initialState;
     },
   },
 });

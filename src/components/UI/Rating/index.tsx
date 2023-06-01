@@ -7,11 +7,7 @@ interface RatingProps extends DefaultProps {
   counter?: number;
 }
 
-export const Rating = ({
-  rating,
-  counter = 0,
-  className = '',
-}: RatingProps) => {
+export const Rating = ({ rating, counter, className = '' }: RatingProps) => {
   const starsIcons = (
     <div className={`${className}`}>
       {[...new Array(5)].map((_, index) => {

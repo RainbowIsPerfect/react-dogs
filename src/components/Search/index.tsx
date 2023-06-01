@@ -25,7 +25,7 @@ export const Search = () => {
         search: debouncedValue,
         sorting:
           SORTING_VALUES.find((el) => el === sortingValue.value) ||
-          'popularity',
+          'DATE_NEWEST',
       })
     );
   }, [debouncedValue, dispatch, sortingValue.value]);
@@ -39,11 +39,12 @@ export const Search = () => {
         {...searchValue}
       />
       <Select className={s.input} {...sortingValue}>
-        <Option value="popularity">Avg. Customer rating</Option>
-        <Option value="price_low">Price: low to high</Option>
-        <Option value="price_high">Price: high to low</Option>
-        <Option value="sale">Discount %</Option>
-        <Option value="name">Name</Option>
+        <Option value="DATE_NEWEST">Newest</Option>
+        <Option value="DATE_OLDEST">Oldest</Option>
+        <Option value="PRICE_ASC">Price: low to high</Option>
+        <Option value="PRICE_DESC">Price: high to low</Option>
+        <Option value="DISCOUNT">Discount %</Option>
+        <Option value="NAME">Name</Option>
       </Select>
     </div>
   );

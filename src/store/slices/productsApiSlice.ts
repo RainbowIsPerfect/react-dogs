@@ -13,7 +13,6 @@ import {
 import {
   getCurrentUserProducts,
   getCustomProduct,
-  sortProducts,
 } from '../../utils/extendProductWithCustomProps';
 import { apiSlice } from './apiSlice';
 import { deleteByIds } from './cartSlice';
@@ -25,7 +24,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         const userId = (getState() as RootState).user.userData._id;
 
         const response = await baseQuery(
-          `products?query=${searchQuery.search}&limit=${searchQuery.itemsPerPage}&page=${searchQuery.page}`
+          `products?query=${searchQuery.search}&limit=${searchQuery.itemsPerPage}&page=${searchQuery.page}&sort=${searchQuery.sorting}`
         );
         const res = response.data as BaseApiResponse | Product[];
 
@@ -35,7 +34,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
 
         const products = getCustomProduct(res, userId);
 
-        return sortProducts(products, searchQuery.sorting);
+        return products;
       },
       providesTags: (result) =>
         result

@@ -6,6 +6,7 @@ import { useGetAllProductsQuery } from '../../store/slices/productsApiSlice';
 import { Card } from '../Card';
 import { ConditionalRenderer } from '../ConditionalRenderer';
 import { Pagination } from '../Pagination';
+import { Button } from '../UI/FormElements/Button';
 import s from './card-container.module.scss';
 
 export const ProductCardsContainer = () => {
@@ -42,6 +43,7 @@ export const ProductCardsContainer = () => {
       prev.set('page', String(selected + 1));
       return prev;
     });
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -72,11 +74,21 @@ export const ProductCardsContainer = () => {
           />
         </>
       ) : (
-        <p className={s.message}>
-          {search
-            ? `Sorry, there are no products matching your request "${search}"`
-            : 'No such page'}
-        </p>
+        <div>
+          {search ? (
+            <p className={s.message}>
+              Sorry, there are no products matching your request &quot;{search}
+              &quot;
+            </p>
+          ) : (
+            <>
+              <p className={s.message}>No such page</p>
+              <Button onClick={() => setCurrentPage(1)}>
+                Return to first page
+              </Button>
+            </>
+          )}
+        </div>
       )}
     </ConditionalRenderer>
   );

@@ -49,7 +49,6 @@ export interface Review extends BaseResponseData, CreateData<Author> {
 interface CustomProductProps {
   isLiked: boolean;
   discountedPrice: number;
-  rating: number;
 }
 
 export interface Product extends BaseResponseData, CreateData<Author> {
@@ -65,6 +64,7 @@ export interface Product extends BaseResponseData, CreateData<Author> {
   stock: number;
   tags: string[];
   wight: string;
+  avgRating: number;
 }
 
 export type ProductWithCustomProps = Product & CustomProductProps;

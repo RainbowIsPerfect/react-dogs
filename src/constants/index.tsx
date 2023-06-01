@@ -1,10 +1,11 @@
-export const ITEMS_PER_PAGE = 8;
+export const ITEMS_PER_PAGE = 16;
 export const SORTING_VALUES = [
-  'price_low',
-  'price_high',
-  'name',
-  'sale',
-  'popularity',
+  'PRICE_ASC',
+  'PRICE_DESC',
+  'NAME',
+  'DISCOUNT',
+  'DATE_NEWEST',
+  'DATE_OLDEST',
 ] as const;
 export const ROUTES = [
   'signup',

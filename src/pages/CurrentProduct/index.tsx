@@ -52,7 +52,7 @@ export const CurrentProduct = () => {
             <div className={s.product__info}>
               <h1 className={s.product__name}>{data.name}</h1>
               <p className={s.product__number}>Item No. {data._id}</p>
-              <Rating className={s.product__rating} rating={data.rating} />
+              <Rating className={s.product__rating} rating={data.avgRating} />
               <ProductPrice
                 className={s.product__main}
                 discountedPrice={data.discountedPrice}

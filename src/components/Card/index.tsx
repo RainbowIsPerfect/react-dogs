@@ -24,9 +24,9 @@ export const Card = ({ product, children }: CardProps) => {
       />
       <div className={s.card__body}>
         <Rating
-          counter={product.reviews.length}
           className={s.card__rating}
-          rating={product.rating}
+          rating={product.avgRating}
+          counter={product.reviews.length}
         />
         <ProductPrice
           className={s.card__price}
