@@ -27,6 +27,8 @@ export const CurrentProduct = () => {
     state.cart.products.find((item) => item._id === data?._id)
   );
 
+  console.log(data);
+
   return (
     <ConditionalRenderer error={error} isLoading={isLoading}>
       {data && (
@@ -85,8 +87,8 @@ export const CurrentProduct = () => {
                 productInfo={{
                   wight: data.wight,
                   stock: data.stock,
-                  created_at: data.created_at,
-                  updated_at: data.updated_at,
+                  createdAt: data.createdAt,
+                  updatedAt: data.updatedAt,
                 }}
               />
             </Tabs.TabContent>

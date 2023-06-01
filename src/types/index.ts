@@ -25,8 +25,8 @@ interface BaseResponseData {
 
 interface CreateData<T extends string | Author> {
   author: T;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Author extends BaseResponseData {
@@ -114,7 +114,7 @@ export type UserInfo = Pick<User, 'about' | 'name' | 'avatar'>;
 export type UserReview = Pick<Review, 'rating' | 'text' | '_id'>;
 export type AdditionalProductInfo = Pick<
   Product,
-  'stock' | 'wight' | 'created_at' | 'updated_at'
+  'stock' | 'wight' | 'createdAt' | 'updatedAt'
 >;
 
 export type NewProduct = Pick<

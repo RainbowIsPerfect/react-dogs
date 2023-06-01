@@ -35,12 +35,12 @@ const extendProductWithCustomProps = (
     isLiked: checkProductIsLiked(product.likes, userId),
     discountedPrice: countDiscountedPrice(product.price, product.discount),
     tags: addDiscountToTags(product.tags, product.discount),
-    created_at: formatDate(product.created_at),
-    updated_at: formatDate(product.updated_at),
+    createdAt: formatDate(product.createdAt),
+    updatedAt: formatDate(product.updatedAt),
     reviews: product.reviews.map((review) => ({
       ...review,
-      created_at: formatDate(review.created_at, true),
-      updated_at: formatDate(review.updated_at, true),
+      createdAt: formatDate(review.createdAt, true),
+      updatedAt: formatDate(review.updatedAt, true),
     })),
   };
 };

@@ -12,14 +12,14 @@ import { TypedNavigate } from '../../TypedLinks/TypedNavigate';
 import { CreateNewProductForm } from '../CreateNewProductForm';
 
 export const EditProductForm = () => {
-  const currentUserName = useAppSelector((state) => state.user.userData.name);
+  const currentUserId = useAppSelector((state) => state.user.userData._id);
   const { productId } = useParams();
   const { data, isLoading, error } = useGetProductByIdQuery(
     productId ?? skipToken
   );
   const [updateProduct, { isSuccess }] = useUpdateProductMutation();
 
-  if (data && data.author.name !== currentUserName) {
+  if (data && data.author._id !== currentUserId) {
     return <NotFound message="You can't edit other users products" />;
   }
 

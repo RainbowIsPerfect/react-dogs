@@ -38,9 +38,9 @@ export const ReviewCard = ({ _id, review }: ReviewProps) => {
         )}
       </div>
       <Rating className={s.review__rating} rating={review.rating} />
-      <p className={s.review__date}>Reviewed on {review.created_at}</p>
-      {review.created_at !== review.updated_at && (
-        <p className={s.review__date}>Updated on {review.updated_at}</p>
+      <p className={s.review__date}>Reviewed on {review.createdAt}</p>
+      {review.createdAt !== review.updatedAt && (
+        <p className={s.review__date}>Updated on {review.updatedAt}</p>
       )}
       <p className={s.review__text}>{review.text}</p>
     </div>
